@@ -1,0 +1,157 @@
+{
+  "batch-native-hardware-result.json": {
+    "selectedKeys": 60,
+    "reportKeys": 68,
+    "actuationReports": 1,
+    "targetMm": 1.5,
+    "encodedThresholds": [
+      28,
+      31
+    ],
+    "continuousRgb": true,
+    "elapsedSeconds": 0.1443179,
+    "unchangedStoredProfile": true,
+    "originalSha256": "3F06EC3E9BE7B7CA005413FDB01B18D08F6FD3F533F700D8E35E7E162D45433B"
+  },
+  "batch-installed-ui-result.json": {
+    "ProcessId": 40512,
+    "Selected": "Todas",
+    "TargetMm": 1.6,
+    "AdjustedKeys": 60,
+    "Status": "60 ajustes gravados no dispositivo.",
+    "ElapsedSeconds": 3.950324
+  },
+  "installed-ui-bulk-result.json": {
+    "ProcessId": 40512,
+    "Selected": "Todas",
+    "TargetMm": 1.5,
+    "AdjustedKeys": 60,
+    "Status": "60 ajustes gravados no dispositivo.",
+    "ElapsedSeconds": 4.4811853
+  },
+  "opengg_diagnostic": {
+    "timestamp": "2026-10-01T00:34:39.926111+00:00",
+    "productId": "1038:1644",
+    "outcome": "ACK status 0; schema 19; CRC valid; 12288 bytes. No profile activated or saved.",
+    "elapsedSeconds": 1.2596553,
+    "protocols": [
+      "0xBC",
+      "0xD2",
+      "0x83",
+      "0x6F, 0x76"
+    ],
+    "tool_count": 9
+  },
+  "opengg_restore": {
+    "SelectedKeys": 60,
+    "TargetMm": 1.5,
+    "Applied": 60,
+    "MaxJournalDuration": "00:00:00.1784761",
+    "SingleBatchMessages": 60
+  },
+  "record_note": "Selected metadata only. These are dated local hardware results, not independent switch-depth measurement.",
+  "opengg_native_batch": {
+    "selectedKeys": 60,
+    "reportKeys": 68,
+    "reports": 1,
+    "opcode": "0x6F",
+    "targetMm": 2,
+    "continuousRgb": true,
+    "elapsedSeconds": 0.1491984,
+    "unchangedStoredProfile": true,
+    "sha256": "3F06EC3E9BE7B7CA005413FDB01B18D08F6FD3F533F700D8E35E7E162D45433B",
+    "restore": "Slot 2 reloaded in finally"
+  },
+  "opengg_offline_checks": 84,
+  "python_test_methods": 3,
+  "opengg_cli_final": {
+    "LiveProtocols": [
+      "0x6F"
+    ],
+    "TargetW": 1.5,
+    "StoredProfileUnchanged": true,
+    "SHA256": "3F06EC3E9BE7B7CA005413FDB01B18D08F6FD3F533F700D8E35E7E162D45433B"
+  },
+  "opengg_portable_final": {
+    "timestamp": "2026-10-01T01:24:22.3563435+00:00",
+    "productId": "1038:1644",
+    "outcome": "ACK status 0; schema 19; CRC valid; 12288 bytes. No profile activated or saved.",
+    "elapsedSeconds": 1.1341749,
+    "protocols": [
+      "0xBC",
+      "0xD2",
+      "0x83"
+    ],
+    "tool_count": 9,
+    "inventory_collections": 40,
+    "recognized_keyboards": 1,
+    "diagnostic_report_height_px": 260
+  },
+  "opengg_usability": {
+    "date": "2026-10-01",
+    "passed": 49,
+    "checks": [
+      "native window corners exclude the rectangular background",
+      "integrated window controls without the standard title bar",
+      "sidebar has an intermediate slide position",
+      "brand and version keep their width during collapse",
+      "collapsed sidebar keeps the icon and circle size",
+      "collapsed version is hidden after fading",
+      "expanded sidebar restores labels with constant icon size",
+      "a reversed sidebar animation finishes in the latest requested state",
+      "black navigation contour follows Diagnostics (56,0/56,0)",
+      "all nine research-tool actions have commands",
+      "Install action successfully prepares local Python through Windows PowerShell",
+      "manual scan exposes its progress state",
+      "refresh glyph spins during manual scan",
+      "scan feedback stops after completion",
+      "Devices has no text search field",
+      "RGB precedes keyboard settings",
+      "device pages share one outer scroll viewer",
+      "RGB shows its controls without the imported expert descriptions",
+      "RGB effect card aligns with the bottom of the left control card",
+      "wheel over a card scrolls the page by 144 pixels",
+      "both views share the same OLED and keyboard configuration",
+      "boxed helper texts and the separate profile/preview cards are removed",
+      "the redundant detail diagnostic button is removed",
+      "the keyboard map has three vertical sliders",
+      "only actuation is enabled in a fresh selection",
+      "the lightning tool paints RT and its slider edits the painted key",
+      "Protection adds its own flag without enabling implicit default WASD keys",
+      "selecting a second key never copies the first key's slider values into the group",
+      "the actuation slider updates all selected analog keys",
+      "All seeds each slider from a supported key with the corresponding feature",
+      "painting an RT key again removes only RT",
+      "painting a Protection key again removes only Protection",
+      "UI painting checks never load, send analog settings or save an onboard profile",
+      "assistive-technology selection switches the OLED panel and its model together",
+      "selecting Cor restores its picker and the keyboard camera",
+      "OLED zoom has an intermediate camera position (0,779, focused=True, visible=True, section=devices)",
+      "reversed OLED zoom finishes on the actual shared OLED bitmap",
+      "brightness and speed remain visible on the OLED tab",
+      "accessible effect selection updates the typed lighting mode",
+      "Rapid Tap occupies the shared card while the other tab is hidden",
+      "Macros occupies the same card without duplicate panels",
+      "maximized content matches the monitor work area without covering the taskbar",
+      "restoring resets the content inset",
+      "image import produces 128 by 40 monochrome and composites transparency onto black",
+      "OLED image fitting preserves aspect ratio and adds black side margins",
+      "Open File decoder produces the same monochrome payload as its preview",
+      "uploaded OLED pixels use the existing verified 4A vertical-page transport",
+      "animated GIF import deliberately uses its first frame",
+      "25 percent RGB fades over the gray keyboard instead of painting an opaque black layer"
+    ],
+    "installer_payload_files": 66,
+    "installer_payload_bytes": 456417323,
+    "install_plans_validated": 7,
+    "system_installers_executed": false,
+    "local_python": "3.14.8",
+    "local_frida": "17.19.0",
+    "final_diagnostic": {
+      "timestamp": "2026-10-01T05:35:03.6427288+00:00",
+      "outcome": "ACK status 0; schema 19; CRC valid; 12288 bytes. No profile activated or saved.",
+      "stored_slot_2_sha256": "3F06EC3E9BE7B7CA005413FDB01B18D08F6FD3F533F700D8E35E7E162D45433B",
+      "frida_gui_install": "passed"
+    }
+  }
+}

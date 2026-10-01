@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Deterministic>true</Deterministic>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Company>OpenGG</Company>
+    <Product>OpenGG</Product>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+</Project>

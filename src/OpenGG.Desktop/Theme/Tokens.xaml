@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tokens do design system OneRGB. Preto OLED com cards em grafite; cor identifica séries e métricas.
+  Verde, laranja e vermelho continuam indicando estados; branco é a
+  interação principal. Cores de destaque (Accent.*) são trocadas em tempo de execução (Configurações → Aparência),
+  por isso todo uso delas é via DynamicResource.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- ===================== Superfícies: nível 0 (fundo) → 3 (elevado) ===================== -->
+    <Color x:Key="Color.Bg.Canvas">#000000</Color>        <!-- nível 0: preto OLED -->
+    <Color x:Key="Color.Bg.Base">#000000</Color>          <!-- cromo do app (barra lateral, status) -->
+    <Color x:Key="Color.Bg.Surface">#171719</Color>       <!-- cards sobre preto OLED -->
+    <Color x:Key="Color.Bg.Elevated">#202023</Color>
+    <Color x:Key="Color.Bg.Raised">#29292D</Color>
+    <Color x:Key="Color.Bg.SurfaceHover">#262629</Color>
+    <Color x:Key="Color.Bg.SurfaceActive">#303034</Color>
+    <Color x:Key="Color.Bg.Glass">#171719</Color>
+    <Color x:Key="Color.Bg.GlassSubtle">#000000</Color>
+
+    <Color x:Key="Color.Border.Subtle">#2B2B30</Color>    <!-- padrão -->
+    <Color x:Key="Color.Border.Default">#333333</Color>   <!-- hover / forte -->
+    <Color x:Key="Color.Border.Strong">#444444</Color>    <!-- ativo -->
+
+    <Color x:Key="Color.Text.Primary">#F5F5F5</Color>
+    <Color x:Key="Color.Text.Secondary">#A1A1A1</Color>
+    <Color x:Key="Color.Text.Muted">#929299</Color>
+    <Color x:Key="Color.Text.Disabled">#444444</Color>
+    <Color x:Key="Color.Text.Inverse">#000000</Color>
+
+    <!-- Cores funcionais. As chaves antigas (Cyan, Purple, Indigo…) viram tons neutros: cor nunca é identidade. -->
+    <Color x:Key="Color.Emerald">#30D158</Color>
+    <Color x:Key="Color.Emerald400">#30D158</Color>
+    <Color x:Key="Color.Amber">#FF9F0A</Color>
+    <Color x:Key="Color.Amber400">#FFB340</Color>
+    <Color x:Key="Color.Rose">#FF453A</Color>
+    <Color x:Key="Color.Rose400">#FF6961</Color>
+    <Color x:Key="Color.Blue">#0A84FF</Color>
+    <Color x:Key="Color.Cyan">#F5F5F5</Color>
+    <Color x:Key="Color.Purple">#A1A1A1</Color>
+    <Color x:Key="Color.Sky400">#F5F5F5</Color>
+    <Color x:Key="Color.Indigo">#F5F5F5</Color>
+    <Color x:Key="Color.Indigo400">#F5F5F5</Color>
+    <Color x:Key="Color.Blue600">#F5F5F5</Color>
+    <Color x:Key="Color.Indigo600">#F5F5F5</Color>
+    <Color x:Key="Color.Cyan400">#F5F5F5</Color>
+    <Color x:Key="Color.Cyan500">#F5F5F5</Color>
+    <Color x:Key="Color.Slate500">#666666</Color>
+    <Color x:Key="Color.Slate700">#333333</Color>
+
+    <!-- Destaque (trocado em tempo de execução; padrão: branco) -->
+    <Color x:Key="Color.Accent">#F5F5F5</Color>
+    <Color x:Key="Color.AccentHover">#FFFFFF</Color>
+    <Color x:Key="Color.AccentGlow">#33F5F5F5</Color>
+    <Color x:Key="Color.AccentSoft">#14F5F5F5</Color>
+    <Color x:Key="Color.AccentBorder">#66F5F5F5</Color>
+
+    <SolidColorBrush x:Key="Brush.Bg.Canvas" Color="{StaticResource Color.Bg.Canvas}" />
+    <SolidColorBrush x:Key="Brush.Bg.Base" Color="{StaticResource Color.Bg.Base}" />
+    <SolidColorBrush x:Key="Brush.Bg.Surface" Color="{StaticResource Color.Bg.Surface}" />
+    <SolidColorBrush x:Key="Brush.Bg.SurfaceHover" Color="{StaticResource Color.Bg.SurfaceHover}" />
+    <SolidColorBrush x:Key="Brush.Bg.SurfaceActive" Color="{StaticResource Color.Bg.SurfaceActive}" />
+    <SolidColorBrush x:Key="Brush.Bg.Elevated" Color="{StaticResource Color.Bg.Elevated}" />
+    <SolidColorBrush x:Key="Brush.Bg.Raised" Color="{StaticResource Color.Bg.Raised}" />
+    <SolidColorBrush x:Key="Brush.Bg.Glass" Color="{StaticResource Color.Bg.Glass}" />
+    <SolidColorBrush x:Key="Brush.Bg.GlassSubtle" Color="{StaticResource Color.Bg.GlassSubtle}" />
+    <SolidColorBrush x:Key="Brush.Border.Subtle" Color="{StaticResource Color.Border.Subtle}" />
+    <SolidColorBrush x:Key="Brush.Border.Default" Color="{StaticResource Color.Border.Default}" />
+    <SolidColorBrush x:Key="Brush.Border.Strong" Color="{StaticResource Color.Border.Strong}" />
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="{StaticResource Color.Text.Primary}" />
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="{StaticResource Color.Text.Secondary}" />
+    <SolidColorBrush x:Key="Brush.Text.Muted" Color="{StaticResource Color.Text.Muted}" />
+    <SolidColorBrush x:Key="Brush.Text.Disabled" Color="{StaticResource Color.Text.Disabled}" />
+    <SolidColorBrush x:Key="Brush.Text.Inverse" Color="{StaticResource Color.Text.Inverse}" />
+    <SolidColorBrush x:Key="Brush.Cyan" Color="{StaticResource Color.Cyan}" />
+    <SolidColorBrush x:Key="Brush.Emerald" Color="{StaticResource Color.Emerald}" />
+    <SolidColorBrush x:Key="Brush.Emerald400" Color="{StaticResource Color.Emerald400}" />
+    <SolidColorBrush x:Key="Brush.Amber" Color="{StaticResource Color.Amber}" />
+    <SolidColorBrush x:Key="Brush.Amber400" Color="{StaticResource Color.Amber400}" />
+    <SolidColorBrush x:Key="Brush.Rose" Color="{StaticResource Color.Rose}" />
+    <SolidColorBrush x:Key="Brush.Rose400" Color="{StaticResource Color.Rose400}" />
+    <SolidColorBrush x:Key="Brush.Blue" Color="{StaticResource Color.Blue}" />
+    <SolidColorBrush x:Key="Brush.Purple" Color="{StaticResource Color.Purple}" />
+    <SolidColorBrush x:Key="Brush.Sky400" Color="{StaticResource Color.Sky400}" />
+    <SolidColorBrush x:Key="Brush.Indigo400" Color="{StaticResource Color.Indigo400}" />
+    <SolidColorBrush x:Key="Brush.Slate500" Color="{StaticResource Color.Slate500}" />
+    <SolidColorBrush x:Key="Brush.Slate700" Color="{StaticResource Color.Slate700}" />
+    <!-- Anel de foco: sempre branco, visível sobre qualquer superfície -->
+    <SolidColorBrush x:Key="Brush.Focus" Color="#F5F5F5" />
+
+    <!-- Cor identifica dados; controles continuam usando o destaque escolhido pelo usuário. -->
+    <SolidColorBrush x:Key="Brush.Chart.Violet" Color="#B69AFF" />
+    <SolidColorBrush x:Key="Brush.Chart.Mint" Color="#72DEC2" />
+    <SolidColorBrush x:Key="Brush.Chart.Blue" Color="#79BBFF" />
+    <SolidColorBrush x:Key="Brush.Chart.Coral" Color="#FFA38B" />
+    <SolidColorBrush x:Key="Brush.Chart.Gold" Color="#E8CD80" />
+    <SolidColorBrush x:Key="Brush.Chart.Pink" Color="#F39ACF" />
+    <SolidColorBrush x:Key="Brush.Chart.Cyan" Color="#75DDED" />
+    <SolidColorBrush x:Key="Brush.Chart.Lime" Color="#C8E780" />
+    <DrawingBrush x:Key="Brush.Metric.Cpu" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#9B643EE0" Offset="0"/><GradientStop Color="#9B643EE0" Offset="0.16"/>
+                    <GradientStop Color="#00643EE0" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8C2A3FF" Offset="0"/><GradientStop Color="#00C2A3FF" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Gpu" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#9941AF85" Offset="0"/><GradientStop Color="#9941AF85" Offset="0.16"/>
+                    <GradientStop Color="#0041AF85" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#B3A4FFD9" Offset="0"/><GradientStop Color="#00A4FFD9" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Memory" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#993C82D8" Offset="0"/><GradientStop Color="#993C82D8" Offset="0.16"/>
+                    <GradientStop Color="#003C82D8" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#BCABD8FF" Offset="0"/><GradientStop Color="#00ABD8FF" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Power" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#99C6573B" Offset="0"/><GradientStop Color="#99C6573B" Offset="0.16"/>
+                    <GradientStop Color="#00C6573B" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8FFCA9B" Offset="0"/><GradientStop Color="#00FFCA9B" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="Brush.Metric.Temperature" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#99B88D24" Offset="0"/><GradientStop Color="#99B88D24" Offset="0.16"/>
+                    <GradientStop Color="#00B88D24" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8FFE3A0" Offset="0"/><GradientStop Color="#00FFE3A0" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Vram" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#99BC398C" Offset="0"/><GradientStop Color="#99BC398C" Offset="0.16"/>
+                    <GradientStop Color="#00BC398C" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8FFB5DF" Offset="0"/><GradientStop Color="#00FFB5DF" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Commit" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#99168FA9" Offset="0"/><GradientStop Color="#99168FA9" Offset="0.16"/>
+                    <GradientStop Color="#00168FA9" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8A2F5FF" Offset="0"/><GradientStop Color="#00A2F5FF" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Brush.Metric.Processes" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#111115" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.94,1.08" GradientOrigin="0.94,1.08" RadiusX="1.15" RadiusY="1.12">
+                    <GradientStop Color="#99799F26" Offset="0"/><GradientStop Color="#99799F26" Offset="0.16"/>
+                    <GradientStop Color="#00799F26" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.15,1.3" GradientOrigin="0.15,1.3" RadiusX="0.9" RadiusY="0.77">
+                    <GradientStop Color="#C8DEFFA0" Offset="0"/><GradientStop Color="#00DEFFA0" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="Brush.Nav.Surface" Viewbox="0,0,1,1" ViewboxUnits="Absolute" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#101012" Geometry="M0,0 H1 V1 H0 Z"/>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.05,0.05" GradientOrigin="0.05,0.05" RadiusX="1.3" RadiusY="0.8">
+                    <GradientStop Color="#655B5B65" Offset="0"/><GradientStop Color="#005B5B65" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z"><GeometryDrawing.Brush>
+                <RadialGradientBrush Center="0.2,0.5" RadiusX="1.1" RadiusY="0.6">
+                    <GradientStop Color="#183E465B" Offset="0"/><GradientStop Color="#003E465B" Offset="1"/>
+                </RadialGradientBrush>
+            </GeometryDrawing.Brush></GeometryDrawing>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <SolidColorBrush x:Key="Brush.Card.Surface" Color="#171719" />
+
+    <!-- Status de hardware -->
+    <SolidColorBrush x:Key="Brush.Status.Online" Color="#30D158" />
+    <SolidColorBrush x:Key="Brush.Status.Offline" Color="#666666" />
+    <SolidColorBrush x:Key="Brush.Status.Warning" Color="#FF9F0A" />
+    <SolidColorBrush x:Key="Brush.Status.BatteryLow" Color="#FF453A" />
+
+    <!-- Destaque: pincéis dinâmicos (o app substitui estas chaves quando o usuário escolhe outra cor) -->
+    <SolidColorBrush x:Key="Brush.Accent" Color="#F5F5F5" />
+    <SolidColorBrush x:Key="Brush.AccentHover" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush.AccentSoft" Color="#14F5F5F5" />
+    <SolidColorBrush x:Key="Brush.AccentBorder" Color="#66F5F5F5" />
+    <!-- Texto sobre o destaque (preto sobre destaque claro, branco sobre escuro) -->
+    <SolidColorBrush x:Key="Brush.OnAccent" Color="#000000" />
+
+    <!-- Chaves antigas de gradiente: sem gradientes na interface; viram cor sólida -->
+    <SolidColorBrush x:Key="Brush.Glow" Color="#F5F5F5" />
+    <SolidColorBrush x:Key="Brush.Logo" Color="#F5F5F5" />
+    <SolidColorBrush x:Key="Brush.Ambient" Color="Transparent" />
+    <!-- Espectro de matiz: função (seletor HSV e efeito "Ciclo"), não decoração -->
+    <LinearGradientBrush x:Key="Brush.Hue" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#FF0000" />
+        <GradientStop Offset="0.1667" Color="#FFFF00" />
+        <GradientStop Offset="0.3333" Color="#00FF00" />
+        <GradientStop Offset="0.5" Color="#00FFFF" />
+        <GradientStop Offset="0.6667" Color="#0000FF" />
+        <GradientStop Offset="0.8333" Color="#FF00FF" />
+        <GradientStop Offset="1" Color="#FF0000" />
+    </LinearGradientBrush>
+
+    <!-- ===================== Tipografia: SF Pro Display em todo o app ===================== -->
+    <FontFamily x:Key="Font.Sans">SF Pro Display, Segoe UI Variable Display, Segoe UI</FontFamily>
+    <FontFamily x:Key="Font.Mono">SF Pro Display, Segoe UI Variable Display, Segoe UI</FontFamily>
+    <sys:Double x:Key="FontSize.2xs">10</sys:Double>   <!-- micro -->
+    <sys:Double x:Key="FontSize.Xs">12</sys:Double>    <!-- secundário -->
+    <sys:Double x:Key="FontSize.Sm">13</sys:Double>    <!-- padrão -->
+    <sys:Double x:Key="FontSize.Base">14</sys:Double>
+    <sys:Double x:Key="FontSize.Lg">16</sys:Double>    <!-- título de card -->
+    <sys:Double x:Key="FontSize.Xl">20</sys:Double>    <!-- seção -->
+    <sys:Double x:Key="FontSize.2xl">28</sys:Double>   <!-- título de página / valor principal -->
+    <sys:Double x:Key="FontSize.3xl">36</sys:Double>   <!-- display -->
+
+    <!-- ===================== Espaço: 4 8 12 16 20 24 32 40 48 64 ===================== -->
+    <sys:Double x:Key="Space.1">4</sys:Double>
+    <sys:Double x:Key="Space.2">8</sys:Double>
+    <sys:Double x:Key="Space.3">12</sys:Double>
+    <sys:Double x:Key="Space.4">16</sys:Double>
+    <sys:Double x:Key="Space.5">20</sys:Double>
+    <sys:Double x:Key="Space.6">24</sys:Double>
+    <sys:Double x:Key="Space.8">32</sys:Double>
+    <sys:Double x:Key="Space.10">40</sys:Double>
+    <sys:Double x:Key="Space.12">48</sys:Double>
+    <sys:Double x:Key="Space.16">64</sys:Double>
+    <Thickness x:Key="Pad.Card">20</Thickness>
+    <Thickness x:Key="Pad.Panel">24</Thickness>
+    <Thickness x:Key="Pad.Page">32,24,32,40</Thickness>
+
+    <!-- ===================== Raios: controle 6, botão/campo 8, card 12, painel 16, destaque 20 ===================== -->
+    <CornerRadius x:Key="Radius.Xs">4</CornerRadius>
+    <CornerRadius x:Key="Radius.Sm">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Md">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Lg">12</CornerRadius>
+    <CornerRadius x:Key="Radius.Xl">16</CornerRadius>
+    <CornerRadius x:Key="Radius.2xl">20</CornerRadius>
+    <CornerRadius x:Key="Radius.Full">9999</CornerRadius>
+
+    <!-- ===================== Movimento: micro 120, componente 200, painel 280, página 360 ms ===================== -->
+    <Duration x:Key="Motion.Instant">0:0:0.08</Duration>
+    <Duration x:Key="Motion.Fast">0:0:0.12</Duration>
+    <Duration x:Key="Motion.Standard">0:0:0.2</Duration>
+    <Duration x:Key="Motion.Slow">0:0:0.28</Duration>
+    <Duration x:Key="Motion.Deliberate">0:0:0.36</Duration>
+
+    <!-- ===================== Sombras: só para o que flutua (menus, diálogos); sem brilho ===================== -->
+    <DropShadowEffect x:Key="Shadow.Sm" BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="0.5" Color="#000000" />
+    <DropShadowEffect x:Key="Shadow.Md" BlurRadius="8" ShadowDepth="2" Direction="270" Opacity="0.6" Color="#000000" />
+    <DropShadowEffect x:Key="Shadow.Lg" BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.7" Color="#000000" />
+    <DropShadowEffect x:Key="Shadow.Xl" BlurRadius="40" ShadowDepth="12" Direction="270" Opacity="0.8" Color="#000000" />
+</ResourceDictionary>

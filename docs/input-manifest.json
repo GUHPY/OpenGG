@@ -1,0 +1,38 @@
+[
+  {
+    "name": "ONERGB_APEX_GEN3_REVERSE_ENGINEERING_HANDOFF.md",
+    "bytes": 27939,
+    "sha256": "999ecfe2e0d2d53b49dba38db7c9764a11d4d59bbf8c600c8aae44bc6e85bedf",
+    "public_distribution": "excluded; unfiltered research input"
+  },
+  {
+    "name": "04_STEELSERIES_APEX_PRO_TKL_PROTOCOL.md",
+    "bytes": 15497,
+    "sha256": "10ce12a11e3bb5d88ad1fbc6db5fc2f1b4a1a373d133f1bd1a63d0c4bd93a8d5",
+    "public_distribution": "excluded; unfiltered research input"
+  },
+  {
+    "name": "Capture-UsbTrace.ps1",
+    "bytes": 3792,
+    "sha256": "9f22825d81c405f05b3f3096e8153ad8bb1c8be8e2355528baa2d3811d54c5ee",
+    "public_distribution": "excluded; unfiltered research input"
+  },
+  {
+    "name": "teste_10s.json",
+    "bytes": 292615,
+    "sha256": "83119265a2cc9cb9e556ebbe0893a6150ada9bf94c868bdd25eae5f795e6c2ea",
+    "public_distribution": "excluded; unfiltered research input"
+  },
+  {
+    "name": "capture.json",
+    "bytes": 8541655,
+    "sha256": "66baf3db68d49380e2c549f10edd0e1ad4ee8ff271225bc3bacdef29744451d7",
+    "public_distribution": "excluded; unfiltered research input"
+  },
+  {
+    "name": "analise_protocolo.md",
+    "bytes": 14741260,
+    "sha256": "6e30ae57afdd72fb343600e11f95e7fbcf7f8e22a850fa422ae0a7537bff184f",
+    "public_distribution": "excluded; unfiltered research input"
+  }
+]

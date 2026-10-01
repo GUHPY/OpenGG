@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>OpenGG.Desktop</RootNamespace>
+    <AssemblyName>OpenGG</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\Brand\OpenGG.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenGG.Core\OpenGG.Core.csproj" />
+    <Resource Include="Assets\Devices\**\*.png" />
+    <Resource Include="Assets\Brand\*.png" />
+    <None Include="..\..\licenses\*.txt" CopyToOutputDirectory="PreserveNewest" Link="licenses\%(Filename)%(Extension)" />
+    <None Include="..\..\tools\*.py;..\..\tools\*.ps1;..\..\tools\*.json" Exclude="..\..\tools\import_onergb.py" CopyToOutputDirectory="PreserveNewest" Link="tools\%(Filename)%(Extension)" />
+    <None Include="..\..\tooling\manifest.json;..\..\tooling\README.md" CopyToOutputDirectory="PreserveNewest" Link="tooling\%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

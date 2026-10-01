@@ -1,0 +1,410 @@
+{
+  "format": 1,
+  "preparedUtc": "2026-10-01T04:22:59.8589318+01:00",
+  "architecture": "win-x64",
+  "pythonVersion": "3.14.8",
+  "wiresharkVersion": "4.6.9",
+  "usbpcapVersion": "1.5.4.0",
+  "files": [
+    {
+      "file": "python-3.14.8-amd64.exe",
+      "url": "https://www.python.org/ftp/python/3.14.8/python-3.14.8-amd64.exe",
+      "sha256": "759BE887B96E736A3CA886DAF8D575F18FCAE1A09EFAB6902F42D59E8999F8EF",
+      "bytes": 33387464
+    },
+    {
+      "file": "python-3.14.8-embed-amd64.zip",
+      "url": "https://www.python.org/ftp/python/3.14.8/python-3.14.8-embed-amd64.zip",
+      "sha256": "A93ABE456AB01BD96D7A085B3CDB6566B3063F4241360D114142FBDB07F0A310",
+      "bytes": 12601679
+    },
+    {
+      "file": "Wireshark-4.6.9-x64.exe",
+      "url": "https://2.na.dl.wireshark.org/win64/all-versions/Wireshark-4.6.9-x64.exe",
+      "sha256": "BF9B5CE8A89F244C376A9B1A946276EAA06463DDE3E33069A34D7F102F5878CF",
+      "bytes": 97931232
+    },
+    {
+      "file": "USBPcapSetup-1.5.4.0.exe",
+      "url": "https://github.com/desowin/usbpcap/releases/download/1.5.4.0/USBPcapSetup-1.5.4.0.exe",
+      "sha256": "87A7EDF9BBBCF07B5F4373D9A192A6770D2FF3ADD7AA1E276E82E38582CCB622",
+      "bytes": 195040
+    },
+    {
+      "file": "usbpcap-src-incl-pdb-1.5.4.0.7z",
+      "url": "https://github.com/desowin/usbpcap/releases/download/1.5.4.0/usbpcap-src-incl-pdb-1.5.4.0.7z",
+      "sha256": "3A66CF03425F5860FF8ACD64D11CC0BB50669C7F449754F47788011259A5B15E",
+      "bytes": 3316741
+    },
+    {
+      "file": "winsdksetup.exe",
+      "url": "https://download.microsoft.com/download/46742ab5-6592-4968-a793-129e7f3bc55a/KIT_BUNDLE_WINDOWSSDK_MEDIACREATION/winsdksetup.exe",
+      "sha256": "B0BDBAD38AE74C40CCAE8CDBCF229807627FBA2BC3100BE28301C4BA884F755E",
+      "bytes": 1450360
+    },
+    {
+      "file": "python-wheels/colorama-0.4.6-py2.py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "4F1D9991F5ACC0CA119F9D443620B77F9D6B33703E51011C16BAF57AFB285FC6",
+      "bytes": 25335
+    },
+    {
+      "file": "python-wheels/frida-17.19.0-cp37-abi3-win_amd64.whl",
+      "url": "https://pypi.org/",
+      "sha256": "E920C1F6529364C5701D3BE8B33E913972C2863DCC2F9E48DCC86EFAFE286BDB",
+      "bytes": 49754161
+    },
+    {
+      "file": "python-wheels/frida_tools-14.10.4-py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "69D6B2DA71250C8230DD6C07316706BB13858C232103474D95025F4E7FB32041",
+      "bytes": 4810803
+    },
+    {
+      "file": "python-wheels/hidapi-0.15.0-cp314-cp314-win_amd64.whl",
+      "url": "https://pypi.org/",
+      "sha256": "DF0DD435562654E27AD0C7D045074EB1E1E016B09167DD48A258DEC1CE4B9127",
+      "bytes": 67710
+    },
+    {
+      "file": "python-wheels/pip-26.2.1-py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "71138ADF1F4CA900CDB7D289C21B7494329F2332B6D85F0E1C42108C0384ED3E",
+      "bytes": 1816632
+    },
+    {
+      "file": "python-wheels/prompt_toolkit-3.0.53-py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "01C0891D7F9237D5E339F7D3E42CDAE80B7534ABB1C7C0E3352EFBA6231492F2",
+      "bytes": 392288
+    },
+    {
+      "file": "python-wheels/pygments-2.21.0-py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "2363C69B61C4A97C838DA3B130DCD6468F4848992B21A82F2A63EC34377137D9",
+      "bytes": 1250147
+    },
+    {
+      "file": "python-wheels/wcwidth-0.9.1-cp310-abi3-win_amd64.whl",
+      "url": "https://pypi.org/",
+      "sha256": "991D1C8834F548E9C1F16432075EE84638E122312556BBF1ED595EA8FFFC4673",
+      "bytes": 596738
+    },
+    {
+      "file": "python-wheels/websockets-13.1-py3-none-any.whl",
+      "url": "https://pypi.org/",
+      "sha256": "A9A396A6AD26130CDAE92AE10C36AF09D9BFE6CAFE69670FD3B6DA9B07B4044F",
+      "bytes": 152134
+    },
+    {
+      "file": "usbview-sdk/UserExperienceManifest.xml",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "24F005F173D0E28481AEC7AA8D6E900C195990B3A43F965806006B06565D05C9",
+      "bytes": 57166
+    },
+    {
+      "file": "usbview-sdk/winsdksetup.exe",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "B0BDBAD38AE74C40CCAE8CDBCF229807627FBA2BC3100BE28301C4BA884F755E",
+      "bytes": 1450360
+    },
+    {
+      "file": "usbview-sdk/Installers/0253f7df0974f9d7169b410d812a5385.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "4927B1AB616ABED077DF06CB41FE79D664E0A7C6CF4C1A777F5F7130B1A23274",
+      "bytes": 14012811
+    },
+    {
+      "file": "usbview-sdk/Installers/1a822224523be67061edcc97f6c0e36a.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "3E834BA7B99980FCA5623FDD404E8CC329024A93D0C32DE29999FE3E8D6F67CF",
+      "bytes": 1927814
+    },
+    {
+      "file": "usbview-sdk/Installers/2c1331a0f4ecc46dfa39f43a575305e0.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "9667D599E1A15E6E6A6B7FCCD287D1FC6CE07B646A099FC00812FF886A2573B3",
+      "bytes": 1099043
+    },
+    {
+      "file": "usbview-sdk/Installers/2c1817d3f3f33cd01376c5ec441cc636.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "D2BED2657A764519836B60CEF2909FB8139FAB423CE04BE76810C9B864F683C3",
+      "bytes": 29838
+    },
+    {
+      "file": "usbview-sdk/Installers/2f7b48ba67113253720675dbbbe9df33.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "0F92E7C86A501362BD5E4FB42E8B215155E2429CB7D0BBF274EB2C2AE96061AA",
+      "bytes": 913616
+    },
+    {
+      "file": "usbview-sdk/Installers/34ee98a7c9420178c55f176f75c3fe10.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "2C470D4609DFE0303DE8E21727DCD0268B56DC098413DCADBAEC9D69812344B1",
+      "bytes": 4320293
+    },
+    {
+      "file": "usbview-sdk/Installers/34ef8c7e30b6852e56ba7a56fb7b3faa.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "EB2AA53EEB324B9A4CD42E5A4325EDC3A171A6CA932ACC9F15F49E163571D89B",
+      "bytes": 38322
+    },
+    {
+      "file": "usbview-sdk/Installers/3960f55df7c8073f3997269e5e390abc.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "40B4FCA44FC2BD12435D1495EDDA2649398EAE78588D875DE93C6576BE7BE419",
+      "bytes": 21041
+    },
+    {
+      "file": "usbview-sdk/Installers/3a53dffe0b4548753bc34825894f19bf.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "41FEBF9987493EFD4C2CACB46C23EB817859EF1A232CA812A1DEDE30F4959130",
+      "bytes": 746949
+    },
+    {
+      "file": "usbview-sdk/Installers/3ca392fde3898c3be052ddcddd14bb5f.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "7A443A5013CC63EA59577B6C84E2AEDB3B6E56560BB55CF406B7F3487159D310",
+      "bytes": 12673753
+    },
+    {
+      "file": "usbview-sdk/Installers/412c1caad96b8fe5e8f7f6735585f297.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "B032BA08E89B41E662FE41D2DDA02CBB452E24EBEC61C3978AB1A068305ABFDF",
+      "bytes": 241182
+    },
+    {
+      "file": "usbview-sdk/Installers/437e52bd67ebe977a8957439db5ecf75.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "ECEC0F785E023399CBA3B6758A9339580E1F6C5FDC1C4705DEFA5205E745E831",
+      "bytes": 3308556
+    },
+    {
+      "file": "usbview-sdk/Installers/4ac48dbdddbc8ce04721f519b9cf1698.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "08F0B41A99E66DF1F6B5037DE1C1C3F2A34D44E2763F54EA2CAF74ABFC7512AF",
+      "bytes": 4082086
+    },
+    {
+      "file": "usbview-sdk/Installers/4de7a1422374f98369172705b05d4bf9.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "27598832A4ABEA4E9FEFBB5FAB7A80399454A42C32D603C58B876567EFB330FD",
+      "bytes": 1149364
+    },
+    {
+      "file": "usbview-sdk/Installers/4e2dea081242e821596b58b31bc22cca.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "E7142303737EE5D0AD6B4D5C7C90F3E681A740ADD3EE832725C1D179443DA149",
+      "bytes": 18835
+    },
+    {
+      "file": "usbview-sdk/Installers/598442d9f84639d200d4f3af477da95c.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "54730C3758781D2CCF5762ED4A7F3D15254A67675AA93B4A50631C164ECCFBC4",
+      "bytes": 59388
+    },
+    {
+      "file": "usbview-sdk/Installers/5f7ef4904f75bf6b3b9b0f8975ad1492.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "6565A2628D04E00F97DA2DE412FB547F567EB8DFD2385191E7C749AE8B48FAF9",
+      "bytes": 903846
+    },
+    {
+      "file": "usbview-sdk/Installers/678f64f35c507af8a9af0532b9b211ec.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "2066076E5AF8F7E59EC3480804FD997E0588B1226AB1C37C57A4F37A83A14287",
+      "bytes": 7410218
+    },
+    {
+      "file": "usbview-sdk/Installers/6bc159aa6f35510d049f0639e0ddb277.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "E35CB19A0B5B578C5C9B0ED33528A835C8C97CE5191D2C85D52C8ED563DE75F8",
+      "bytes": 7423630
+    },
+    {
+      "file": "usbview-sdk/Installers/7178f554c01f912c749b622564106b02.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "C9A6464DF807613FD4618DE1C10660736F0B7E2AC49341E2B9E7694F41FF35DE",
+      "bytes": 1146100
+    },
+    {
+      "file": "usbview-sdk/Installers/72bda6e16f5c7a040361c1304b4b5b36.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "E191F6FADEA89537150C03BDF02B9CD7108C504548F44A0905BD16D5F2B3704F",
+      "bytes": 7410165
+    },
+    {
+      "file": "usbview-sdk/Installers/79e9b68a34bc84ab465fe1b79b84a325.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "1F77F872653EFDFADE851E9CFF763A0D613177370887BA00BA84B6AE50010355",
+      "bytes": 1003891
+    },
+    {
+      "file": "usbview-sdk/Installers/7cb1ba9318f4b586c6a3bdd541e7f3ad.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "732CD1347EEE0772C12FFF68D080875CA51D0A41DC673CA3921EB6A170050902",
+      "bytes": 21024
+    },
+    {
+      "file": "usbview-sdk/Installers/8f636cea16f07b14f423402afc69cf83.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "5A985D2E3C36E1F515EFC4E9D8999000D0AF1C3177BC2105FA64100F3234143F",
+      "bytes": 3150794
+    },
+    {
+      "file": "usbview-sdk/Installers/931721e121ef91707ddcb6cac354d95c.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "532F23226DC3BA8749024BB24B54EC03F60B9A2EC4BD24FC3E69675BB6BF33B0",
+      "bytes": 18846
+    },
+    {
+      "file": "usbview-sdk/Installers/96e8f767221532c6446fd1b8dad53b60.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "5F45BD6195E02428B6AA57FB0DDAF30489435A4F70E3512B34DDEF4EC409516B",
+      "bytes": 1447946
+    },
+    {
+      "file": "usbview-sdk/Installers/9fff62eb37dba61a297941c75287dfec.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "9DDC24EFDB6AE42F7CE0B40BC5D29C7A5D938189D3D2EC757DD8EFFD42822132",
+      "bytes": 622161
+    },
+    {
+      "file": "usbview-sdk/Installers/a74408a87a51829b89e5282e73974d74.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "3AD809822980A2B1C28D59C3CE380C84528D97B8A86631E36E44542BC2CAAB19",
+      "bytes": 283441
+    },
+    {
+      "file": "usbview-sdk/Installers/aac61496dd6fee21a0e5627e4dcd8488.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "007995E453A50366ABE6F5453A087794FB3F44A6C6DFA97884B3483EB7566094",
+      "bytes": 5523999
+    },
+    {
+      "file": "usbview-sdk/Installers/ab8c11616091812d6c7137e366ba1d8d.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "685B282035456C7153C4E482AB3742F26142D4AA9484BAEB364904EB75BD990C",
+      "bytes": 29661
+    },
+    {
+      "file": "usbview-sdk/Installers/b98a31e36735eb82b3b238c68f36fbbf.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "1D20219D1BAC4B21247E898C5A5F7C716E54ABB7060EA0382AF65F12E9873933",
+      "bytes": 3177918
+    },
+    {
+      "file": "usbview-sdk/Installers/ba5d20281a858248e59d96d75c014391.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "4446100E4D53248DC971316595F90C0E26A605255C280AC66C90E76DC9BEA351",
+      "bytes": 1139157
+    },
+    {
+      "file": "usbview-sdk/Installers/baa2d817ae180ba7e772f1543c3bbdea.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "6AD6978F6BD5AAA86010F606FCAB9D698F7DA8CA4B44180E51CA4BA1DEBFD277",
+      "bytes": 538375
+    },
+    {
+      "file": "usbview-sdk/Installers/bd4b6e22633abadb45b75bc86caaa120.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "0B1A539B065B3779FF431547EC149F394A4788A3CD577967AD19792E6183E31D",
+      "bytes": 229620
+    },
+    {
+      "file": "usbview-sdk/Installers/caab1106d57ff70cb3cbd8350a77e871.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "FCD76620ACE59F5AB646BF895A571F4056F00774F1B6030093F8E891C4B4ACD1",
+      "bytes": 3677346
+    },
+    {
+      "file": "usbview-sdk/Installers/d55d1e003fbb00a12c63b8f618e452bf.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "FB04B8CC313887B0EFA98EF01AEC8B6ADC78EC973428CA7912941E43C5070A83",
+      "bytes": 614185
+    },
+    {
+      "file": "usbview-sdk/Installers/dc19fbd16e9708e0bc4d8419e3a7d48d.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "544E6D79FE88CFF306ED97274FC867014ACC861FF55D55217676DCFCE8096927",
+      "bytes": 21041
+    },
+    {
+      "file": "usbview-sdk/Installers/dcb0a55d6cacaa05ead299e1d3de3c6d.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "ED0F00C489DDAA7954489FCF6AE346EBA2AD983EC144101500573C17AABB59A9",
+      "bytes": 7410165
+    },
+    {
+      "file": "usbview-sdk/Installers/dotNetFx45_Full_x86_x64.exe",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "A04D40E217B97326D46117D961EC4EDA455E087B90637CB33DD6CC4A2C228D83",
+      "bytes": 50352408
+    },
+    {
+      "file": "usbview-sdk/Installers/e10f9740446a96314a1731aa7cb4286a.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "8B75749DE2EAC62A2E714B38022BD4277F9981EEEAC78FC6C8D1FD7330BF7E69",
+      "bytes": 3271534
+    },
+    {
+      "file": "usbview-sdk/Installers/e680f23450a21a27b2077dbdc08ca430.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "EA06EB75FFA57461DE5055033FD7466D25A8D1510909CEBDE4BEE4C653D4333E",
+      "bytes": 9687176
+    },
+    {
+      "file": "usbview-sdk/Installers/e8bc712abeffd7c9711ee3f55d4aa99b.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "A623510117A63F79437506ADCC8BB610AAAADF6F2D8239C00563F1D97DB3CB8C",
+      "bytes": 2276353
+    },
+    {
+      "file": "usbview-sdk/Installers/f524b9054edb102e11fe3850fc6796ca.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "C73EE73CD4FEB1DA667E508546CCEBE0F36277CD9E480EF89096F55253344309",
+      "bytes": 519233
+    },
+    {
+      "file": "usbview-sdk/Installers/fe80f1b6d4cf60c919f4b3a0cd2f4306.cab",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "B999A19EC127A2AF64B5DF24805DCDBA44ECE9D2A485255F8322CB03D7439979",
+      "bytes": 2942993
+    },
+    {
+      "file": "usbview-sdk/Installers/Kits Configuration Installer-x86_en-us.msi",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "34BE6A0ED846778345D23CACE23841ED22B38BFFA8395F556D541E8D78AD2B11",
+      "bytes": 446464
+    },
+    {
+      "file": "usbview-sdk/Installers/SDK Debuggers-x86_en-us.msi",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "1828BA94469019BA49D2AEFC10FB3B8B085C700DF4BC6D675E1E0D0A6368749E",
+      "bytes": 675840
+    },
+    {
+      "file": "usbview-sdk/Installers/Windows SDK EULA-x86_en-us.msi",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "1ADEB647E19D3E3BC72FFAA99726C574858EDA0D0868F727975D2F813D234F05",
+      "bytes": 450560
+    },
+    {
+      "file": "usbview-sdk/Installers/X64 Debuggers And Tools-x64_en-us.msi",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "EF023ED8773804CF8FE934CC5628594786CB854E66967414E5C329EA2CAC47ED",
+      "bytes": 42659840
+    },
+    {
+      "file": "usbview-sdk/Installers/X86 Debuggers And Tools-x86_en-us.msi",
+      "url": "https://developer.microsoft.com/windows/downloads/windows-sdk/",
+      "sha256": "077EAE43624340D5D4BC5794EF9A418B7B415BEEF9D9C1273E5959E7CF0F0181",
+      "bytes": 36032512
+    }
+  ],
+  "hidapiVersion": "0.15.0",
+  "fridaVersion": "17.19.0",
+  "pipVersion": "26.2.1",
+  "fridaToolsVersion": "14.10.4"
+}

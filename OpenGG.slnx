@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/OpenGG.Core/OpenGG.Core.csproj" />
+  <Project Path="src/OpenGG.Desktop/OpenGG.Desktop.csproj" />
+  <Project Path="tests/OpenGG.Checks/OpenGG.Checks.csproj" />
+  <Project Path="tests/OpenGG.DesktopChecks/OpenGG.DesktopChecks.csproj" />
+</Solution>

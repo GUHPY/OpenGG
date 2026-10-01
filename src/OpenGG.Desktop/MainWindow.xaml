@@ -1,0 +1,153 @@
+<Window x:Class="OpenGG.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:OpenGG.Desktop.Controls"
+        Title="OpenGG" Icon="Assets/Brand/OpenGG.png" Width="1440" Height="900" MinWidth="1000" MinHeight="640"
+        Background="{StaticResource Brush.Bg.Canvas}" Foreground="{StaticResource Brush.Text.Primary}"
+        FontFamily="Segoe UI" FontSize="13" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResize" UseLayoutRounding="True">
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="64" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="28" UseAeroCaptionButtons="False" />
+  </WindowChrome.WindowChrome>
+  <Grid x:Name="Root">
+    <Grid.ColumnDefinitions><ColumnDefinition x:Name="SidebarColumn" Width="{Binding ElementName=Sidebar, Path=Width}" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+    <Border x:Name="Sidebar" Width="224" ClipToBounds="True" Background="{StaticResource Brush.Nav.Surface}" BorderBrush="#30FFFFFF" BorderThickness="1,1,0,1" CornerRadius="28,0,0,28">
+      <DockPanel>
+        <Grid DockPanel.Dock="Top" Height="64" Margin="12,0">
+          <Image x:Name="SidebarBrand" Width="150" Height="30" HorizontalAlignment="Left" Source="Assets/Brand/Typography.png" Stretch="Uniform" Margin="12,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="OpenGG" />
+          <Button x:Name="SidebarToggle" Style="{StaticResource Btn.Icon}" HorizontalAlignment="Right" Width="40" Height="36" Click="OnToggleSidebar" WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.Name="Collapse or expand menu" ToolTip="Collapse or expand menu">
+            <ctl:Icon Glyph="{StaticResource Icon.PanelLeft}" Size="19" />
+          </Button>
+        </Grid>
+        <TextBlock x:Name="SidebarVersion" DockPanel.Dock="Bottom" Width="150" HorizontalAlignment="Left" Text="OpenGG 0.1.0" Style="{StaticResource Text.Caption}" FontSize="11" Margin="24,10,16,14" />
+        <Grid x:Name="NavTrack" Margin="10,22,0,0">
+          <Grid x:Name="NavSelection" Height="48" VerticalAlignment="Top" IsHitTestVisible="False">
+            <Grid.Style><Style TargetType="Grid"><Style.Triggers><DataTrigger Binding="{Binding ElementName=Sidebar, Path=(ctl:Ui.Compact)}" Value="True"><Setter Property="Visibility" Value="Hidden" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+            <Grid.RenderTransform><TranslateTransform x:Name="NavSelectionOffset" /></Grid.RenderTransform>
+            <Border CornerRadius="24,0,0,24" Background="{StaticResource Brush.Bg.Canvas}" />
+            <Path Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-20,0,0" Fill="{StaticResource Brush.Bg.Canvas}" Data="M20,0 L20,20 L0,20 Q20,20 20,0 Z" />
+            <Path Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-20" Fill="{StaticResource Brush.Bg.Canvas}" Data="M0,0 L20,0 L20,20 Q20,0 0,0 Z" />
+          </Grid>
+        <StackPanel KeyboardNavigation.DirectionalNavigation="Cycle">
+          <RadioButton x:Name="DevicesNav" Style="{StaticResource Nav.Item}" Content="Devices" ctl:Ui.Icon="{StaticResource Icon.Devices}" Checked="OnNavigationChanged"
+                       IsChecked="{Binding Section, Converter={StaticResource Is}, ConverterParameter=devices}" AutomationProperties.Name="Devices" />
+          <RadioButton x:Name="DiagnosticsNav" Style="{StaticResource Nav.Item}" Content="Diagnostics" ctl:Ui.Icon="{StaticResource Icon.Stethoscope}" Checked="OnNavigationChanged"
+                       IsChecked="{Binding Section, Converter={StaticResource Is}, ConverterParameter=diagnostics}" AutomationProperties.Name="Diagnostics" />
+        </StackPanel>
+        </Grid>
+      </DockPanel>
+    </Border>
+    <Grid Grid.Column="1" Margin="24,8,8,0">
+    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+    <DockPanel MinHeight="56" Margin="0,6,0,12">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
+        <Button x:Name="ScanButton" Command="{Binding ScanCommand}" AutomationProperties.Name="Scan for devices" ToolTip="Scan for SteelSeries keyboards (F5)" Margin="0,0,12,0">
+          <Button.Style><Style TargetType="Button" BasedOn="{StaticResource Btn.Outline}">
+            <Style.Triggers><DataTrigger Binding="{Binding IsScanning}" Value="True"><Setter Property="Background" Value="{StaticResource Brush.Bg.SurfaceHover}" /><Setter Property="Opacity" Value="1" /></DataTrigger></Style.Triggers>
+          </Style></Button.Style>
+          <StackPanel Orientation="Horizontal"><ctl:Icon Glyph="{StaticResource Icon.Refresh}" Size="15" Margin="0,0,7,0" ctl:Motion.Spin="{Binding IsScanning}" /><TextBlock Text="Scan" VerticalAlignment="Center" /></StackPanel>
+        </Button>
+        <Button Style="{StaticResource Btn.Caption}" Click="OnMinimize" ToolTip="Minimize" AutomationProperties.Name="Minimize"><ctl:Icon Glyph="{StaticResource Icon.Minimize}" Size="15" /></Button>
+        <Button Style="{StaticResource Btn.Caption}" Click="OnMaximize" ToolTip="Maximize" AutomationProperties.Name="Maximize"><ctl:Icon x:Name="MaxIcon" Glyph="{StaticResource Icon.Maximize}" Size="13" /></Button>
+        <Button Style="{StaticResource Btn.CaptionClose}" Click="OnClose" ToolTip="Close" AutomationProperties.Name="Close OpenGG"><ctl:Icon Glyph="{StaticResource Icon.Close}" Size="15" /></Button>
+      </StackPanel>
+      <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+        <Button Style="{StaticResource Btn.Icon}" Width="32" Height="32" Command="{Binding BackCommand}" Margin="0,0,8,0" WindowChrome.IsHitTestVisibleInChrome="True"
+                Visibility="{Binding HasDetail, Converter={StaticResource Visible}}" AutomationProperties.Name="Back to Devices" ToolTip="Back to Devices (Alt+Left)"><ctl:Icon Glyph="{StaticResource Icon.ChevronLeft}" Size="18" /></Button>
+        <TextBlock Grid.Column="1" Text="{Binding PageTitle}" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="16,0,14,0" VerticalAlignment="Center" Visibility="{Binding HasDetail, Converter={StaticResource Visible}}">
+          <Ellipse Width="6" Height="6" Fill="{Binding Selected.StatusKey, Converter={StaticResource Res}}" Margin="0,0,6,0" />
+          <TextBlock Text="{Binding Selected.StatusLabel}" Style="{StaticResource Text.Caption}" />
+        </StackPanel>
+      </Grid>
+    </DockPanel>
+    <Border Grid.Row="1" Style="{StaticResource Notice}" Margin="0,0,0,20" Visibility="{Binding Error, Converter={StaticResource Visible}}">
+      <DockPanel>
+        <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Ghost}" Content="Close" Command="{Binding DismissErrorCommand}" AutomationProperties.Name="Dismiss notice" />
+        <TextBlock Text="{Binding Error}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+      </DockPanel>
+    </Border>
+    <Grid Grid.Row="2" Visibility="{Binding IsHome, Converter={StaticResource Visible}}">
+      <ScrollViewer Style="{StaticResource PageScroll}">
+        <StackPanel>
+          <DockPanel Margin="0,0,0,22">
+            <StackPanel Orientation="Horizontal">
+              <RadioButton Style="{StaticResource Chip}" GroupName="DevFilter" Content="All" IsChecked="{Binding Filter, Converter={StaticResource Is}, ConverterParameter=all}" />
+              <RadioButton Style="{StaticResource Chip}" GroupName="DevFilter" Content="Connected" IsChecked="{Binding Filter, Converter={StaticResource Is}, ConverterParameter=online}" />
+              <RadioButton Style="{StaticResource Chip}" GroupName="DevFilter" Content="Disconnected" IsChecked="{Binding Filter, Converter={StaticResource Is}, ConverterParameter=offline}" />
+            </StackPanel>
+          </DockPanel>
+          <TextBlock Text="{Binding Status}" Style="{StaticResource Text.Caption}" Margin="0,0,0,16" />
+          <ItemsControl ItemsSource="{Binding View}" ItemTemplate="{StaticResource DeviceTile}" Focusable="False" KeyboardNavigation.TabNavigation="Continue" AutomationProperties.Name="Devices">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><ctl:ResponsiveGrid MinItemWidth="248" Gap="16" MaxColumns="4" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          </ItemsControl>
+          <ctl:EmptyState Glyph="{StaticResource Icon.Devices}" Title="No devices found"
+                          Description="Connect a SteelSeries keyboard and click Scan."
+                          Visibility="{Binding IsEmpty, Converter={StaticResource Visible}}" Margin="0,60,0,0" />
+          <TextBlock Text="Developed and tested for the Apex Pro TKL Wireless Gen 3. Other SteelSeries keyboards have identification and diagnostics."
+                     Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,28,0,0" />
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+    <ScrollViewer Grid.Row="2" Style="{StaticResource PageScroll}" Visibility="{Binding HasDetail, Converter={StaticResource Visible}}">
+      <StackPanel>
+        <ContentControl x:Name="DeviceContent" />
+      </StackPanel>
+    </ScrollViewer>
+    <ScrollViewer Grid.Row="2" Style="{StaticResource PageScroll}" Visibility="{Binding IsDiagnostics, Converter={StaticResource Visible}}">
+      <StackPanel>
+        <TextBlock Text="Identification and protocols" Style="{StaticResource Text.Title}" />
+        <TextBlock Text="HID queries, 0xBC connection, 0xD2 battery and 24-block 0x83 profile read with CRC. Only the verified receiver receives these commands. Other models get a read-only HID probe and interface report."
+                   Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,8,0,20" />
+        <ComboBox ItemsSource="{Binding Cards}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" MaxWidth="520" HorizontalAlignment="Left" MinWidth="300" AutomationProperties.Name="Keyboard to diagnose" />
+        <TextBlock Text="{Binding Selected.StatusLabel}" Style="{StaticResource Text.Caption}" Margin="0,6,0,0" />
+        <Border Style="{StaticResource Card}" Margin="0,24,0,0">
+          <StackPanel>
+            <TextBlock Text="Diagnostics" Style="{StaticResource Text.Title}" />
+            <TextBlock Text="Test communication and record this model's response or error. Advanced commands were verified on the Apex Pro TKL Wireless Gen 3 receiver, 1038:1644."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,8,0,14" />
+            <StackPanel Orientation="Horizontal">
+              <Button Content="Test communication" Style="{StaticResource Btn.Outline}" Command="{Binding DiagnoseCommand}" Margin="0,0,10,0" />
+              <Button Content="Export diagnostic" Style="{StaticResource Btn.Ghost}" Command="{Binding ExportDiagnosticCommand}" />
+            </StackPanel>
+            <CheckBox Content="Include a temporary write test (current settings; no flash write)" Foreground="{StaticResource Brush.Text.Primary}" IsChecked="{Binding TestLiveWrites}" Margin="0,16,0,0" />
+            <TextBlock Text="First use Read and activate in the editor. The test resends the current map and checks actuation/RT ACKs; a failure stops it. The OLED uses 0.2 mm steps: 1.5 mm may display as 1.4 mm in SteelSeries GG too."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,8,0,0" />
+            <TextBox Text="{Binding Diagnostic, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" Height="260"
+                     VerticalScrollBarVisibility="Auto" Margin="0,16,0,0" Visibility="{Binding Diagnostic, Converter={StaticResource Visible}}" AutomationProperties.Name="Diagnostic result" />
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}" Margin="0,24,0,0">
+          <StackPanel>
+            <DockPanel>
+              <Button DockPanel.Dock="Right" Content="Export HID inventory" Style="{StaticResource Btn.Outline}" Command="{Binding ExportInventoryCommand}" />
+              <TextBlock Text="Research tools and scripts" Style="{StaticResource Text.Title}" VerticalAlignment="Center" />
+            </DockPanel>
+            <TextBlock Text="Included tools and programs found on Windows. HID inventory lists all devices for research; OpenGG's device list contains only SteelSeries keyboards."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,8,0,12" />
+            <TextBlock Text="{Binding Tools.Count, StringFormat={}{0} research tools and scripts}" Style="{StaticResource Text.Caption}" Margin="0,0,0,12" />
+            <TextBlock Text="{Binding ToolInstallStatus}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,0,0,12" Visibility="{Binding ToolInstallStatus, Converter={StaticResource Visible}}" AutomationProperties.LiveSetting="Polite" />
+            <ItemsControl ItemsSource="{Binding Tools}">
+              <ItemsControl.ItemTemplate><DataTemplate>
+                <Border BorderBrush="{StaticResource Brush.Border.Subtle}" BorderThickness="0,1,0,0" Padding="0,16">
+                  <StackPanel>
+                    <DockPanel>
+                      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Button Content="{Binding ActionLabel}" Style="{StaticResource Btn.Outline}" Margin="0,0,8,0" Command="{Binding DataContext.InstallToolCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" AutomationProperties.Name="{Binding Name, StringFormat={}Install or prepare {0}}" />
+                        <Button Content="Documentation" Style="{StaticResource Btn.Ghost}" Command="{Binding DataContext.OpenToolLinkCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Url}" Visibility="{Binding Url, Converter={StaticResource Visible}}" />
+                      </StackPanel>
+                      <StackPanel><TextBlock Text="{Binding Name}" FontWeight="SemiBold" /><TextBlock Text="{Binding Availability}" Style="{StaticResource Text.Caption}" Margin="0,4,0,0" /></StackPanel>
+                    </DockPanel>
+                    <TextBlock Text="{Binding Purpose}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,8,0,0" />
+                    <TextBlock Text="{Binding Command}" FontFamily="Consolas" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,6,0,0" />
+                  </StackPanel>
+                </Border>
+              </DataTemplate></ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+    </Grid>
+  </Grid>
+</Window>

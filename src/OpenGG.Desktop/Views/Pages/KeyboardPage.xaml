@@ -1,0 +1,287 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:ctl="clr-namespace:OpenGG.Desktop.Controls" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="OpenGG.Desktop.Views.Pages.KeyboardPage" xmlns:vm="clr-namespace:OpenGG.Desktop.ViewModels">
+    <UserControl.Resources>
+        <Style x:Key="Fader.Rapid" TargetType="Slider" BasedOn="{StaticResource Fader}"><Setter Property="ctl:Ui.Accent" Value="#F59E0B" /></Style>
+        <Style x:Key="Fader.Protection" TargetType="Slider" BasedOn="{StaticResource Fader}"><Setter Property="ctl:Ui.Accent" Value="#60A5FA" /></Style>
+        <Style x:Key="PaintTool" TargetType="Button" BasedOn="{StaticResource Btn.Icon}">
+            <Setter Property="Width" Value="36" /><Setter Property="Height" Value="34" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Background" Value="#0BFFFFFF" />
+            <Setter Property="Foreground" Value="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=StackPanel}}" />
+            <Style.Triggers><Trigger Property="Tag" Value="True">
+                <Setter Property="Background" Value="#22FFFFFF" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+            </Trigger></Style.Triggers>
+        </Style>
+        <Style x:Key="RapidColumn" TargetType="StackPanel">
+            <Setter Property="TextElement.Foreground" Value="{StaticResource Brush.Text.Muted}" />
+            <Style.Triggers><DataTrigger Binding="{Binding RapidSensitivityEnabled}" Value="True"><Setter Property="TextElement.Foreground" Value="#F59E0B" /></DataTrigger></Style.Triggers>
+        </Style>
+        <Style x:Key="ProtectionColumn" TargetType="StackPanel">
+            <Setter Property="TextElement.Foreground" Value="{StaticResource Brush.Text.Muted}" />
+            <Style.Triggers><DataTrigger Binding="{Binding ProtectionSensitivityEnabled}" Value="True"><Setter Property="TextElement.Foreground" Value="#60A5FA" /></DataTrigger></Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer Style="{StaticResource PageScroll}">
+        <StackPanel>
+            <Border AutomationProperties.Name="Keys" Style="{StaticResource Card}" Padding="22" ctl:Motion.Enter="True" ctl:Ui.Anchor="keyboard.actuation">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,16">
+                        <WrapPanel Margin="0" IsEnabled="{Binding OnboardIdle}" DockPanel.Dock="Right" ToolTip="{Binding OnboardStatus}">
+                            <TextBlock Text="Profile" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <ComboBox ItemsSource="{Binding OnboardSlots}" SelectedItem="{Binding OnboardSlot}" Width="70" AutomationProperties.Name="Onboard keyboard profile" />
+                            <Button Content="Read and activate" Command="{Binding ReadOnboardCommand}" Style="{StaticResource Btn.Hardware}" Margin="10,0,0,0" />
+                            <Button Content="Save to keyboard" Command="{Binding SaveOnboardCommand}" Style="{StaticResource Btn.Hardware}" Margin="10,0,0,0" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding SelectionText}" Foreground="{Binding SelectionAccent, Converter={StaticResource Brush}}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,16,0" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18" HorizontalAlignment="Left">
+                        <Button Style="{StaticResource Btn.Hardware}" Height="30" FontSize="12" Padding="10,0" Content="WASD" Command="{Binding SelectWasdCommand}" />
+                        <Button Style="{StaticResource Btn.Hardware}" Height="30" FontSize="12" Padding="10,0" Content="All" Margin="8,0,0,0" Command="{Binding SelectAllCommand}" />
+                        <Button Style="{StaticResource Btn.Ghost}" Height="30" FontSize="12" Padding="10,0" Content="Clear" Margin="8,0,0,0" Command="{Binding ClearSelectionCommand}" />
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center">
+                            <ItemsControl ItemsSource="{Binding Keys}" Width="{Binding BoardWidth}" Height="{Binding BoardHeight}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                                        <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Width="{Binding Width}" Height="{Binding Height}" Cursor="Hand" Focusable="False" AutomationProperties.Name="{Binding Label}" Command="{Binding DataContext.ToggleKeyCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5">
+                                                        <Border x:Name="Cap" CornerRadius="6" Background="{StaticResource Brush.Bg.Elevated}" BorderBrush="{StaticResource Brush.Border.Default}" BorderThickness="1,1,1,3" />
+                                                        <TextBlock Text="{Binding Label}" FontSize="11" FontWeight="Medium" Foreground="{StaticResource Brush.Text.Secondary}" Margin="7,5,0,0" />
+                                                        <Ellipse x:Name="Rt" Width="6" Height="6" Fill="{StaticResource Brush.Cyan}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,6,0" Visibility="Collapsed" />
+                                                        <TextBlock Text="{Binding Marker}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource Brush.Purple}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="7,0,0,5" />
+                                                        <TextBlock x:Name="Mm" Text="{Binding ActuationText}" FontFamily="{StaticResource Font.Mono}" FontSize="9.5" Foreground="{StaticResource Brush.Text.Muted}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,6,6" />
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Cap" Property="Background" Value="{StaticResource Brush.Bg.SurfaceActive}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="Root" Property="RenderTransform">
+                                                                <Setter.Value>
+                                                                    <ScaleTransform ScaleX="0.94" ScaleY="0.94" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding HasCustom}" Value="True">
+                                                            <Setter TargetName="Cap" Property="Background" Value="{StaticResource Brush.Bg.SurfaceHover}" />
+                                                            <Setter TargetName="Cap" Property="BorderBrush" Value="{StaticResource Brush.Border.Strong}" />
+                                                            <Setter TargetName="Mm" Property="Foreground" Value="{StaticResource Brush.Text.Primary}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RapidTrigger}" Value="True">
+                                                            <Setter TargetName="Rt" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="Cap" Property="Background" Value="#493018" />
+                                                            <Setter TargetName="Cap" Property="BorderBrush" Value="#B87720" />
+                                                            <Setter TargetName="Rt" Property="Fill" Value="#F59E0B" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Protected}" Value="True">
+                                                            <Setter TargetName="Cap" Property="Background" Value="#213957" />
+                                                            <Setter TargetName="Cap" Property="BorderBrush" Value="#3B82F6" />
+                                                        </DataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding RapidTrigger}" Value="True" />
+                                                                <Condition Binding="{Binding Protected}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter TargetName="Cap" Property="Background">
+                                                                <Setter.Value>
+                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                        <GradientStop Color="#493018" Offset="0.45" />
+                                                                        <GradientStop Color="#213957" Offset="0.55" />
+                                                                    </LinearGradientBrush>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </MultiDataTrigger>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter TargetName="Cap" Property="BorderThickness" Value="2,2,2,4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                            <Setter TargetName="Cap" Property="BorderBrush" Value="{DynamicResource Brush.Accent}" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Viewbox>
+                        <UniformGrid Grid.Column="1" Columns="3" Width="154" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <StackPanel>
+                                <Border Height="34" Margin="0,0,0,10" />
+                                <TextBlock Text="{Binding SelectedActuation, StringFormat={}{0:0.0}}" HorizontalAlignment="Center" Style="{StaticResource Text.Mono}" Margin="0,0,0,10" />
+                                <Slider x:Name="ActuationSlider" Style="{StaticResource Fader}" Height="218" Minimum="{Binding ActuationMinimum}" Maximum="{Binding ActuationMaximum}" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="{Binding SelectedActuation}" AutomationProperties.Name="Selected key actuation" ToolTip="Actuation (mm). Select keys and drag. Live after Read and activate." />
+                                <ctl:Icon Glyph="{StaticResource Icon.ArrowDown}" Size="18" Margin="0,12,0,0" HorizontalAlignment="Center" ToolTip="Actuation" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource RapidColumn}">
+                                <Button x:Name="RapidToolButton" Style="{StaticResource PaintTool}" Command="{Binding SetToolCommand}" CommandParameter="{x:Static vm:KeyboardTool.RapidTrigger}" Tag="{Binding IsRapidTool}" Margin="0,0,0,10" ctl:Ui.Icon="{StaticResource Icon.Zap}" ToolTip="Rapid Trigger: click keys, WASD or All to enable it. Clear removes Rapid Trigger. Click again to return to selection." AutomationProperties.Name="Paint Rapid Trigger" />
+                                <TextBlock Text="{Binding SelectedPress, StringFormat={}{0:0.0}}" HorizontalAlignment="Center" Style="{StaticResource Text.Mono}" Margin="0,0,0,10" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=StackPanel}}" />
+                                <Slider x:Name="RapidSlider" Style="{StaticResource Fader.Rapid}" Height="218" Minimum="{Binding SensitivityMinimum}" Maximum="{Binding SensitivityMaximum}" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="{Binding SelectedPress}" IsEnabled="{Binding RapidSensitivityEnabled}" AutomationProperties.Name="Rapid Trigger sensitivity" ToolTip="Rapid Trigger (mm). Adjust selected orange keys." />
+                                <ctl:Icon x:Name="RapidSliderIcon" Glyph="{StaticResource Icon.Zap}" Size="18" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=StackPanel}}" Margin="0,12,0,0" HorizontalAlignment="Center" ToolTip="Rapid Trigger" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource ProtectionColumn}">
+                                <Button x:Name="ProtectionToolButton" Style="{StaticResource PaintTool}" Command="{Binding SetToolCommand}" CommandParameter="{x:Static vm:KeyboardTool.Protection}" Tag="{Binding IsProtectionTool}" Margin="0,0,0,10" ctl:Ui.Icon="{StaticResource Icon.ShieldCheck}" ToolTip="Protection Mode: click keys, WASD or All to enable it. Clear removes Protection. Click again to return to selection." AutomationProperties.Name="Paint Protection Mode" />
+                                <TextBlock Text="{Binding SelectedProtection, StringFormat={}{0:0}}" HorizontalAlignment="Center" Style="{StaticResource Text.Mono}" Margin="0,0,0,10" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=StackPanel}}" />
+                                <Slider x:Name="ProtectionSlider" Style="{StaticResource Fader.Protection}" Height="218" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" SmallChange="1" Value="{Binding SelectedProtection}" IsEnabled="{Binding ProtectionSensitivityEnabled}" AutomationProperties.Name="Protection Mode sensitivity" ToolTip="Protection (0–255 firmware units). Adjust selected blue keys, then Save to keyboard." />
+                                <ctl:Icon x:Name="ProtectionSliderIcon" Glyph="{StaticResource Icon.ShieldCheck}" Size="18" Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=StackPanel}}" Margin="0,12,0,0" HorizontalAlignment="Center" ToolTip="Protection Mode" />
+                            </StackPanel>
+                        </UniformGrid>
+                    </Grid>
+                    <Expander Header="{Binding FocusTitle}" Visibility="{Binding HasFocus, Converter={StaticResource Visible}}" Margin="0,18,0,0">
+                        <StackPanel>
+                            <StackPanel Visibility="{Binding HasFocus, Converter={StaticResource Visible}}">
+                                <Grid Margin="0,0,0,10" Visibility="{Binding CanRemap, Converter={StaticResource Visible}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Action" Style="{StaticResource Text.Caption}" VerticalAlignment="Center" />
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding ActionChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding RemapAction}" AutomationProperties.Name="Key action" />
+                                </Grid>
+                                <Grid Margin="0,0,0,10" Visibility="{Binding CanMeta, Converter={StaticResource Visible}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="On the Meta layer" Style="{StaticResource Text.Caption}" VerticalAlignment="Center" />
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding ActionChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding MetaAction}" AutomationProperties.Name="Meta layer action" />
+                                </Grid>
+                                <StackPanel Visibility="{Binding CanDual, Converter={StaticResource Visible}}">
+                                    <CheckBox Style="{StaticResource Switch}" Content="Dual action: another action at full press" IsChecked="{Binding DualEnabled}" Margin="0,6,0,0" />
+                                    <StackPanel IsEnabled="{Binding DualEnabled}" Margin="0,10,0,0">
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Right" Text="{Binding DualDeep, StringFormat='{}{0:0.0} mm'}" FontFamily="{StaticResource Font.Mono}" Width="64" TextAlignment="Right" VerticalAlignment="Center" />
+                                            <TextBlock Text="Deep threshold" Width="130" Style="{StaticResource Text.Caption}" VerticalAlignment="Center" />
+                                            <Slider Style="{StaticResource Slider}" Minimum="{Binding ActuationMinimum}" Maximum="{Binding ActuationMaximum}" TickFrequency="{Binding ActuationStep}" IsSnapToTickEnabled="True" Value="{Binding DualDeep}" AutomationProperties.Name="Deep threshold" />
+                                        </DockPanel>
+                                        <Grid Margin="0,8,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Deep action" Style="{StaticResource Text.Caption}" VerticalAlignment="Center" />
+                                            <ComboBox Grid.Column="1" ItemsSource="{Binding ActionChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding DualSecond}" AutomationProperties.Name="Deep action" />
+                                        </Grid>
+                                        <CheckBox Style="{StaticResource Switch}" Content="Keep the first action held (walk + run)" IsChecked="{Binding DualKeepFirst}" Margin="0,10,0,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+                    <TextBlock Text="{Binding OnboardError}" Foreground="{StaticResource Brush.Rose400}" TextWrapping="Wrap" Margin="0,12,0,0" Visibility="{Binding OnboardError, Converter={StaticResource Visible}}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Margin="0,20,0,0" AutomationProperties.Name="Keyboard tools">
+                <StackPanel>
+                    <UniformGrid Columns="3" Margin="0,0,0,16">
+                        <RadioButton Style="{StaticResource Chip}" GroupName="KeyboardTools" Content="Presets" IsChecked="{Binding ToolsTab, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter='Presets'}" Command="{Binding SetToolsTabCommand}" CommandParameter="Presets" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="KeyboardTools" Content="Rapid Tap" IsChecked="{Binding ToolsTab, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter='Rapid Tap'}" Command="{Binding SetToolsTabCommand}" CommandParameter="Rapid Tap" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="KeyboardTools" Content="Macros" IsChecked="{Binding ToolsTab, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter='Macros'}" Command="{Binding SetToolsTabCommand}" CommandParameter="Macros" />
+                    </UniformGrid>
+                    <Grid>
+                        <StackPanel x:Name="PresetsPanel" ctl:Motion.PanelActive="{Binding ToolsTab, Converter={StaticResource Is}, ConverterParameter='Presets'}">
+                            <ItemsControl ItemsSource="{Binding Presets}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="0,0,0,8">
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Outline}" Height="30" FontSize="12" Padding="12,0" Content="Use" VerticalAlignment="Center" Command="{Binding DataContext.ApplyPresetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Medium" />
+                                                <TextBlock Text="{Binding Description}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,2,12,0" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel x:Name="RapidTapPanel" ctl:Motion.PanelActive="{Binding ToolsTab, Converter={StaticResource Is}, ConverterParameter='Rapid Tap'}">
+                            <DockPanel Margin="0,0,0,4">
+                                <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Outline}" Height="30" FontSize="12" Padding="10,0" Content="Pair" ctl:Ui.Icon="{StaticResource Icon.Plus}" Command="{Binding AddPairCommand}" />
+                            </DockPanel>
+                            <ItemsControl ItemsSource="{Binding RapidTap}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource Well}" Margin="0,0,0,8" Padding="10,8">
+                                            <DockPanel>
+                                                <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Icon}" ToolTip="Remove pair" ctl:Ui.Icon="{StaticResource Icon.Trash}" VerticalAlignment="Center" Command="{Binding DataContext.RemovePairCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                                                <CheckBox DockPanel.Dock="Right" Style="{StaticResource Switch}" IsChecked="{Binding Enabled}" VerticalAlignment="Center" Margin="8,0" ToolTip="Pair enabled" />
+                                                <ComboBox Width="80" ItemsSource="{Binding KeyChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding First}" AutomationProperties.Name="First key" />
+                                                <TextBlock Text="↔" Margin="6,0" VerticalAlignment="Center" />
+                                                <ComboBox Width="80" ItemsSource="{Binding KeyChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Second}" AutomationProperties.Name="Second key" />
+                                                <ComboBox Margin="8,0,0,0" ItemsSource="{Binding ModeChoices}" DisplayMemberPath="Label" SelectedValuePath="Value" SelectedValue="{Binding Mode}" AutomationProperties.Name="Priority" />
+                                            </DockPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel x:Name="MacrosPanel" ctl:Motion.PanelActive="{Binding ToolsTab, Converter={StaticResource Is}, ConverterParameter='Macros'}">
+                            <DockPanel Margin="0,0,0,4">
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <Button Style="{StaticResource Btn.Outline}" Height="30" FontSize="12" Padding="10,0" Content="Macro" ctl:Ui.Icon="{StaticResource Icon.Plus}" Command="{Binding NewMacroCommand}" />
+                                    <Button Style="{StaticResource Btn.Outline}" Height="30" FontSize="12" Padding="10,0" Content="Save" Margin="8,0,0,0" ctl:Ui.Icon="{StaticResource Icon.Save}" Command="{Binding SaveMacrosCommand}" />
+                                </StackPanel>
+                            </DockPanel>
+                            <ItemsControl ItemsSource="{Binding MacroRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource Well}" Margin="0,0,0,8" Padding="10,8">
+                                            <StackPanel>
+                                                <DockPanel>
+                                                    <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Icon}" ToolTip="Remove macro" ctl:Ui.Icon="{StaticResource Icon.Trash}" Command="{Binding DataContext.RemoveMacroCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                                                    <TextBlock DockPanel.Dock="Right" Text="{Binding Summary}" Style="{StaticResource Text.Mono}" FontSize="10.5" VerticalAlignment="Center" Margin="8,0" />
+                                                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Macro name" />
+                                                </DockPanel>
+                                                <TextBox Text="{Binding Steps, UpdateSourceTrigger=PropertyChanged, Delay=300}" AcceptsReturn="True" MinHeight="64" Margin="0,8,0,0" FontFamily="{StaticResource Font.Mono}" VerticalScrollBarVisibility="Auto" MaxHeight="160" AutomationProperties.Name="Macro steps" />
+                                                <TextBlock Text="{Binding Error}" Foreground="{StaticResource Brush.Rose400}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,6,0,0" Visibility="{Binding Error, Converter={StaticResource Visible}}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Text="{Binding MacroStatus}" Style="{StaticResource Text.Caption}" Visibility="{Binding MacroStatus, Converter={StaticResource Visible}}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Margin="0,20,0,0" Visibility="{Binding HasIssues, Converter={StaticResource Visible}}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <ctl:Icon Glyph="{StaticResource Icon.Alert}" Size="16" Foreground="{StaticResource Brush.Amber400}" />
+                        <TextBlock Text="Before saving" Style="{StaticResource Text.Title}" Margin="8,0,0,0" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding Issues}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="Line" Text="{Binding Message, StringFormat='• {0}'}" TextWrapping="Wrap" Margin="0,2,0,0" Foreground="{StaticResource Brush.Amber400}" />
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsError}" Value="True">
+                                        <Setter TargetName="Line" Property="Foreground" Value="{StaticResource Brush.Rose400}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

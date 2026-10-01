@@ -1,0 +1,127 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:ctl="clr-namespace:OpenGG.Desktop.Controls" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="OpenGG.Desktop.Views.Pages.ApexLightingPage" xmlns:vm="clr-namespace:OpenGG.Desktop.ViewModels" xmlns:light="clr-namespace:OneRGB.Application.Lighting;assembly=OpenGG.Core">
+    <ScrollViewer Style="{StaticResource PageScroll}">
+        <ctl:ResponsiveGrid MinItemWidth="400" MaxColumns="2" Gap="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Style="{StaticResource Panel.Xl}" Padding="0" ctl:Motion.Enter="True">
+                    <Grid Height="440" ClipToBounds="True">
+                        <Border CornerRadius="16" Background="{StaticResource Brush.Metric.Cpu}" />
+                        <ctl:ApexKeyboard x:Name="KeyboardPreview" Mode="{Binding Mode}" Color="{Binding Color}" Speed="{Binding SpeedRatio}" Brightness="{Binding BrightnessRatio}" Glow="{Binding ShowGlow}" AudioLevel="{Binding AudioLevel}" IsActive="{Binding IsActive}" OledImage="{Binding Keyboard.OledPreview}" OledFocused="{Binding OledSelected}" />
+                        <StackPanel Margin="24,20" VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <TextBlock Text="SteelSeries Apex Pro TKL" Style="{StaticResource Text.H2}" />
+                        </StackPanel>
+                        <Border Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource Pill}">
+                            <StackPanel Orientation="Horizontal">
+                                <ctl:Icon Glyph="{StaticResource Icon.Wand}" Size="12" Foreground="{DynamicResource Brush.AccentHover}" />
+                                <TextBlock Text="{Binding ModeText}" Margin="6,0,0,0" FontSize="11.5" Foreground="{DynamicResource Brush.AccentHover}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,20,0,0" Padding="20" ctl:Motion.Enter="True" ctl:Motion.EnterDelay="60" ctl:Ui.Anchor="lighting.apex" AutomationProperties.Name="Keyboard status">
+                    <Grid>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                        <Grid ToolTip="Battery estimate from the keyboard's native telemetry">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                            <ctl:Icon Glyph="{StaticResource Icon.Battery}" Size="18" Foreground="{StaticResource Brush.Text.Secondary}" Margin="0,0,12,0" />
+                            <ctl:BatteryBar Grid.Column="1" Percent="{Binding Device.BatteryPercent}" Charging="{Binding Device.IsCharging}" VerticalAlignment="Center" AutomationProperties.Name="Keyboard battery" />
+                            <TextBlock Grid.Column="2" Text="{Binding Device.BatteryText}" Style="{StaticResource Text.Caption}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                        </Grid>
+                        <DockPanel Grid.Row="1" Margin="0,16,0,0" LastChildFill="False">
+                            <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Hardware}" Height="30" FontSize="12" Padding="10,0" Content="Sync" ctl:Ui.Icon="{StaticResource Icon.Refresh}" Command="{Binding SyncCommand}" Margin="12,0,0,0" />
+                            <CheckBox Style="{StaticResource Switch}" IsChecked="{Binding Controlled}" Content="Control RGB with OpenGG" VerticalAlignment="Center" ToolTip="Send this page's lighting to the keyboard. Close other controllers first. Turning this off restores onboard lighting." />
+                        </DockPanel>
+                        <Border Grid.Row="2" Background="#0BFFFFFF" CornerRadius="10" Padding="12,10" Margin="0,14,0,0" VerticalAlignment="Stretch" ToolTip="{Binding FeedbackText}">
+                            <Grid VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <ctl:Icon Glyph="{Binding FeedbackIcon, Converter={StaticResource Res}}" Size="16" Foreground="{Binding FeedbackAccent, Converter={StaticResource Brush}}" Margin="0,2,10,0" VerticalAlignment="Top" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding FeedbackTitle}" FontWeight="SemiBold" FontSize="12.5" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding FeedbackText}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="48" Margin="0,4,0,0" AutomationProperties.LiveSetting="Polite" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Border Style="{StaticResource Card}" Padding="18" ctl:Motion.Enter="True" ctl:Motion.EnterDelay="40">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,14">
+                        <Border DockPanel.Dock="Right" Width="22" Height="22" CornerRadius="6" Background="{Binding ColorBrush}" BorderBrush="{StaticResource Brush.Border.Strong}" BorderThickness="1" />
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Style="{StaticResource Chip}" GroupName="LightingPanel" Content="Color" IsChecked="{Binding OledSelected, Mode=TwoWay, Converter={StaticResource Not}}" Command="{Binding SetPanelCommand}" CommandParameter="Color" AutomationProperties.Name="Edit color" />
+                            <RadioButton Style="{StaticResource Chip}" GroupName="LightingPanel" Content="OLED" IsChecked="{Binding OledSelected, Mode=TwoWay}" Command="{Binding SetPanelCommand}" CommandParameter="OLED" AutomationProperties.Name="Edit OLED" />
+                        </StackPanel>
+                    </DockPanel>
+                    <Grid MinHeight="336">
+                        <StackPanel x:Name="ColorPanel" ctl:Motion.PanelActive="{Binding OledSelected, Converter={StaticResource Not}}">
+                            <ItemsControl ItemsSource="{x:Static vm:ApexLightingViewModel.Presets}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="4" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="Sw" Style="{StaticResource Btn.Swatch}" Margin="3" ToolTip="{Binding Name}" Background="{Binding Hex, Converter={StaticResource Brush}}" Command="{Binding DataContext.PickPresetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding Hex}">
+                                            <Button.Tag>
+                                                <MultiBinding Converter="{StaticResource SameTag}">
+                                                    <Binding Path="Hex" />
+                                                    <Binding Path="DataContext.Hex" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                                </MultiBinding>
+                                            </Button.Tag>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ctl:HsvPicker Height="180" Margin="0,14,0,0" Color="{Binding Color, Mode=TwoWay}" />
+                            <DockPanel Margin="0,12,0,0">
+                                <Border DockPanel.Dock="Left" Width="34" Height="34" CornerRadius="8" Background="{Binding ColorBrush}" BorderBrush="{StaticResource Brush.Border.Subtle}" BorderThickness="1" Margin="0,0,8,0" />
+                                <TextBox Text="{Binding Hex, UpdateSourceTrigger=PropertyChanged}" FontFamily="{StaticResource Font.Mono}" FontSize="12.5" ctl:Ui.Placeholder="#FFFFFF" MaxLength="7" AutomationProperties.Name="Hex color" />
+                            </DockPanel>
+                        </StackPanel>
+                        <StackPanel x:Name="OledPanel" ctl:Motion.PanelActive="{Binding OledSelected}">
+                            <Border Background="Black" CornerRadius="10" Padding="16" Margin="3" Height="150">
+                                <Image Source="{Binding Keyboard.OledPreview}" RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" AutomationProperties.Name="128 by 40 OLED preview" />
+                            </Border>
+                            <DockPanel Margin="3,16,3,6">
+                                <TextBlock DockPanel.Dock="Right" Text="{Binding Keyboard.PreviewDepth, StringFormat={}{0:0.00} mm}" Style="{StaticResource Text.Mono}" />
+                                <TextBlock Text="Depth" Style="{StaticResource Text.Caption}" />
+                            </DockPanel>
+                            <Slider Style="{StaticResource Slider}" Minimum="0" Maximum="4" SmallChange="0.05" Value="{Binding Keyboard.PreviewDepth}" ToolTip="{Binding Keyboard.PreviewText}" AutomationProperties.Name="Preview depth" />
+                            <DockPanel Margin="3,16,3,0">
+                                <Button DockPanel.Dock="Left" Content="Open File" ctl:Ui.Icon="{StaticResource Icon.Folder}" Style="{StaticResource Btn.Hardware}" Command="{Binding Keyboard.OpenOledFileCommand}" />
+                                <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Icon}" ctl:Ui.Icon="{StaticResource Icon.Refresh}" Command="{Binding Keyboard.UseStatusOledCommand}" ToolTip="Return to the status screen" AutomationProperties.Name="Restore OLED status preview" />
+                                <TextBlock Text="{Binding Keyboard.OledFileName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="10,0" Style="{StaticResource Text.Caption}" />
+                            </DockPanel>
+                            <CheckBox Style="{StaticResource Switch}" Content="Show on keyboard display" IsChecked="{Binding Keyboard.OledOnKeyboard}" Margin="3,12,3,0" />
+                            <TextBlock Text="{Binding Keyboard.OledMessage}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="3,8,3,0" Visibility="{Binding Keyboard.OledMessage, Converter={StaticResource Visible}}" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="Lighting effect" Style="{StaticResource Text.Caption}" FontSize="12" Margin="0,16,0,8" />
+                    <UniformGrid Columns="2">
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Rainbow wave" ctl:Ui.Icon="{StaticResource Icon.Rainbow}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=Wave}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.Wave}" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Color cycle" ctl:Ui.Icon="{StaticResource Icon.Waveform}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=ColorCycle}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.ColorCycle}" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Breathing" ctl:Ui.Icon="{StaticResource Icon.Waves}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=Breathing}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.Breathing}" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Static" ctl:Ui.Icon="{StaticResource Icon.Circle}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=Static}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.Static}" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Audio reactive" ctl:Ui.Icon="{StaticResource Icon.Music}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=AudioReactive}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.AudioReactive}" />
+                        <RadioButton Style="{StaticResource Chip}" GroupName="ApexFx" Content="Off" ctl:Ui.Icon="{StaticResource Icon.CircleOff}" IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource Is}, ConverterParameter=Off}" Command="{Binding SetModeCommand}" CommandParameter="{x:Static light:LightingMode.Off}" />
+                    </UniformGrid>
+                    <DockPanel Margin="0,14,0,6">
+                        <TextBlock DockPanel.Dock="Right" Style="{StaticResource Text.Mono}" Text="{Binding Brightness, StringFormat={}{0:0}%}" />
+                        <TextBlock Text="Brightness" Style="{StaticResource Text.Caption}" FontSize="12" />
+                    </DockPanel>
+                    <Slider Style="{StaticResource Slider}" Minimum="0" Maximum="100" Value="{Binding Brightness}" />
+                    <DockPanel Margin="0,12,0,6">
+                        <TextBlock DockPanel.Dock="Right" Style="{StaticResource Text.Mono}" Text="{Binding Speed, StringFormat={}{0:0}%}" />
+                        <TextBlock Text="Speed" Style="{StaticResource Text.Caption}" FontSize="12" />
+                    </DockPanel>
+                    <Slider Style="{StaticResource Slider}" Minimum="0" Maximum="100" Value="{Binding Speed}" />
+                </StackPanel>
+            </Border>
+        </ctl:ResponsiveGrid>
+    </ScrollViewer>
+</UserControl>

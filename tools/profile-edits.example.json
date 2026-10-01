@@ -1,0 +1,9 @@
+{
+  "actuation": {"26": 2.0},
+  "rt": {"26": {"enabled": true, "sensitivity": 0.5}},
+  "protection": {"7": true},
+  "rapid_tap": {"enabled": true, "pairs": [{"first": 4, "second": 7, "mode": 0}]},
+  "dual": {"26": {"mm": 3.6, "function": 81, "keys": [225, 26], "keep_first": true}},
+  "remap": {"6": {"function": 81, "keys": [7]}},
+  "meta": {"6": {"function": 81, "keys": [7]}}
+}

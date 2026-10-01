@@ -1,0 +1,173 @@
+<ResourceDictionary xmlns:ctl="clr-namespace:OpenGG.Desktop.Controls" xmlns:vm="clr-namespace:OpenGG.Desktop.ViewModels" xmlns:mvvm="clr-namespace:OpenGG.Desktop.Mvvm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:ns1="clr-namespace:OpenGG.Desktop.Mvvm" xmlns:ns3="clr-namespace:OpenGG.Desktop.Controls" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Controls.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ns1:ToBrush x:Key="T.Brush" />
+    <ns1:BoolToVisibility x:Key="T.Visible" />
+    <ns1:ToGlow x:Key="T.Glow" />
+    <ns1:ResourceKeyToValue x:Key="T.Res" />
+
+    
+    <DataTemplate x:Key="DeviceTile" DataType="{x:Type vm:DeviceCardViewModel}">
+        <Button Command="{Binding DataContext.OpenDeviceCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Cursor="Hand" FocusVisualStyle="{x:Null}" Foreground="{StaticResource Brush.Text.Primary}" ns3:Ui.Anchor="{Binding Id}" ToolTip="{Binding Name}" ToolTipService.InitialShowDelay="900" AutomationProperties.Name="{Binding Name}" AutomationProperties.HelpText="{Binding StatusLabel}">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Tile" CornerRadius="{StaticResource Radius.Lg}" BorderThickness="1" BorderBrush="{StaticResource Brush.Border.Subtle}" Background="{StaticResource Brush.Card.Surface}" Padding="20,18,20,20" SnapsToDevicePixels="False" RenderTransformOrigin="0.5,0.5">
+                        <Grid x:Name="DeviceLayout"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition x:Name="WideDetails" Width="0" /></Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition x:Name="PortraitRow" Height="156" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <DockPanel x:Name="DeviceStatus">
+                                <ns3:Icon x:Name="Go" DockPanel.Dock="Right" Glyph="{StaticResource Icon.ChevronRight}" Size="14" Opacity="0" Foreground="{StaticResource Brush.Text.Secondary}" VerticalAlignment="Center" />
+                                <Ellipse Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center" Fill="{Binding StatusKey, Converter={StaticResource T.Res}}" />
+                                <TextBlock Text="{Binding StatusLabel}" Style="{StaticResource Text.Caption}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <ns3:DevicePortrait x:Name="Portrait" Grid.Row="1" Model="{Binding PortraitId}" Margin="4,14,4,12" />
+                            <TextBlock x:Name="DeviceName" Grid.Row="2" Text="{Binding Name}" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="DeviceVendor" Grid.Row="3" Text="{Binding Vendor}" Style="{StaticResource Text.Caption}" Margin="0,3,0,0" TextTrimming="CharacterEllipsis" />
+                            <Grid x:Name="DeviceMetric" Grid.Row="4" Margin="0,14,0,0" MinHeight="28">
+                                <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding HasMetric, Converter={StaticResource T.Visible}}">
+                                    <TextBlock Text="{Binding Metric}" FontSize="20" FontWeight="Medium" VerticalAlignment="Bottom" />
+                                    <TextBlock Text="{Binding MetricCaption}" Style="{StaticResource Text.Caption}" Margin="8,0,0,3" VerticalAlignment="Bottom" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Category}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" Visibility="{Binding HasMetric, Converter={StaticResource T.Visible}, ConverterParameter=!}" />
+                                <ns3:BatteryBar Grid.Row="1" Percent="{Binding BatteryPercent}" Charging="{Binding IsCharging}" Margin="0,4,0,0" Visibility="{Binding HasBattery, Converter={StaticResource T.Visible}}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsWide, RelativeSource={RelativeSource AncestorType=ctl:AdaptiveCardFrame}}" Value="True">
+                            <Setter TargetName="WideDetails" Property="Width" Value="1.3*" />
+                            <Setter TargetName="PortraitRow" Property="Height" Value="*" />
+                            <Setter TargetName="Portrait" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="Portrait" Property="Grid.RowSpan" Value="5" />
+                            <Setter TargetName="Portrait" Property="Margin" Value="0,4,18,4" />
+                            <Setter TargetName="DeviceStatus" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="DeviceName" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="DeviceVendor" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="DeviceMetric" Property="Grid.Column" Value="1" />
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Tile" Property="BorderBrush" Value="{StaticResource Brush.Text.Secondary}" />
+                            <Setter TargetName="Go" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Tile" Property="BorderBrush" Value="{StaticResource Brush.Focus}" />
+                            <Setter TargetName="Go" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Tile" Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.985" ScaleY="0.985" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </DataTemplate>
+
+    
+    <Style x:Key="DeviceHero" TargetType="HeaderedContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,24" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="HeaderedContentControl">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="340" Height="210" CornerRadius="{StaticResource Radius.2xl}" Background="{StaticResource Brush.Bg.Surface}" BorderBrush="{StaticResource Brush.Border.Subtle}" BorderThickness="1">
+                            <ns3:DevicePortrait Model="{TemplateBinding Tag}" Margin="28,20" />
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="32,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{TemplateBinding Header}" Style="{StaticResource Text.Display}" TextWrapping="Wrap" />
+                            <TextBlock Text="{TemplateBinding ctl:Ui.Subtitle}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" MaxWidth="620" HorizontalAlignment="Left" Margin="0,8,0,0" Visibility="{Binding (ctl:Ui.Subtitle), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource T.Visible}}" />
+                            <ContentPresenter Margin="0,16,0,0" />
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="WriteState" TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse x:Name="Dot" Width="7" Height="7" Margin="0,0,8,0" VerticalAlignment="Center" Fill="{StaticResource Brush.Status.Offline}" />
+                            <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Text.Body}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Border CornerRadius="{StaticResource Radius.Md}" Background="{StaticResource Brush.Bg.Surface}" BorderBrush="{StaticResource Brush.Border.Subtle}" BorderThickness="1" Padding="14,12" Margin="0,16,0,0" MaxWidth="620" HorizontalAlignment="Left">
+                            <DockPanel>
+                                <ns3:Icon x:Name="Glyph" DockPanel.Dock="Left" Glyph="{StaticResource Icon.Lock}" Size="15" Foreground="{StaticResource Brush.Amber}" VerticalAlignment="Top" Margin="0,1,10,0" />
+                                <StackPanel>
+                                    <TextBlock Text="{Binding WriteTitle, FallbackValue='Read only for now'}" FontWeight="Medium" />
+                                    
+                                    <TextBlock Text="{TemplateBinding Tag}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,3,0,0" Visibility="{Binding WriteText, Converter={StaticResource T.Visible}, ConverterParameter=!}" />
+                                    <TextBlock Text="{Binding WriteText}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,3,0,0" Visibility="{Binding WriteText, Converter={StaticResource T.Visible}}" />
+                                    <Button Style="{StaticResource Btn}" Content="Take control" HorizontalAlignment="Left" Margin="0,10,0,0" Command="{Binding TakeControlCommand}" Visibility="{Binding HasExternalOwner, Converter={StaticResource T.Visible}}" ToolTip="Close other keyboard controllers, then return to OpenGG to apply settings." />
+                                    <ContentPresenter />
+                                    <TextBlock Text="{Binding ReadOnlyReason}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,8,0,0" Visibility="{Binding Expert, Converter={StaticResource T.Visible}}" />
+                                    <TextBlock Text="{Binding Source}" Style="{StaticResource Text.Mono}" FontSize="10.5" TextWrapping="Wrap" Margin="0,4,0,0" Visibility="{Binding Expert, Converter={StaticResource T.Visible}}" />
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Connected}" Value="True">
+                            <Setter TargetName="Dot" Property="Fill" Value="{StaticResource Brush.Status.Online}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CanWriteNow}" Value="True">
+                            <Setter TargetName="Glyph" Property="Glyph" Value="{StaticResource Icon.CircleCheck}" />
+                            <Setter TargetName="Glyph" Property="Foreground" Value="{StaticResource Brush.Status.Online}" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="Conflict" TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,20" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border CornerRadius="{StaticResource Radius.Lg}" Background="{StaticResource Brush.Bg.Surface}" BorderBrush="{StaticResource Brush.Border.Default}" BorderThickness="1" Padding="16,14">
+                        <DockPanel>
+                            <ContentPresenter DockPanel.Dock="Right" VerticalAlignment="Center" Margin="16,0,0,0" />
+                            <ns3:Icon DockPanel.Dock="Left" Glyph="{StaticResource Icon.Alert}" Size="16" Foreground="{StaticResource Brush.Amber}" VerticalAlignment="Top" Margin="0,1,12,0" />
+                            <StackPanel>
+                                <TextBlock Text="Controlled by another app" FontWeight="SemiBold" />
+                                <TextBlock Text="{TemplateBinding Tag}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,3,0,0" />
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="PageScroll" TargetType="ScrollViewer">
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="Padding" Value="32,24,32,40" />
+        <Setter Property="Focusable" Value="False" />
+    </Style></ResourceDictionary>

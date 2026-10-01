@@ -1,0 +1,4 @@
+{
+  "actuation": { "26": 1.5 },
+  "rt": { "26": { "enabled": true, "sensitivity": 0.3 } }
+}

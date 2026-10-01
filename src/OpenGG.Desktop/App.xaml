@@ -1,0 +1,18 @@
+<Application x:Class="OpenGG.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvm="clr-namespace:OpenGG.Desktop.Mvvm">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="Theme/Templates.xaml" /></ResourceDictionary.MergedDictionaries>
+      <mvvm:BoolToVisibility x:Key="Visible" />
+      <mvvm:InverseBool x:Key="Not" />
+      <mvvm:ToBrush x:Key="Brush" />
+      <mvvm:ToGlow x:Key="Glow" />
+      <mvvm:ResourceKeyToValue x:Key="Res" />
+      <mvvm:EqualsParameter x:Key="Is" />
+      <mvvm:Multiply x:Key="Times" />
+      <mvvm:SameTag x:Key="SameTag" />
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>
