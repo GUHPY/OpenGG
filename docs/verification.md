@@ -7,8 +7,8 @@ Research began in the supplied September 2026 handoff. Hardware and installed On
 | Property | Value |
 |---|---|
 | Keyboard | SteelSeries Apex Pro TKL Wireless Gen 3 |
-| Connection | 2.4 GHz receiver |
-| VID:PID | `1038:1644` |
+| Connection | 2.4 GHz receiver and USB cable on the wireless model |
+| VID:PID | Receiver `1038:1644`; USB `1038:1646` |
 | Interface / usage | `MI_03 / FFC0:0001` |
 | Reports | Feature 642; input/output 65 |
 | Tested keyboard firmware | 3.24.1 |
@@ -22,21 +22,23 @@ Research began in the supplied September 2026 handoff. Hardware and installed On
 |---|---|
 | Original capture reconstruction | 6,297 records; 18 complete banks; nine keyboard/receiver pairs; all CRCs valid |
 | Receiver read | All five slots read and backed up; size/schema/CRC valid |
-| Profile write | Keyboard and receiver block/validation ACKs; exact receiver readback |
+| Profile write, wireless | Keyboard and receiver block/validation ACKs; exact receiver readback |
+| Profile write, USB | Slot 5 re-written with the same current bytes: `02`, 24 × `03`, `A6`; exact keyboard readback; slot 2 unchanged |
 | Earlier restoration | All five slots matched their then-current initial backups; slot 2 reactivated |
 | Native/Python paths | Both exercised read/write/restore independently of GG |
-| Live actuation/RT | `6F`, `76`, `77` ACK zero; stored bytes unchanged |
+| Live actuation/RT | Wireless `6F` / `76` / `77` and USB `2F` / `36` / `37`: ACK zero; stored bytes unchanged |
 | RGB conflict fix | Continuous RGB reproduced missing advanced ACKs; serialized `62` release fixed feature and output paths |
-| OLED | `4A` and `4B` ACK zero; pixel layout cross-checked against independent implementation |
+| OLED | Wireless `4A` / `4B` and USB `0A` / `0B`: ACK zero; temporary USB test frame restored to the onboard background |
 | OneRGB regression suite | **1,303 passed, zero failed** after the batching change |
-| OpenGG offline checks | **84 passed**; strict discovery, batching, global mode, preserved state, CRC, shared-channel recovery and per-key raw Protection preservation/validation |
-| Python offline checks | Three unittest methods, including numerous field/preservation/failure assertions |
+| OpenGG offline checks | **90 passed**; strict discovery, batching, global mode, preserved state, CRC, shared-channel recovery and per-key raw Protection preservation/validation |
+| Python offline checks | Four unittest methods, including numerous field/preservation/failure assertions |
 | OpenGG GUI | Slot 2 valid read, save enabled, no-change save avoided flash; 60 Applied batch entries for 1.6 and restoration to 1.5 |
 | OpenGG diagnostic | `BC` connected, `D2` raw telemetry, `83` CRC/SHA and optional `6F`/`76` echo ACKs |
 | Final portable executable | Native HID inventory: 40 collections, one recognized keyboard; PowerShell 5.1 inventory wrapper completed with a spaced output path; readable 260 px diagnostic report |
 | Final OpenGG CLI | Slot 2 read, W re-sent at current 1.5 mm via `6F`, exact stored hash unchanged, slot 2 reloaded |
 | Audio Reactive transport | WASAPI output-loopback initialized successfully; nonzero level observed; no recording stored |
-| Desktop usability | 73 checks passed on the actual WPF window: shell/scroll behavior, brand resources, live receiver battery, charging animation, bottom-up sliders, inactive gray controls, independent bulk painting, safe slider seeding, stable tab extent/scroll, full-stage OLED camera, image conversion/transport and RGB transparency |
+| Desktop usability | 77 checks passed on the actual WPF window: shell/scroll behavior, brand resources, live native battery, charging animation, bottom-up sliders, inactive gray controls, independent bulk painting, safe slider seeding, stable tab extent/scroll, full-stage OLED camera, image conversion/transport and RGB transparency |
+| OneRGB backport | **1,304 unit tests and 13 targeted real-window Apex checks passed**; zero build warnings/errors; existing canvas retained |
 | Offline tool installers | Seven plans validated on Windows PowerShell 5.1; checksum and path-escape failure cases rejected; 66 local payload files prepared |
 | Local tool runtime | Python 3.14.8, Frida 17.19.0, hidapi import, pip dependency check and independent CLI help exercised from the contained runtime |
 
@@ -48,7 +50,8 @@ The original OneRGB tests cover that original project's shared pipeline. OpenGG'
 |---|---:|---|
 | Old native individual loop | 8.5410694 | 60 separate full actuation reports |
 | Original native batch under RGB | 0.1443179 | One `6F`, 68 entries, one gate, matching ACK |
-| Standalone OpenGG native batch under RGB | 0.1491984 | Final adapted core assembly; current stored slot unchanged; restored in finally |
+| Standalone OpenGG native batch under RGB | 0.1491984 | Receiver; current stored slot unchanged; restored in finally |
+| USB cable native batch under RGB | 0.144309 | One `2F`, 68 entries; exact stored profile unchanged; slot 2 reloaded in finally |
 | Installed OneRGB UI 1.6 test | 3.950324 | Includes UI Automation traversal/polling |
 | Installed OneRGB UI restore 1.5 | 4.4811853 | Includes UI Automation traversal/polling |
 | OpenGG 1.6 GUI batch | ~0.190 | Maximum recorded completion duration among its 60 journal entries |
@@ -65,11 +68,11 @@ The later speed tests preserved the **current** stored profile and restored 1.5 
 ## What these checks do not prove
 
 - ACK zero proves command acceptance, not a physical actuation-depth measurement.
-- Receiver byte comparison proves receiver storage. The keyboard copy has block/validation ACK evidence, not an independent successful flash readback.
+- Wireless readback proves the receiver copy; its keyboard copy has block/validation ACK evidence. USB readback now independently verifies the physical keyboard bank. Cache reconciliation after switching transports was not tested.
 - A power-cycle persistence test was not performed.
 - Every mapping combination, dual-action behavior, Rapid Tap mode, Protection effect and macro output was not physically exercised.
 - The friendly macro editor does not compile to the native macro container yet.
-- Cable `1646`, wired `1642`, Bluetooth and other SteelSeries models have no advanced-write validation from this work.
+- The separate wired-only `1642` model, Bluetooth and other SteelSeries models have no advanced-write validation from this work.
 - Generic HID discovery and synthetic mouse/duplicate-device checks do not replace tests on every real keyboard and mouse.
 - The tool inventory finds selected PATH/registry evidence; it does not validate every capture driver, portable install or optional Python package.
 - Wireshark, USBPcap and SDK system installation were not performed during the usability checks. Their local payloads and installer plans were validated; the Install action opens their own interactive UI.
@@ -90,7 +93,7 @@ dotnet run --project tests/OpenGG.DesktopChecks/OpenGG.DesktopChecks.csproj -c R
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/Test-ResearchTools.ps1
 ```
 
-The desktop check uses real controls, templates, native window regions and routed wheel events. Its Apex layout assertions run when a verified receiver card is connected or remembered; other environments report those checks as skipped. Sidebar animation assertions respect the Windows reduced-motion setting. It never changes or saves an onboard profile. Installing Python/Frida is a separate explicit check; testing an installer plan does not claim a capture driver was installed.
+The desktop check uses real controls, templates, native window regions and routed wheel events. Its Apex layout assertions run when a verified receiver or USB card is connected or remembered; other environments report those checks as skipped. Sidebar animation assertions respect the Windows reduced-motion setting. It never changes or saves an onboard profile. Installing Python/Frida is a separate explicit check; testing an installer plan does not claim a capture driver was installed.
 
 The refined editor checks seed an isolated in-memory configuration, exercise sliders/painting and restore it before the debounce can commit. Local settings/profile files are restored after the check. Bitmap checks verify transparent pixels, aspect-preserving black margins, PNG decoding, first-frame GIF behavior, 640-byte packing, the existing vertical-page `4A` report and opacity blending over the gray PSD base. Source compilation finishes with zero warnings/errors. The ordinary portable diagnostic recorded after refinement returns ACK zero, valid schema/CRC and unchanged stored slot-2 SHA256 `3F06EC3E9BE7B7CA005413FDB01B18D08F6FD3F533F700D8E35E7E162D45433B`, without activation or save.
 

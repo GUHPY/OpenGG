@@ -9,9 +9,9 @@ public sealed class DeviceCardViewModel(KeyboardDevice device) : ObservableObjec
     public string Id => Device.Id;
     public override string ToString() => Name;
     public string Name => Device.Name;
-    public string Vendor => "SteelSeries";
-    public string Category => Device.HasVerifiedReceiver ? "Hall effect keyboard + OLED" : "Keyboard · diagnostics";
-    public string PortraitId => Device.ProductId == 0x1644 ? "kbd-steelseries-apex-pro-tkl-gen3" : "drawing:keyboard";
+    public string Vendor => Device.ProductId switch { 0x1644 => "SteelSeries · 2.4 GHz receiver",0x1646 => "SteelSeries · USB cable",_ => "SteelSeries" };
+    public string Category => Device.HasVerifiedTransport ? "Hall effect keyboard + OLED" : "Keyboard · diagnostics";
+    public string PortraitId => Device.ProductId is 0x1644 or 0x1646 ? "kbd-steelseries-apex-pro-tkl-gen3" : "drawing:keyboard";
     public bool IsConnected { get => _connected; private set { if (Set(ref _connected, value)) { OnPropertyChanged(nameof(StatusLabel)); OnPropertyChanged(nameof(StatusKey)); } } }
     public string StatusLabel => IsConnected ? "Connected" : "Disconnected";
     public string StatusKey => IsConnected ? "Brush.Status.Online" : "Brush.Status.Offline";

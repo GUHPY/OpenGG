@@ -8,9 +8,9 @@ A disconnected remembered card is expected. A query/filter can make the visible 
 
 ## The Apex card has generic controls
 
-Advanced support requires the receiver `1038:1644`, interface 3, FFC0/0001 and 642/65/65 report sizes. A cable connection or another Gen 3 variant does not get guessed advanced commands. Connect the tested receiver or use its generic diagnostic report to gather evidence.
+Advanced support requires receiver `1038:1644` or the wireless model connected by USB `1038:1646`, interface 3, FFC0/0001 and 642/65/65 report sizes. The separate wired-only `1642` model and other variants use generic diagnostics until validated. Card subtitles distinguish the transport.
 
-If two verified receivers are connected, advanced writes are blocked. The current editor has one target; receiver selection needs validation before extending that behavior.
+A receiver and cable can coexist; opening a card selects its exact path and the default prefers USB. Repeated matching units of the same PID block advanced operations. Changing or losing the chosen path clears the loaded-state gate; read/activate again on the desired transport.
 
 ## Close other controllers
 
@@ -20,7 +20,7 @@ Process detection is a convention, not a driver-exclusive lock. A script outside
 
 ## Five-second command timeout
 
-If temporary `61` RGB is active, advanced commands need a serialized `62` release before the feature/output report. This is already in the shared link. Check that your external implementation does the same and does not let RGB run between release and the following request.
+If temporary RGB is active, advanced commands need a serialized release before the feature/output report: `61`/`62` wirelessly and `21`/`22` over USB. This is already in the shared link. Check that your external implementation does the same and does not let RGB run between release and the following request.
 
 An operation failure stops the remaining batch, drops the channel and invalidates the loaded-profile guard. Click Read and activate again before editing. The first error should include the command/failure detail; the app does not retry sixty keys and create sixty errors.
 
@@ -32,13 +32,13 @@ The owner observed native 0.2 mm menu steps and the same result through GG. Open
 
 ## A change appears local but not stored after reload
 
-Actuation/RT sends are live. Remap, Meta, dual, Tap and Protection edits are held in the local editing profile until an explicit Save to keyboard. Pressing load restores the stored slot. Saving compares/patches the file, backs it up and verifies receiver readback.
+Actuation/RT sends are live. Remap, Meta, dual, Tap and Protection edits are held in the local editing profile until an explicit Save to keyboard. Pressing load restores the stored slot. Saving compares/patches the file, backs it up and verifies receiver readback wirelessly or direct keyboard readback over USB.
 
 The simulator can demonstrate behavior that has not been compiled for firmware. Protection reduction/activation conversions and the friendly macro compiler are specifically not claimed as native support. Flash rejects unsupported translations instead of silently claiming they worked.
 
 ## Profile changed outside OpenGG
 
-Read again. The native save checks its baseline against current receiver bytes before erase. The independent CLI can do the same with `--expected`. If a write partially fails, keep the error and backup path; decide restoration using the correct current baseline and complete transaction.
+Read again. The native save checks its baseline against the selected transport's current stored bytes before erase. The independent CLI can do the same with `--expected`. If a write partially fails, keep the error and backup path; decide restoration using the correct current baseline and complete transaction.
 
 ## Unknown keyboard feature read fails
 
@@ -46,9 +46,9 @@ Some models have no vendor feature collection or do not accept report ID zero. T
 
 ## RGB/audio/OLED
 
-RGB has no command ACK. Confirm the shared link, exclusive controller use, correct receiver and actual key lighting. The UI surfaces send errors; a rendered preview alone is not physical validation. Audio Reactive uses the default Windows output loopback, so verify that audio is playing on that output. No microphone is required by this effect.
+RGB has no command ACK. Confirm the shared link, exclusive controller use, correct cable/receiver transport and actual key lighting. The UI surfaces send errors; a rendered preview alone is not physical validation. Audio Reactive uses the default Windows output loopback, so verify that audio is playing on that output. No microphone is required by this effect.
 
-For the direct OLED preview, uncheck its control to send the verified `4B` background restore. Opening a connection does not send that restore as a mode command. Loading a stored profile restores its persistent configuration.
+For the direct OLED preview, uncheck its control to send the verified `4B` wireless / `0B` USB background restore. Opening a connection does not send that restore as a mode command. Loading a stored profile restores its persistent configuration.
 
 ## Build/runtime
 

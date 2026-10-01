@@ -8,6 +8,10 @@ public sealed record KeyboardDevice(string Id, string Name, ushort ProductId, IR
         && i.Identity.VendorId == 0x1038 && i.Identity.ProductId == 0x1644
         && i.Identity.InterfaceNumber == 3 && i.Identity.UsagePage == 0xFFC0 && i.Identity.Usage == 1
         && i.FeatureReportLength == 642 && i.OutputReportLength == 65 && i.InputReportLength == 65);
+    public bool HasVerifiedTransport => ProductId is 0x1644 or 0x1646 && Interfaces.Any(i => i.Error is null
+        && i.Identity.VendorId == 0x1038 && i.Identity.ProductId == ProductId
+        && i.Identity.InterfaceNumber == 3 && i.Identity.UsagePage == 0xFFC0 && i.Identity.Usage == 1
+        && i.FeatureReportLength == 642 && i.OutputReportLength == 65 && i.InputReportLength == 65);
 }
 
 public static class SteelSeriesKeyboards

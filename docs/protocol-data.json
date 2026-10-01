@@ -481,5 +481,30 @@
     230,
     231,
     240
-  ]
+  ],
+  "usb_cable_pid": 5702,
+  "usb_cable_command_routes": {
+    "61": "21",
+    "62": "22",
+    "6F": "2F",
+    "76": "36",
+    "77": "37",
+    "4A": "0A",
+    "4B": "0B",
+    "53": "13",
+    "68": "28",
+    "E6": "A6"
+  },
+  "usb_cable_profile": {
+    "read_opcode": "83",
+    "namespace": 3,
+    "file": "slot (1..5)",
+    "erase_opcode": "02",
+    "write_opcode": "03",
+    "validate_opcode": "A6",
+    "activation_opcode": "13",
+    "persistent_settings_opcode": "28",
+    "battery_opcode": "92",
+    "receiver_copy_written": false
+  }
 }

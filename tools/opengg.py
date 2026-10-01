@@ -196,7 +196,7 @@ def live_reports(original, edits):
 
 
 class Receiver:
-    def __init__(self, log=None, delay_ms=31):
+    def __init__(self, log=None, delay_ms=31, product_id=None):
         import hid
         if not math.isfinite(delay_ms) or not 1 <= delay_ms <= 1000:
             raise ValueError('Report interval must be between 1 and 1000 ms.')
@@ -204,9 +204,13 @@ class Receiver:
         conflicts = ['SteelSeriesEngine.exe','SteelSeriesPrism.exe','OneRGB.exe','OpenGG.exe','OpenRGB.exe','SignalRgb.exe']
         if any(f'"{name.lower()}"' in running.stdout.lower() for name in conflicts):
             raise RuntimeError('Close GG, OneRGB and other keyboard/RGB controllers before using this external CLI.')
-        devices = [d for d in hid.enumerate(0x1038,0x1644) if d['usage_page']==0xffc0 and d['usage']==1 and d['interface_number']==3]
+        if product_id not in (None,0x1644,0x1646):
+            raise ValueError('Only the verified wireless Gen 3 receiver 0x1644 and USB cable 0x1646 are supported.')
+        available = [d for d in hid.enumerate(0x1038,0) if d['product_id'] in (0x1644,0x1646) and d['usage_page']==0xffc0 and d['usage']==1 and d['interface_number']==3]
+        self.product_id = product_id or (0x1646 if any(d['product_id']==0x1646 for d in available) else 0x1644)
+        devices = [d for d in available if d['product_id']==self.product_id]
         if len(devices) != 1:
-            raise RuntimeError('Expected exactly one 1038:1644 / MI_03 / FFC0:0001 receiver.')
+            raise RuntimeError(f'Expected exactly one 1038:{self.product_id:04X} / MI_03 / FFC0:0001 transport.')
         self.device = hid.device()
         self.device.open_path(devices[0]['path'])
         self.device.set_nonblocking(1)
@@ -227,11 +231,15 @@ class Receiver:
         size = 642 if feature else 65
         if not 2 <= len(report) <= size or report[0] != 0:
             raise ValueError('Invalid report size or report ID; no write attempted.')
-        if feature and report[1] == 0x61:
+        cable = getattr(self,'product_id',0x1644)==0x1646
+        if cable and report[1] in (0x53,0x68,0x6f,0x76,0x77,0x4a,0x4b,0xe6):
+            report = report[:1] + bytes([report[1] & ~0x40]) + report[2:]
+        lighting = 0x21 if cable else 0x61
+        if feature and report[1] == lighting:
             self.rgb_released = False
-        if report[1] != 0x61 and not self.rgb_released:
+        if report[1] != lighting and not self.rgb_released:
             # Release any temporary RGB left by a controller that has already closed. No ACK for 0x62.
-            release = bytes([0,0x62]) + bytes(63)
+            release = bytes([0,0x22 if cable else 0x62]) + bytes(63)
             self.record('out',release)
             if self.device.write(release) != len(release):
                 raise RuntimeError('Incomplete RGB release; no profile command attempted.')
@@ -262,7 +270,8 @@ class Receiver:
             raise ValueError('Slot must be 1..5.')
         parts = []
         for offset in range(0,SIZE,CHUNK):
-            self.request(bytes([0,0x83,1,10+slot])+struct.pack('<HI',CHUNK,offset),True)
+            cable = getattr(self,'product_id',0x1644)==0x1646
+            self.request(bytes([0,0x83,3 if cable else 1,slot if cable else 10+slot])+struct.pack('<HI',CHUNK,offset),True)
             reply = bytes(self.device.get_feature_report(0,642))
             self.record('feature-in',reply)
             if len(reply) != 642 or reply[:3] != b'\x00\x83\x00':
@@ -282,7 +291,8 @@ class Receiver:
         backup.write_bytes(original)
         try:
             # Erase ACKs take longer than normal reports. Each block needs its own ACK.
-            for namespace, file_id, begin, write in [(3,slot,0x42,0x43),(1,10+slot,2,3)]:
+            targets = [(3,slot,2,3)] if getattr(self,'product_id',0x1644)==0x1646 else [(3,slot,0x42,0x43),(1,10+slot,2,3)]
+            for namespace, file_id, begin, write in targets:
                 self.request(bytes([0,begin,namespace,file_id]))
                 for offset in range(0,SIZE,CHUNK):
                     self.request(bytes([0,write,namespace,file_id])+struct.pack('<HI',CHUNK,offset)+blob[offset:offset+CHUNK],True)
@@ -304,6 +314,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation',choices=['read','edit','write','load','live'])
     parser.add_argument('--slot',type=int,choices=range(1,6),default=2)
+    parser.add_argument('--pid',type=lambda value:int(value,0),choices=[0x1644,0x1646],help='Choose receiver 0x1644 or USB cable 0x1646; default prefers cable.')
     parser.add_argument('--profile',type=Path,help='Binary profile file (read output / edit input / write input).')
     parser.add_argument('--edits',type=Path,help='JSON settings; edit operates offline.')
     parser.add_argument('--expected',type=Path,help='Baseline profile to compare before erasing (recommended for write).')
@@ -324,7 +335,7 @@ def main():
         parser.error('live needs --edits (actuation/rt only)')
     blob = args.profile.read_bytes() if args.operation == 'write' else None
     if blob is not None: validate(blob)
-    device = Receiver(args.log,args.delay_ms)
+    device = Receiver(args.log,args.delay_ms,args.pid)
     try:
         if args.operation == 'read':
             blob = device.read(args.slot)

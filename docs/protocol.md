@@ -1,6 +1,6 @@
 # Apex Pro TKL Wireless Gen 3 protocol
 
-This specification records the tested receiver transport: **VID `1038`, PID `1644`, interface 3, usage page `FFC0`, usage `0001`, feature length 642 and input/output length 65**, keyboard firmware 3.24.1 and profile schema 19. Other identities and firmware/schema combinations require validation. Cable `1646` and wired `1642` occur in prior RGB identification code; their advanced profile protocol is not authorized by these tests.
+This specification records two tested transports for the **Apex Pro TKL Wireless Gen 3**: receiver **VID `1038`, PID `1644`** and the same wireless keyboard connected by **USB cable, PID `1646`**. Both use interface 3, usage page `FFC0`, usage `0001`, feature length 642 and input/output length 65. Keyboard firmware is 3.24.1 and profile schema 19. The separate wired-only `1642` model, Bluetooth and other identities remain unvalidated.
 
 ## Windows reports and replies
 
@@ -8,7 +8,29 @@ Windows buffers include report ID `00`. Pad feature buffers to **642 bytes** and
 
 For configuration/file commands, status zero means accepted. Arm the pending response before sending; match the opcode, ignore unrelated reports and stop on a nonzero status or timeout. Five seconds allows slower erase operations. The minimum configuration start interval is **31 ms**, subtracting time already spent waiting for the reply. This is exposed as `ApexHidLink.ProfileReportInterval` and CLI `--delay-ms`; it is not an assumed universal radio timing constant.
 
-Telemetry differs: in replies to `BC` and `D2`, byte 2 is **data**, not a success status. `00 BC 01` says the keyboard is connected to the receiver. Battery bytes are retained raw; the inherited percentage scale has not been independently calibrated.
+Telemetry differs: in replies to `BC`, `D2` and USB `92`, byte 2 is **data**, not a success status. `00 BC 01` says the keyboard is connected to the receiver. Battery bytes are retained raw; the inherited percentage scale has not been independently calibrated.
+
+## USB cable commands and direct storage
+
+USB is a separate transport with a distinct Windows Container ID and PID. Sending the receiver's command bytes to that channel caused the cable failure. The tested direct commands are:
+
+| Operation | Receiver `1644` | USB `1646` |
+|---|---|---|
+| Temporary RGB / release | `61` / `62` | `21` / `22` |
+| Actuation | `6F` | `2F` |
+| Rapid Trigger enable / sensitivity | `76` / `77` | `36` / `37` |
+| OLED overlay / reset | `4A` / `4B` | `0A` / `0B` |
+| Activate / use persistent settings | `53` / `68` | `13` / `28` |
+| Validate profile | `E6` | `A6` |
+| Battery | `D2` after `BC` connection | Direct `92`; no receiver `BC` query |
+| Read profile | `83`, namespace 1, file `10 + slot` | `83`, namespace 3, file `slot` |
+| Erase / write direct keyboard copy | Tunnel `42` / `43`, namespace 3 | Direct `02` / `03`, namespace 3 |
+
+Only the explicit validated command families are translated. Clearing bit `40` on every opcode would corrupt commands such as `83`, which retains its opcode. Slot indices remain 1–5 for file operations and 0–4 for activation/validation. Protection, Rapid Tap and action mappings use the verified profile fields; their standalone USB live opcodes were not guessed.
+
+On the real cable, `83` namespace 1/file 12 returned status 5. Namespace 3/file 2 returned all 24 valid blocks and the same current profile SHA256 as the receiver. A backed-up USB save therefore reads namespace 3, checks the baseline, erases with `02`, writes 24 `03` blocks, validates with `A6` and compares all 12,288 bytes from the keyboard. It does not rewrite the receiver cache.
+
+The USB transaction was tested by re-writing slot 5 with its existing bytes, then checking exact keyboard readback and unchanged slot 2. The separate live test sent `2F` under continuous `21` RGB in 0.144309 s and reloaded the stored slot in `finally`. Temporary `0A` OLED sending and `0B` background restoration both returned ACK zero. See [verification](verification.md) for boundaries and hashes.
 
 ## Shared channel and temporary RGB
 
@@ -100,7 +122,7 @@ sequenceDiagram
 
 The native editor first checks the current stored bytes against its read baseline. Edits patch a copy and preserve all untouched fields. Before any erase, save the current original binary. If any operation fails, stop and report the backup path and the possibility of an incomplete write. No automatic flash retry or unrequested rollback runs.
 
-The two destinations are **not atomic**. Receiver readback verifies the receiver's stored copy; keyboard acceptance is supported by its block/validation ACKs. The attempted `C3` tunneled keyboard read was rejected and is not used. Power-cycle retention and independent keyboard-flash readback were not established.
+The two wireless destinations are **not atomic**. Receiver readback verifies the receiver's stored copy; keyboard acceptance is supported by its block/validation ACKs. The attempted `C3` tunneled keyboard read was rejected and is not used. Power-cycle retention was not established. Independent keyboard-flash readback is now available over the tested USB namespace-3 path above; this does not establish receiver-cache synchronization.
 
 ## OLED pixels
 

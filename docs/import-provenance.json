@@ -32,7 +32,7 @@
     "source_sha256": "240217af2c5c2b32feeb8d6be6ae0b363f4625a38814a5f2c13e78f965db5402",
     "destination": "src/OpenGG.Core/Application/Commands/Shortcuts.cs",
     "adapted": true,
-    "destination_sha256": "5ca80593eb0d8d243e0e0fdb812b2f8b99acb9efbb5b0c2b80f88f9613c34645"
+    "destination_sha256": "fa841db7d613dc7e4c2090eb908fb9145412da5aa872fc974baa791c56cf8c60"
   },
   {
     "source": "src/OneRGB.Application/Commands/VirtualKeys.cs",
@@ -46,7 +46,7 @@
     "source_sha256": "a197483138b9564f19d4204af79e789af436fc948894aaf393d79a215fadf6cb",
     "destination": "src/OpenGG.Core/Application/Lighting/Rgb.cs",
     "adapted": true,
-    "destination_sha256": "a197483138b9564f19d4204af79e789af436fc948894aaf393d79a215fadf6cb"
+    "destination_sha256": "739947b454f7f992d4cbd4770dfc37a106d641a382605a38fa2bd316925a3fae"
   },
   {
     "source": "src/OneRGB.Application/Lighting/LightingEffects.cs",
@@ -60,28 +60,28 @@
     "source_sha256": "a07a3dc2249e75bb5cd9c9e2f6b5543b7939307d1b717bec15acd8b420a22008",
     "destination": "src/OpenGG.Core/Application/Lighting/Spatial/LedMaps.cs",
     "adapted": true,
-    "destination_sha256": "e92111247f5fcdf100b40bbe5d4787c1d83f20b56cb53485f8d4ac2304ef872e"
+    "destination_sha256": "ce2e625a4f8a81c890f612e8dbb209edb9ec4f4ab3146c3a7fba3c8703523001"
   },
   {
     "source": "src/OneRGB.Application/Integrations/Integration.cs",
     "source_sha256": "1c40323f756e9d96238a8a8499034bd45db0a125756605defa301c1a3e911471",
     "destination": "src/OpenGG.Core/Application/Integrations/Integration.cs",
     "adapted": true,
-    "destination_sha256": "d3d4cd9fb2d2f42738d06e48df0ccd3d0645631d7c24430a12a5955a1df4de40"
+    "destination_sha256": "996159eff340b915eebe3c666a7244fa8100a77c181e94eec3f09a2e5995681b"
   },
   {
     "source": "src/OneRGB.Application/Integrations/DeviceErrors.cs",
     "source_sha256": "ba6c73d37f90de2cea1da6470b2f812fae6780775927815d0f0040ffa99c5f85",
     "destination": "src/OpenGG.Core/Application/Integrations/DeviceErrors.cs",
     "adapted": true,
-    "destination_sha256": "1b677b52a129784cf59387531e1427e584c0640e85b2cb5cfd0d9626d9f0a7b5"
+    "destination_sha256": "23d2989c38680e664552153296b754c54a6193d0464164e10a9743216621e842"
   },
   {
     "source": "src/OneRGB.Windows/HidEnumerator.cs",
     "source_sha256": "06a6636ad2b4b44323e89de7d73accec3c2d37853855259e8eda3863f275499e",
     "destination": "src/OpenGG.Core/Windows/HidEnumerator.cs",
     "adapted": true,
-    "destination_sha256": "d5b1734b12c4cbd5774905b1c11310c69090955031172c5e45254c25e9b5fa9b"
+    "destination_sha256": "466a7e7738e62c6f894f1999c1e10f8d6d73f554782883ed6c81a1691a62c344"
   },
   {
     "source": "src/OneRGB.Windows/Interop/NativeMethods.cs",
@@ -95,28 +95,32 @@
     "source_sha256": "eeb6b85ac3a70a0c6b7bfaf5504b34f3a74c4c477c9e515cddf6ae1358d6c02c",
     "destination": "src/OpenGG.Core/Hardware/Native/HidWriter.cs",
     "adapted": true,
-    "destination_sha256": "3939f25c75f5da62dd5777006645c2ab04b03ffb85f1e905f71ded2feb8edf39"
+    "destination_sha256": "d3180764ee7023faa2cb237e8573a1f4c53b1e71859c8d316eda3b166bfc0d88"
   },
   {
     "source": "src/OneRGB.Hardware/Native/HidChannel.cs",
     "source_sha256": "fc671123189fb5aae4422d650bf4137f86603cf184928e409324b9f36828ad41",
     "destination": "src/OpenGG.Core/Hardware/Native/HidChannel.cs",
     "adapted": true,
-    "destination_sha256": "f27b4fe80ca485f6544ea70089131da9e612220c301dd5212eda357e7daeac26"
+    "destination_sha256": "e4d94e5030d609d1158eaf2f9dd18f70a388314eeeb2822f76b2a89498ddead2"
   },
   {
     "source": "src/OneRGB.Hardware/Native/ApexHidLink.cs",
     "source_sha256": "09e4dd133a1d5dc106bc3d5f22037d6098c1a4c60e22301e544514ff2bb4b9f9",
     "destination": "src/OpenGG.Core/Hardware/Native/ApexHidLink.cs",
     "adapted": true,
-    "destination_sha256": "0c2bda6590f732e6af2376f3160e7832be35e21d8c784f61552b7abca7975b9e"
+    "destination_sha256": "b43df23ef4c6cedb3f1a5dbc434d05d14e8c3a128b95a8925edd932d1159ffc6",
+    "source_current_sha256": "b43df23ef4c6cedb3f1a5dbc434d05d14e8c3a128b95a8925edd932d1159ffc6",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Hardware/Integrations/ApexKeyboardIntegration.cs",
     "source_sha256": "4513c4022679d96d697f9c901086961fd842b940c75ee99a96ba1205da06f7d2",
     "destination": "src/OpenGG.Core/Hardware/Integrations/ApexKeyboardIntegration.cs",
     "adapted": true,
-    "destination_sha256": "807824a617d1dff20cb39231a4ff89f070c84d7d93b9cc75a822fefe3bc12c39"
+    "destination_sha256": "a2e3a84ab06306b4e7e1079d3cd879551e4dcc03c42e3557a707992c20210589",
+    "source_current_sha256": "157185046b200e85873f2e572eefedab7440877af15256ccbafe7204779e0108",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Domain/Capabilities.cs",
@@ -137,77 +141,77 @@
     "source_sha256": "0a903fcf9050956dc6a1882bda68c54897878cc1ef2ec2525f8f98e6f6c2a647",
     "destination": "src/OpenGG.Core/Domain/Mccs.cs",
     "adapted": true,
-    "destination_sha256": "e43abe191987baa1dc7cb4a636820440fbfaaec85607ca2c1d3356b18e2274c0"
+    "destination_sha256": "ce10371297021e9cb9ae891709991292105a531b2e21c44737b826aff5b77bb0"
   },
   {
     "source": "src/OneRGB.Domain/Parity.cs",
     "source_sha256": "25ab51e56f01aa544e96cfc20732c7f8c2196bfb18617fc5377ab0f6fe43945d",
     "destination": "src/OpenGG.Core/Domain/Parity.cs",
     "adapted": true,
-    "destination_sha256": "d1c68da530da1dcca54e39cb223c1c906caa672edfaf5cb7f9c4614ceb97a6d1"
+    "destination_sha256": "2044861305ca7baace4cec7ab78629afc8722c24eb17ca21f323701e4b11cc73"
   },
   {
     "source": "src/OneRGB.Application/Control/ActivityFeed.cs",
     "source_sha256": "cbffe52b973ddfd07c0ecc1d870364fa00c01f17cd980a4220978426416c216c",
     "destination": "src/OpenGG.Core/Application/Control/ActivityFeed.cs",
     "adapted": true,
-    "destination_sha256": "17961471b35d91638ec1dabbbf36ccec1ddbaabf0335e750d7bdd8ce5d28036c"
+    "destination_sha256": "e64651883e5a6a12866ca34064f55c78ae8ed86fccfe0031fdc798f4e0034020"
   },
   {
     "source": "src/OneRGB.Application/Control/ControlFeedback.cs",
     "source_sha256": "f3fb31465e9e39e48dc0b84cc6bae41a42f85e71dd4eaa0c001d52d4c483a972",
     "destination": "src/OpenGG.Core/Application/Control/ControlFeedback.cs",
     "adapted": true,
-    "destination_sha256": "f386b2a185c150f77f02fb57a645055dda9b721d9942f011e04d7289b55370ed"
+    "destination_sha256": "8361800514af5a58d202e5d785ba831e2eec5165771bd3311474ead2b6c87a08"
   },
   {
     "source": "src/OneRGB.Application/Control/ControlJson.cs",
     "source_sha256": "a75fdcf800430960d0e74c14338d9bddaa550cf98746a03354bae5215dd346d1",
     "destination": "src/OpenGG.Core/Application/Control/ControlJson.cs",
     "adapted": true,
-    "destination_sha256": "9e1f363998e9c8a4aadca0567deae49be2f8b97c2ead8fbe7f7e4973e8da3037"
+    "destination_sha256": "84f7b94ff72ccf4698f8eafe6d2661513e2d443bc9ded64648105a163911ea82"
   },
   {
     "source": "src/OneRGB.Application/Control/ControlModel.cs",
     "source_sha256": "702166c6162df84c76cab89aed6e9f9107469596adf790de55acaad48c6161dc",
     "destination": "src/OpenGG.Core/Application/Control/ControlModel.cs",
     "adapted": true,
-    "destination_sha256": "702166c6162df84c76cab89aed6e9f9107469596adf790de55acaad48c6161dc"
+    "destination_sha256": "813dc4375f1a08f6fe4d3f59a52413eeea44bf609a78d4a0ce54e838e6d6b55f"
   },
   {
     "source": "src/OneRGB.Application/Control/ControlService.cs",
     "source_sha256": "4b5899ef62e60919ce5fad08132895f86916a93366c28cb58f84a2d51cec9638",
     "destination": "src/OpenGG.Core/Application/Control/ControlService.cs",
     "adapted": true,
-    "destination_sha256": "4b5899ef62e60919ce5fad08132895f86916a93366c28cb58f84a2d51cec9638"
+    "destination_sha256": "6cb56ecb79ba3a7550fdeb098e01bf63b645e551ab4a7f301b54d00eb87002c7"
   },
   {
     "source": "src/OneRGB.Application/Control/ControlValidation.cs",
     "source_sha256": "16491e57489312e2efdf37b1ebdeb90bbfbed3b746d8abd13dbd90a7581be16e",
     "destination": "src/OpenGG.Core/Application/Control/ControlValidation.cs",
     "adapted": true,
-    "destination_sha256": "550dd4f8c6f41af6c0004f18eb84fdabfb78ea8e32355894462d97088a3ed1f4"
+    "destination_sha256": "37f1aa8e99a13ab6ceba6237a7d531979395ff12b3cb7ea0f654f6ce8827fccb"
   },
   {
     "source": "src/OneRGB.Application/Control/OperationJournal.cs",
     "source_sha256": "00e85fe923df98466a1a06783a51058c9b8ac403dfa80d8a7141073a8b7a9ba2",
     "destination": "src/OpenGG.Core/Application/Control/OperationJournal.cs",
     "adapted": true,
-    "destination_sha256": "00e85fe923df98466a1a06783a51058c9b8ac403dfa80d8a7141073a8b7a9ba2"
+    "destination_sha256": "19f7975143e4b62070e3499b7263c9c875fba8a9a82c9efe21e3e7edda1ecd0f"
   },
   {
     "source": "src/OneRGB.Application/Control/Ownership.cs",
     "source_sha256": "a64b25d649e6015d948738abc2bca53493fb2508b4dd73e0550fe2a23c152a43",
     "destination": "src/OpenGG.Core/Application/Control/Ownership.cs",
     "adapted": true,
-    "destination_sha256": "a64b25d649e6015d948738abc2bca53493fb2508b4dd73e0550fe2a23c152a43"
+    "destination_sha256": "ac9361d4b93e5836713b9a5d98f48f1eebc143b07d9bd7ba9087875a69b24983"
   },
   {
     "source": "src/OneRGB.Application/Control/StateMachines.cs",
     "source_sha256": "c6d2cd67659d142220155e76cb7966b1d0886410b24a9ee7b256a7ef225c388b",
     "destination": "src/OpenGG.Core/Application/Control/StateMachines.cs",
     "adapted": true,
-    "destination_sha256": "ba6d13d5ea874d564e920820d6c24a966af57b30905e4301b19a7598195a411e"
+    "destination_sha256": "d550a2898048c6cf8f001209f261f44d83ef9d4cb9697101612a5584915c1285"
   },
   {
     "source": "src/OneRGB.Application/Profiles/DeviceProfiles.cs",
@@ -221,21 +225,21 @@
     "source_sha256": "7b31b4ff727911defbb9fd7ea95002c5bb3f173be1edd38f13e88eb36255214f",
     "destination": "src/OpenGG.Core/Application/Profiles/ProfileManager.cs",
     "adapted": true,
-    "destination_sha256": "fc2d17453b1099ce9eb74dfc1d0bdc46a406b1410270577d4a9b9b5cfe479287"
+    "destination_sha256": "80ecc25b277b040326088acb674db06476348fd1c900eafb4c134825444255fb"
   },
   {
     "source": "src/OneRGB.Application/Profiles/ProfileModel.cs",
     "source_sha256": "ae3f9fe09bfaee4b9bcb20ad0c0ba7831df15c60ebe5fbd42bbf33e3b598b3c7",
     "destination": "src/OpenGG.Core/Application/Profiles/ProfileModel.cs",
     "adapted": true,
-    "destination_sha256": "52f4de82b3bf33e955d112cccc5de6895377341263c798c44d9c6dcc7128f007"
+    "destination_sha256": "dc2c1b538d441ead75f12478308f1c073aaa199dbcfb265f6e16618e69652be3"
   },
   {
     "source": "src/OneRGB.Application/Profiles/ProfileResolution.cs",
     "source_sha256": "9d506bc3e7c72981676b3407d73224a24aa7cc3bfb3ac83325866cf36c0665b1",
     "destination": "src/OpenGG.Core/Application/Profiles/ProfileResolution.cs",
     "adapted": true,
-    "destination_sha256": "b4431086811d7281c4d31316d5c4ce68385936ad7973f34e2df906d7efbe8817"
+    "destination_sha256": "f5df29aed6c1b8ac9ad9596afd727b95409f8f7a3dfe70a4d72dd3b281fbc68d"
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/AnalogKeySimulator.cs",
@@ -249,84 +253,102 @@
     "source_sha256": "007f70fffca841f91d8f2759b94263172f08cd5963b136b10650a0aa06ed197e",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/ApexLive.cs",
     "adapted": true,
-    "destination_sha256": "007f70fffca841f91d8f2759b94263172f08cd5963b136b10650a0aa06ed197e"
+    "destination_sha256": "ad246c37e19f722831b10b5e7456b8898395b0e66389a640d3f0d1720f05ce8d"
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/ApexProfile.cs",
     "source_sha256": "8b2f23bd6963086b7683da78ba87b034e6503108a53232d2864cd64d9d11dec1",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/ApexProfile.cs",
     "adapted": true,
-    "destination_sha256": "cd46b8156853479fac955be1db36cd24ae90c5a1c1010e655b93ad6fcb06ea90"
+    "destination_sha256": "d3bce0b6611c48f578a28ba20d35b05ed5f03f363942c4fc23fdef39888f5a96",
+    "source_current_sha256": "d3bce0b6611c48f578a28ba20d35b05ed5f03f363942c4fc23fdef39888f5a96",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/ApexProtocol.cs",
     "source_sha256": "b05bbb56e322a39f9f20eecfc8c0754e647eee3c030e2e54c49cd9501ea7cce7",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/ApexProtocol.cs",
     "adapted": true,
-    "destination_sha256": "e7442157864f4186c8970fd2e7d4ff722004ef3d5df407a2fa671573dd58a418"
+    "destination_sha256": "437192594326cbfab57684491ff2e781c95b687ed0f5b76f1521a5efd153f9cb",
+    "source_current_sha256": "437192594326cbfab57684491ff2e781c95b687ed0f5b76f1521a5efd153f9cb",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/KeyboardConfig.cs",
     "source_sha256": "53dc22a277a931517434eba4353983d0a14ed06e9f417b51b474bc1593fc31d3",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/KeyboardConfig.cs",
     "adapted": true,
-    "destination_sha256": "fc6bb83262dfe2a77690aafbd9e62e674233ee2df8bdd576b15a6b56b91a7d5d"
+    "destination_sha256": "319c45d3f8571007b81201716df96ff96f976151301260947809374461da3ca0",
+    "source_current_sha256": "319c45d3f8571007b81201716df96ff96f976151301260947809374461da3ca0",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/KeyboardModel.cs",
     "source_sha256": "d84ea333974ad38587619b317b29166e6f8d152fda8dde394867c8e5c8b79a20",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/KeyboardModel.cs",
     "adapted": true,
-    "destination_sha256": "75355fde9be156c1a8c18af516a584340f48de5272943bd4ade6454697a8954d"
+    "destination_sha256": "f9920caea09b95d71fb57aa7d5a0bb0778fc6bf1de20610a1fb3389df264cfb6",
+    "source_current_sha256": "f9920caea09b95d71fb57aa7d5a0bb0778fc6bf1de20610a1fb3389df264cfb6",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/KeyboardRules.cs",
     "source_sha256": "aab9cad475a3aa345009b1f8d001a80179e20f5da75500836b9f7d15ab9ad6fc",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/KeyboardRules.cs",
     "adapted": true,
-    "destination_sha256": "3bf595626d16261e375cabb801344db37a7ea76cb05a70344c7fd6f7546e5786"
+    "destination_sha256": "c389549ec0d79c3e01a379917f9c24dc644b9ea84cbded67be799a450a5f25eb",
+    "source_current_sha256": "c389549ec0d79c3e01a379917f9c24dc644b9ea84cbded67be799a450a5f25eb",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Keyboard/Oled.cs",
     "source_sha256": "426f8575935f490e17fab6dc1965fa33abeca15c155ba96ccd6c65827d5120cd",
     "destination": "src/OpenGG.Core/Application/Devices/Keyboard/Oled.cs",
     "adapted": true,
-    "destination_sha256": "e77b246eef849981ec6e21526c5126f7b50f480d0d79803387298c15174b6490"
+    "destination_sha256": "721ea4274b4d767666942f5efd544297d47c0b2a120be85045614de8dffd34ae",
+    "source_current_sha256": "c14374c9ec02e6ac410fdf134016ced79b02ef1e825818a5ccc01b218b20ac53",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Application/Devices/Input/InputActions.cs",
     "source_sha256": "c4dee2a3500d410c91faf986976e3817a4833943baff5355cee8a4bdeb39a076",
     "destination": "src/OpenGG.Core/Application/Devices/Input/InputActions.cs",
     "adapted": true,
-    "destination_sha256": "3e0e05c0788ba1c50f1cbaf98d274d67558874e9239927925d24551db4fe1320"
+    "destination_sha256": "f3cf3de7445f627052b023144383fc4440cd4684aafd05705b6f30da691d86de"
   },
   {
     "source": "src/OneRGB.Application/Devices/Input/Macros.cs",
     "source_sha256": "79c9c168844ecaea790b0dcee9b8d94dc31cc9973af1699fc7c48abad3f4ba6a",
     "destination": "src/OpenGG.Core/Application/Devices/Input/Macros.cs",
     "adapted": true,
-    "destination_sha256": "3c7efa2d2be4a1d342776cab6095a8a4ba8891f3a5b9dae4849a5f7ed9a30df8"
+    "destination_sha256": "9c9e649b41888bfdc0a643eb9cd656b2720f43abf6290203a16e47d39ee14e94"
   },
   {
     "source": "src/OneRGB.Hardware/Lighting/ApexLighting.cs",
     "source_sha256": "7c5709ba37b38dcdbe04c7a619fddfc171e1082374c0111caa97046dae3a0efe",
     "destination": "src/OpenGG.Core/Hardware/Lighting/ApexLighting.cs",
     "adapted": false,
-    "destination_sha256": "20365c8132b10dbbd7397d74ae7ba5c246eb3b4e921040fd9600326800cabddc"
+    "destination_sha256": "14505ff5763f43aca0a989eac0320095361dec29c4379f57f289a1c9bd876cfc",
+    "source_current_sha256": "27f72451dabf081b6077c00468edeef9e592d750ad8c7c17ef198a6d7fe79775",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Mvvm/Mvvm.cs",
     "source_sha256": "91dc6e26fb110a8d7c6a0cf49c8a18808e4f2d74763b7a1bf33733d122a85f28",
     "destination": "src/OpenGG.Desktop/Mvvm/Mvvm.cs",
     "adapted": true,
-    "destination_sha256": "ec763a15aec91c39ae82774f781eae654a84410c6e570340bacd9487227eeded"
+    "destination_sha256": "ec763a15aec91c39ae82774f781eae654a84410c6e570340bacd9487227eeded",
+    "source_current_sha256": "e6ec734c8226ecff4ada5ca059819e5d63ab967fc079ff4c669be8d0ad9aa3d5",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Controls/ApexKeyboard.cs",
     "source_sha256": "2413e62a3cf72a661bdf317828b2dbe5552a9a801dc37632240a34b2468bb21b",
     "destination": "src/OpenGG.Desktop/Controls/ApexKeyboard.cs",
     "adapted": true,
-    "destination_sha256": "f19a2a78ab2d4834ce0e1ead5e9d8e7e52cfeaebf36851642f5d2d5a9ffef425"
+    "destination_sha256": "fcf6cf6ff6cedfb941d67bd2fb70ecb269e1dd8699d869f65e4834e0ed7f2281",
+    "source_current_sha256": "03f001fe998b3b89b497ef3b54a065f262617908d7eaf0a68659e3d76741f2aa",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Controls/LightingVisualEngine.cs",
@@ -347,7 +369,9 @@
     "source_sha256": "29b353f989c8a0bf5f89e579960896dff4d538f1cbe49ebde24f1c1d39f912d7",
     "destination": "src/OpenGG.Desktop/Controls/Motion.cs",
     "adapted": true,
-    "destination_sha256": "119c9a1fd23f3481fad13e63b3ef5a6d4b19935a43f10c51f5b26627849dff4e"
+    "destination_sha256": "52e843855e1ab0e1c3f98c72788b51452c28e1f08b6caec82961b45598d16f27",
+    "source_current_sha256": "32e05dfdf2abbd4b199a1996d6d3e803e20b83bb168c20968c25f0cc00564e90",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Controls/Icon.cs",
@@ -361,7 +385,7 @@
     "source_sha256": "73a0b0530e523b4d2124612f08ea0021ca000a74ae54c9aa55c93fe7c88beedd",
     "destination": "src/OpenGG.Desktop/Controls/Inputs.cs",
     "adapted": true,
-    "destination_sha256": "a6acaeb1101f7adfa3b1239d25adf501fc726f6fa83ecc1b0d8276e1d169e863"
+    "destination_sha256": "50124c5680e3cf022f49d42a5a8cf273a06dd876f74858f5bafc0313411ae03b"
   },
   {
     "source": "src/OneRGB.Desktop/Controls/ResponsiveGrid.cs",
@@ -396,7 +420,7 @@
     "source_sha256": "9a55e192823a90a3e04625adb27593f6a8260e8c6cee3c5e8523fc2652e5df9e",
     "destination": "src/OpenGG.Desktop/Controls/Indicators.cs",
     "adapted": true,
-    "destination_sha256": "b423647afa1943214578941c9da12ec96642f371d029b36f54673d51640838b4"
+    "destination_sha256": "813d628ea062301ae93180a2d32d0ebd6ef4afe21362902de114118ed46ba584"
   },
   {
     "source": "src/OneRGB.Desktop/Controls/ScrollBehavior.cs",
@@ -410,21 +434,27 @@
     "source_sha256": "d024123ef0f8f0410e481ba297d46075da7ea95a631b38767b36ce10d8ec98f3",
     "destination": "src/OpenGG.Desktop/ViewModels/KeyboardViewModel.cs",
     "adapted": true,
-    "destination_sha256": "0a0cb428ce418c013b9551e41bdfe02bf54b7ed2eb7dc496d7d7e52e9bce5c38"
+    "destination_sha256": "b85b8e93a705502481514c3641b3f4cb35b0b58d232627ce73648a068cc806da",
+    "source_current_sha256": "032b96628468597a2fb3edea50032e6f28447c6c77f9b85b16295e70df1a37ab",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/ViewModels/DeviceEditorViewModel.cs",
     "source_sha256": "5d4d74d5bdaeeb479717ccf6b2d422375185a4dbf446d611ece9ce1d60def6cd",
     "destination": "src/OpenGG.Desktop/ViewModels/DeviceEditorViewModel.cs",
     "adapted": true,
-    "destination_sha256": "07d23c7451e864efc53e7edf8e1ea0bd60b5f7b3d08cac4758efc9442b182d09"
+    "destination_sha256": "5d3c997fd54a787f825cd91d915c25917baba0867a81fceb024bddff98ef7b91",
+    "source_current_sha256": "936d032f68fa767be5fb42110ae08a77e12d07677bb6795658c6341d39b2455a",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Views/Pages/KeyboardPage.xaml",
     "source_sha256": "4e147543b88b717213ea10b7b599fa981fd552d3c059fa4d32a23c46690a6930",
     "destination": "src/OpenGG.Desktop/Views/Pages/KeyboardPage.xaml",
     "adapted": true,
-    "destination_sha256": "5a7cba5c09c5cd045a40823ab98be5db9f379b67862641f1178488b7720f1ab5"
+    "destination_sha256": "40bd88095f46a03f7f4b66fe54c53e441ee97fcbc20bd888fe7385c0603594ff",
+    "source_current_sha256": "bc8736f86e253cab8bbbe877bf2d3fa1710dbf2c6067a4e0de93405cf9e001f1",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Views/Pages/KeyboardPage.xaml.cs",
@@ -438,7 +468,9 @@
     "source_sha256": "86368d18e7d1d8139e431503c29749fa881318ef491f5015fa7274cec2411a37",
     "destination": "src/OpenGG.Desktop/Views/Pages/ApexLightingPage.xaml",
     "adapted": true,
-    "destination_sha256": "b4031c65375eedcc422523269ef6f2ad0b319e12ffbc4e7af4fda7f038aa6896"
+    "destination_sha256": "f403a7a7143aaf50d297d9069bc4b0b3b788767ed9c537c1ecf4fa16fb64f57c",
+    "source_current_sha256": "ce0f361f75e37a72042bdadc22d5b93785b3a2bc3d7c3138cd21ee3c17b7fd6a",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Views/Pages/ApexLightingPage.xaml.cs",
@@ -564,14 +596,14 @@
     "source_sha256": "17a53d88481f0f053d721ebc8e33fe1c7626fbd4898380da32050ca0dffcd781",
     "destination": "src/OpenGG.Core/Hardware/Audio/LoopbackCapture.cs",
     "adapted": true,
-    "destination_sha256": "0fab8dc2f195dc883f5be401323a51028d2a2274e3e0c3b9d4a3b2f1ea1dd798"
+    "destination_sha256": "5f8a73691b36c0d299859cb48ee2f6993cc359b84cedc47473b246c022db6f69"
   },
   {
     "source": "src/OneRGB.Hardware/Integrations/HidPeripherals.cs",
     "source_sha256": "b6483ea934b0ee691d041fa48e6db853f568070d560dbd503c87472b7f7b9605",
     "destination": "src/OpenGG.Core/Hardware/Integrations/HidAdapter.cs",
     "adapted": true,
-    "destination_sha256": "652fa77b1e34f95f27719a080e3203c2622823b321f212252664232d9518e37b"
+    "destination_sha256": "5548571b5403e61805e2ddcf23c5ac12114cd4c992550890f98ca43e81241048"
   },
   {
     "source": "src/OneRGB.Application/Lighting/Spatial/SpatialLightingEngine.cs",
@@ -592,14 +624,16 @@
     "source_sha256": "c45568b3726831ee94d6feb7f0ea0da9f7caa51193d0439cbf75b9047b042fe9",
     "destination": "src/OpenGG.Desktop/Theme/Controls.xaml",
     "adapted": true,
-    "destination_sha256": "fe3589b75670db56870322221140312f7a3a49acdf0534583c2ca8e40a51a143"
+    "destination_sha256": "e741d55dd9a6a552bed7d866553d4cd872811922e51fe1dca079bc218172de70",
+    "source_current_sha256": "4c0de594cd203b9632897ca08cc85d6297cf03d21e5e6b5935b05a047d09b62b",
+    "source_note": "Original extraction hash preserved; OneRGB source subsequently updated by the authorized Apex backport on 2026-10-01."
   },
   {
     "source": "src/OneRGB.Desktop/Theme/Templates.xaml",
     "source_sha256": "0e212b61adce99b3d18007fa6538ed41f404985e96d01e6c6be14f674a30ef8e",
     "destination": "src/OpenGG.Desktop/Theme/Templates.xaml",
     "adapted": true,
-    "destination_sha256": "83569ec5d16dc350a1444f640ea348977f34eab5d50e987464dc9475ce4fe48d"
+    "destination_sha256": "3e064a9b5be9ee170bc14fdb3599266aa399c82b1d18fe1ca800e0577379a9a5"
   },
   {
     "source": "src/OneRGB.Application/Lighting/Spatial/AudioSpectrum.cs",

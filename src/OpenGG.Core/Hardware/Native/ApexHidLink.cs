@@ -68,8 +68,9 @@ public sealed class ApexHidLink : IDisposable
     /// <summary>Known read-only connection/battery queries. Reply byte 2 is data, not an ACK status.</summary>
     public Task<byte[]> ReadTelemetryAsync(byte opcode, CancellationToken cancellationToken) => UseAsync(async () =>
     {
-        if (opcode is not (0xBC or 0xD2)) { throw new ArgumentOutOfRangeException(nameof(opcode)); }
+        if (opcode is not (0xBC or 0xD2 or 0x92)) { throw new ArgumentOutOfRangeException(nameof(opcode)); }
         EnsureReceiver();
+        if ((_device!.Identity.ProductId == 0x1646) != (opcode == 0x92)) throw new InvalidOperationException("The telemetry opcode does not match the selected transport.");
         await ReleaseLightingAsync(cancellationToken).ConfigureAwait(false);
         return await _channel!.RequestAsync([0,opcode], r => r.Length > 2 && r[0] == 0 && r[1] == opcode,
             cancellationToken, timeout: TimeSpan.FromSeconds(5)).ConfigureAwait(false);
@@ -91,8 +92,10 @@ public sealed class ApexHidLink : IDisposable
             await File.WriteAllBytesAsync(backup, original, cancellationToken).ConfigureAwait(false);
             try
             {
-                foreach (var (ns, file, erase, write) in new (byte, byte, byte, byte)[]
-                    { (3, (byte)slot, 0x42, 0x43), (1, (byte)(10 + slot), 0x02, 0x03) })
+                var targets = _device!.Identity.ProductId == 0x1646
+                    ? new (byte, byte, byte, byte)[] { (3, (byte)slot, 0x02, 0x03) }
+                    : [(3, (byte)slot, 0x42, 0x43), (1, (byte)(10 + slot), 0x02, 0x03)];
+                foreach (var (ns, file, erase, write) in targets)
                 {
                     checkOwnership();
                     await AckAsync([0, erase, ns, file], false, cancellationToken).ConfigureAwait(false);
@@ -107,7 +110,7 @@ public sealed class ApexHidLink : IDisposable
                     await AckAsync([0, 0xE6, (byte)(slot - 1)], false, cancellationToken).ConfigureAwait(false);
                 }
                 var actual = await ReadCoreAsync(slot, cancellationToken).ConfigureAwait(false);
-                if (!actual.AsSpan().SequenceEqual(snapshot)) { throw new IOException("Receiver readback differs from the sent profile."); }
+                if (!actual.AsSpan().SequenceEqual(snapshot)) { throw new IOException("Profile readback differs from the sent profile."); }
                 return backup;
             }
             catch (Exception ex) when (ex is not OutOfMemoryException)
@@ -174,8 +177,9 @@ public sealed class ApexHidLink : IDisposable
 
     private void Open()
     {
-        if (_writer is not null) { return; }
         var device = ApexLighting.Find(_interfaces() ?? []) ?? throw new InvalidOperationException("Apex Pro TKL Gen 3 not found.");
+        if (_writer is not null && _device?.DevicePath == device.DevicePath) { return; }
+        if (_writer is not null) { Faulted?.Invoke(); DropCore(); }
         _writer = HidWriter.Open(device.DevicePath, device.OutputReportLength, device.FeatureReportLength);
         try
         {
@@ -192,15 +196,17 @@ public sealed class ApexHidLink : IDisposable
 
     private void EnsureReceiver()
     {
-        if (_device?.Identity is not { VendorId: 0x1038, ProductId: 0x1644, InterfaceNumber: 3, UsagePage: 0xFFC0, Usage: 1 }
-            || _device.FeatureReportLength != 642 || _device.OutputReportLength != 65)
+        if (_device?.Identity is not { VendorId: 0x1038, ProductId: 0x1644 or 0x1646, InterfaceNumber: 3, UsagePage: 0xFFC0, Usage: 1 }
+            || _device.FeatureReportLength != 642 || _device.OutputReportLength != 65 || _device.InputReportLength != 65)
         {
-            throw new InvalidOperationException("Profiles and advanced settings are verified only on receiver 1038:1644 / MI_03 / FFC0:0001. Nothing was sent.");
+            throw new InvalidOperationException("Advanced settings require 1038:1644 or 1038:1646 / MI_03 / FFC0:0001 with exact 642/65/65 reports. Nothing was sent.");
         }
     }
 
     private async Task AckAsync(byte[] report, bool feature, CancellationToken cancellationToken)
     {
+        report = (byte[])report.Clone();
+        report[1] = ApexProtocol.CommandOpcode(_device!.Identity.ProductId,report[1]);
         await ReleaseLightingAsync(cancellationToken).ConfigureAwait(false);
         var start = Stopwatch.GetTimestamp();
         var reply = await _channel!.RequestAsync(report,
@@ -222,7 +228,7 @@ public sealed class ApexHidLink : IDisposable
         {
             // O receptor ignora também 0x6F/0x76/0x77 por feature enquanto recebe RGB temporário.
             // 0x62 libera esse modo sem ACK; o mesmo gate impede um quadro RGB antes do comando seguinte.
-            _writer!.WriteOutput([0, ApexProtocol.ClearLighting]);
+            _writer!.WriteOutput([0, _device!.Identity.ProductId == 0x1646 ? (byte)0x22 : ApexProtocol.ClearLighting]);
             _lightingUsed = false;
             await Task.Delay(ProfileReportInterval, cancellationToken).ConfigureAwait(false);
         }
@@ -234,7 +240,8 @@ public sealed class ApexHidLink : IDisposable
         var profile = new byte[ApexProfile.Length];
         for (var offset = 0; offset < profile.Length; offset += 512)
         {
-            await AckAsync(FileReport(0x83, 1, (byte)(10 + slot), offset), true, cancellationToken).ConfigureAwait(false);
+            var cable = _device!.Identity.ProductId == 0x1646;
+            await AckAsync(FileReport(0x83, cable ? (byte)3 : (byte)1, cable ? (byte)slot : (byte)(10 + slot), offset), true, cancellationToken).ConfigureAwait(false);
             var reply = _writer!.GetFeature(0);
             if (reply.Length != 642 || reply[0] != 0 || reply[1] != 0x83 || reply[2] != 0)
             {

@@ -20,7 +20,14 @@ var devices = SteelSeriesKeyboards.Discover([
 Check(devices.Count == 2,"Only keyboard collections from SteelSeries are accepted; identical models retain separate containers.");
 Check(devices.Count(d => d.HasVerifiedReceiver) == 1,"Advanced controls require the exact report sizes.");
 Check(!(devices.Single(d => d.HasVerifiedReceiver) with { Interfaces = [] }).HasVerifiedReceiver,"Remembered devices cannot grant hardware write support while disconnected.");
-Check(OneRGB.Hardware.Lighting.ApexLighting.Find([Interface(0x1038,0x1646,0xFFC0,1,Guid.NewGuid(),3,642)]) is null,"An unvalidated cable interface must not steal the shared receiver link.");
+var cable = Interface(0x1038,0x1646,0xFFC0,1,Guid.NewGuid(),3,642);
+Check(OneRGB.Hardware.Lighting.ApexLighting.Find([cable]) == cable,"The exact validated cable interface is supported.");
+Check(OneRGB.Hardware.Lighting.ApexLighting.Find([cable with { FeatureReportLength = 641 }]) is null,"Invalid cable report sizes remain blocked.");
+Check(OneRGB.Hardware.Lighting.ApexLighting.Find([devices[0].Interfaces.Last(),cable]) == cable,"Direct cable is preferred by default when both transports are present.");
+Check(ApexProtocol.CommandOpcode(0x1646,0x6F)==0x2F && ApexProtocol.CommandOpcode(0x1646,0x76)==0x36 && ApexProtocol.CommandOpcode(0x1646,0x77)==0x37,"Cable live commands use direct opcodes.");
+Check(ApexProtocol.CommandOpcode(0x1646,0x53)==0x13 && ApexProtocol.CommandOpcode(0x1646,0x68)==0x28 && ApexProtocol.CommandOpcode(0x1646,0xE6)==0xA6,"Cable activation and validation use direct opcodes.");
+Check(ApexProtocol.CommandOpcode(0x1646,0x4A)==0x0A && ApexProtocol.CommandOpcode(0x1646,0x4B)==0x0B && ApexProtocol.CommandOpcode(0x1646,0x83)==0x83,"Cable OLED routes directly while file reads keep their opcode.");
+Check(ApexProtocol.CommandOpcode(0x1644,0x6F)==0x6F,"Receiver routing is preserved.");
 using (var link = new OneRGB.Hardware.Native.ApexHidLink(() => []))
 {
     var faults = 0; link.Faulted += () => faults++;
@@ -84,7 +91,9 @@ if (args.Contains("--hardware"))
         if(present) { throw new InvalidOperationException($"Close {name} before the external hardware check."); }
     }
     var interfaces = HidEnumerator.Enumerate("vid_1038");
-    if (SteelSeriesKeyboards.Discover(interfaces).Count(k => k.HasVerifiedReceiver) != 1) { throw new InvalidOperationException("Exactly one verified receiver required."); }
+    var target = OneRGB.Hardware.Lighting.ApexLighting.Find(interfaces) ?? throw new InvalidOperationException("Verified receiver or cable required.");
+    if (SteelSeriesKeyboards.Discover(interfaces).Count(k => k.HasVerifiedTransport && k.ProductId == target.Identity.ProductId) != 1) { throw new InvalidOperationException("Exactly one keyboard on the selected transport required."); }
+    var rgbOpcode = ApexProtocol.Model(target.Identity.ProductId)!.Value.Opcode;
     using var link = new OneRGB.Hardware.Native.ApexHidLink(() => interfaces);
     var before = await link.ReadProfileAsync(2,CancellationToken.None);
     await link.LoadProfileAsync(2,CancellationToken.None);
@@ -93,7 +102,7 @@ if (args.Contains("--hardware"))
     var ids = OneRGB.Application.Lighting.Spatial.LedMaps.Keyboard.Leds.Select(l => ApexProtocol.LedId(l.Id)).ToArray();
     var colors = ids.Select(_ => new OneRGB.Application.Lighting.Rgb(20,0,20)).ToArray();
     var rgb = Task.Run(async () => {
-        try { while(true) { await link.SendFeatureAsync(ApexProtocol.Frame(0x61,ids,colors),stop.Token); await Task.Delay(33,stop.Token); } }
+        try { while(true) { await link.SendFeatureAsync(ApexProtocol.Frame(rgbOpcode,ids,colors),stop.Token); await Task.Delay(33,stop.Token); } }
         catch(OperationCanceledException) when(stop.IsCancellationRequested) { }
     });
     try
@@ -106,7 +115,7 @@ if (args.Contains("--hardware"))
         var after = await link.ReadProfileAsync(2,CancellationToken.None);
         if(!before.AsSpan().SequenceEqual(after)) { throw new Exception("Live write changed stored profile."); }
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new { selectedKeys=bulk.Count, reportKeys=68, reports=reports.Length,
-            opcode="0x6F", targetMm=2, continuousRgb=true, elapsedSeconds=timer.Elapsed.TotalSeconds,
+            productId=$"0x{target.Identity.ProductId:X4}",opcode=$"0x{ApexProtocol.CommandOpcode(target.Identity.ProductId,0x6F):X2}", targetMm=2, continuousRgb=true, elapsedSeconds=timer.Elapsed.TotalSeconds,
             unchangedStoredProfile=true, sha256=Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(before)), restore="Slot 2 reloaded in finally" }));
     }
     finally { stop.Cancel(); await rgb; link.ClearTemporary(); await link.LoadProfileAsync(2,CancellationToken.None); }

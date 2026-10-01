@@ -12,7 +12,7 @@ if (-not $WithoutResearchTools) {
 if ($LASTEXITCODE -ne 0) { throw 'Offline C# checks failed.' }
 & $Dotnet publish (Join-Path $root 'src\OpenGG.Desktop\OpenGG.Desktop.csproj') -c Release -r win-x64 --self-contained (-not $FrameworkDependent).ToString().ToLowerInvariant() -o $portable
 if ($LASTEXITCODE -ne 0) { throw 'Publish failed.' }
-foreach ($name in 'README.md','LICENSE','THIRD_PARTY_NOTICES.md','OpenGG Typography.svg','OpenGG Isotype.svg','OpenGG Full Logo.svg','OpenGG Secondary Logo.svg') { Copy-Item -LiteralPath (Join-Path $root $name) -Destination $portable -Force }
+foreach ($name in 'README.md','LICENSE','THIRD_PARTY_NOTICES.md','OpenGG.gif','OpenGG Typography.svg','OpenGG Isotype.svg','OpenGG Full Logo.svg','OpenGG Secondary Logo.svg') { Copy-Item -LiteralPath (Join-Path $root $name) -Destination $portable -Force }
 Copy-Item -LiteralPath (Join-Path $root 'docs') -Destination $portable -Recurse -Force
 if (-not $WithoutResearchTools) { Copy-Item -LiteralPath (Join-Path $root 'tooling\installers') -Destination (Join-Path $portable 'tooling') -Recurse -Force }
 $zipName = if ($WithoutResearchTools) { 'artifacts\OpenGG-0.1.0-win-x64-minimal.zip' } else { 'artifacts\OpenGG-0.1.0-win-x64.zip' }

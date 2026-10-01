@@ -74,10 +74,19 @@ internal class Program
         await Task.Delay(330);
         Require(Math.Abs(sidebar.Width-76) < .1 && icon.ActualWidth == width && surface.ActualWidth == circle,"collapsed sidebar keeps the icon and circle size");
         Require(version.Visibility == Visibility.Collapsed,"collapsed version is hidden after fading");
-        Require(Named<Grid>(window,"NavSelection").Visibility == Visibility.Hidden && surface.Background is SolidColorBrush { Color.A: 0 },"compact navigation removes its persistent background and uses hover feedback");
+        Require(Named<Grid>(window,"NavSelection").Visibility == Visibility.Visible && surface.Background is SolidColorBrush { Color: var selectedColor } && selectedColor == Color.FromRgb(244,244,246),"compact navigation preserves the white selection circle and black contour");
+        Require(((Border)nav.Template.FindName("Hover",nav)).Visibility == Visibility.Collapsed,"compact navigation removes the hover pill");
+        var toggleCenter = toggle.TranslatePoint(new Point(toggle.ActualWidth/2,0),window).X;
+        var iconCenter = surface.TranslatePoint(new Point(surface.ActualWidth/2,0),window).X;
+        Require(Math.Abs(toggleCenter-iconCenter) < 1,$"compact sidebar toggle aligns with the navigation icons ({toggleCenter:F1}/{iconCenter:F1})");
+        nav.RaiseEvent(new System.Windows.Input.MouseEventArgs(System.Windows.Input.Mouse.PrimaryDevice,0) { RoutedEvent=Mouse.MouseEnterEvent }); await Task.Delay(180);
+        var hoverScale = (ScaleTransform)nav.Template.FindName("IconScale",nav);
+        Require(Math.Abs(hoverScale.ScaleX-1.12) < .01,"compact hover expands the icon smoothly without a pill");
+        nav.RaiseEvent(new System.Windows.Input.MouseEventArgs(System.Windows.Input.Mouse.PrimaryDevice,0) { RoutedEvent=Mouse.MouseLeaveEvent }); await Task.Delay(180);
+        Require(Math.Abs(hoverScale.ScaleX-1) < .01,"compact hover restores the icon scale on exit");
         Click(toggle); await Task.Delay(330);
         Require(Math.Abs(sidebar.Width-224) < .1 && icon.ActualWidth == width && surface.ActualWidth == circle && version.Opacity == 1,"expanded sidebar restores labels with constant icon size");
-        Click(toggle); await Task.Delay(35); Click(toggle); await Task.Delay(330);
+        Click(toggle); await Task.Delay(35); Click(toggle); await Task.Delay(380);
         Require(Math.Abs(sidebar.Width-224) < .1 && !Ui.GetCompact(sidebar),"a reversed sidebar animation finishes in the latest requested state");
         var selection = Named<TranslateTransform>(window,"NavSelectionOffset");
         Named<RadioButton>(window,"DiagnosticsNav").IsChecked = true; await Task.Delay(330);
@@ -101,7 +110,7 @@ internal class Program
         Require(!Tree(window).OfType<TextBox>().Any(t => BindingOperations.GetBinding(t,TextBox.TextProperty)?.Path?.Path == "Query"),"Devices has no text search field");
         Require(Named<Button>(window,"ScanButton").TranslatePoint(default,window).Y >= 22,"the scan button sits comfortably below the window's top edge");
         await main.ScanAsync(); await Task.Delay(150);
-        if (main.Cards.FirstOrDefault(c => c.Device.HasVerifiedReceiver) is { } card)
+        if (main.Cards.Where(c => c.Device.HasVerifiedTransport).OrderBy(c => c.Device.ProductId == 0x1646 ? 0 : 1).FirstOrDefault() is { } card)
         {
             await main.RefreshBatteryAsync();
             var batteryDeadline = DateTime.UtcNow.AddSeconds(6);

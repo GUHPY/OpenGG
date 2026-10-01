@@ -2,6 +2,8 @@
 
 A profile is 12,288 bytes including an eight-byte header and eight final padding bytes. All offsets below are absolute from the first byte. Numeric fields use little-endian unless specified otherwise.
 
+The same schema-19 format was read from receiver `1644` (namespace 1, file `10 + slot`) and the wireless keyboard connected by USB `1646` (namespace 3, file `slot`). USB readback verifies the physical keyboard bank directly. Their cache synchronization after a transport change has not been established; [transport and write operations](protocol.md) keep the destinations explicit.
+
 ## Fields
 
 | Offset | Size | Field |

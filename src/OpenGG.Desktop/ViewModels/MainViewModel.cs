@@ -198,8 +198,9 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     public async Task RefreshBatteryAsync()
     {
         if (_disposed || _readingBattery) return;
-        var verified = Cards.Where(c => c.IsConnected && c.Device.HasVerifiedReceiver).ToArray();
-        foreach (var card in Cards.Where(c => !c.IsConnected || !c.Device.HasVerifiedReceiver)) card.UpdateBattery(null, false);
+        var active = OneRGB.Hardware.Lighting.ApexLighting.Find(_host.ControlInterfaces)?.DevicePath;
+        var verified = Cards.Where(c => c.IsConnected && c.Device.HasVerifiedTransport && c.Device.Interfaces.Any(i => i.DevicePath == active)).ToArray();
+        foreach (var card in Cards.Except(verified)) card.UpdateBattery(null, false);
         if (verified.Length != 1 || _host.ExternalOwnersOf([]).Count != 0)
         {
             foreach (var card in verified) card.UpdateBattery(null, false);
@@ -211,7 +212,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             var resource = AnalogKeyboardDescriptor.ApexProTklGen3.SettingsResource;
             var percent = await _host.Controls.RefreshAsync(new ControlKey(resource, "battery"), _stop.Token);
             var charging = percent is NumberValue ? await _host.Controls.RefreshAsync(new ControlKey(resource, "battery.charging"), _stop.Token) : null;
-            if (!_disposed && verified[0].IsConnected && _host.ExternalOwnersOf([]).Count == 0)
+                if (!_disposed && verified[0].IsConnected && _host.ExternalOwnersOf([]).Count == 0 && OneRGB.Hardware.Lighting.ApexLighting.Find(_host.ControlInterfaces)?.DevicePath == active)
                 verified[0].UpdateBattery(percent is NumberValue number && charging is ToggleValue ? (int)number.Value : null, charging is ToggleValue { Value: true });
         }
         catch (OperationCanceledException) when (_disposed) { }
@@ -234,9 +235,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             if (_host.Keyboards.FirstOrDefault(k => k.Id == card.Id) is not { } live) { throw new IOException("The keyboard disconnected."); }
             var timer = System.Diagnostics.Stopwatch.StartNew();
             string probe, outcome;
-            if (live.HasVerifiedReceiver && _host.Keyboards.Count(k => k.HasVerifiedReceiver) == 1)
+            if (live.HasVerifiedTransport)
             {
-                foreach (var opcode in new byte[] { 0xBC,0xD2 })
+                _host.SelectKeyboard(live);
+                foreach (var opcode in live.ProductId == 0x1646 ? new byte[] { 0x92 } : [0xBC,0xD2])
                 {
                     var response = await _host.Link.ReadTelemetryAsync(opcode,CancellationToken.None);
                     checks.Add(new { protocol = $"0x{opcode:X2}", response = Convert.ToHexString(response),
@@ -244,7 +246,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                     if (opcode == 0xBC && response[2] != 1) { throw new IOException("The receiver is connected but did not confirm a keyboard connection (0xBC)."); }
                 }
                 var blob = await _host.Link.ReadProfileAsync(2, CancellationToken.None);
-                probe = "0x83 receiver profile read, 24 blocks, matched ACK per block and GetFeature";
+                probe = live.ProductId == 0x1646 ? "0x83 direct keyboard profile read, namespace 3, 24 blocks and GetFeature" : "0x83 receiver profile read, 24 blocks, matched ACK per block and GetFeature";
                 outcome = $"ACK status 0; schema 19; CRC valid; {blob.Length} bytes. No profile activated or saved.";
                 checks.Add(new { protocol = "0x83", result = outcome, sha256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(blob)) });
                 if (TestLiveWrites)
@@ -255,7 +257,6 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             }
             else
             {
-                if (live.HasVerifiedReceiver) { throw new InvalidOperationException("Multiple verified receivers are connected. Connect only one to test advanced commands."); }
                 if (_featureProbe is { IsCompleted: false }) { throw new InvalidOperationException("The previous HID request is still pending in the driver."); }
                 _featureProbe = Task.Run(() => KeyboardDiagnostics.ReadFeature(live));
                 var report = await _featureProbe.WaitAsync(TimeSpan.FromSeconds(5));
@@ -266,14 +267,14 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             timer.Stop();
             Diagnostic = JsonSerializer.Serialize(new { timestamp = DateTimeOffset.UtcNow, device = live.Name,
                 productId = $"1038:{live.ProductId:X4}", testedModel = "Apex Pro TKL Wireless Gen 3 / firmware 3.24.1 / schema 19",
-                modelVerified = live.HasVerifiedReceiver, probe, outcome, checks, elapsedSeconds = timer.Elapsed.TotalSeconds, tools = Tools,
+                modelVerified = live.HasVerifiedTransport, probe, outcome, checks, elapsedSeconds = timer.Elapsed.TotalSeconds, tools = Tools,
                 interfaces = live.Interfaces.Select(i => new { identity = i.Identity.ToString(), i.Product, i.Manufacturer, i.VersionNumber, i.ContainerId, i.InputReportLength, i.OutputReportLength, i.FeatureReportLength, i.Error }) }, AppHost.Json);
         }
         catch (Exception ex)
         {
-            if (card.Device.HasVerifiedReceiver) { _host.Link.Drop(); }
+            if (card.Device.HasVerifiedTransport) { _host.Link.Drop(); }
             Diagnostic = JsonSerializer.Serialize(new { timestamp = DateTimeOffset.UtcNow, device = card.Name, result = "Communication test failed or unavailable", error = ex.Message,
-                modelVerified = card.Device.HasVerifiedReceiver, checks, tools = Tools, interfaces = card.Device.Interfaces.Select(i => new { identity = i.Identity.ToString(), i.InputReportLength, i.OutputReportLength, i.FeatureReportLength, i.Error }) }, AppHost.Json);
+                modelVerified = card.Device.HasVerifiedTransport, checks, tools = Tools, interfaces = card.Device.Interfaces.Select(i => new { identity = i.Identity.ToString(), i.InputReportLength, i.OutputReportLength, i.FeatureReportLength, i.Error }) }, AppHost.Json);
             Error = "Diagnostic failed: " + ex.Message;
         }
         finally { _diagnosing = false; System.Windows.Input.CommandManager.InvalidateRequerySuggested(); }

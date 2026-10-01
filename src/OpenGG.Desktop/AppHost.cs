@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using OneRGB.Hardware.Lighting;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using OneRGB.Application;
@@ -42,6 +43,18 @@ public sealed class AppHost : IDisposable
     public OpenGGSettings Settings { get; private set; }
     public IReadOnlyList<KeyboardDevice> Keyboards { get; private set; } = [];
     public IReadOnlyList<HidInterfaceInfo> Interfaces => _interfaces;
+    private string? _targetPath;
+    public IReadOnlyList<HidInterfaceInfo> ControlInterfaces => _targetPath is null ? _interfaces : [.. _interfaces.Where(i => i.DevicePath == _targetPath)];
+    public void SelectKeyboard(KeyboardDevice keyboard)
+    {
+        if (!keyboard.HasVerifiedTransport) return;
+        var target = ApexLighting.Find(keyboard.Interfaces);
+        if (target is null || !_interfaces.Any(i => i.DevicePath == target.DevicePath)) throw new IOException("The selected keyboard transport disconnected or is ambiguous.");
+        if (_targetPath == target.DevicePath) return;
+        Link.ClearTemporary(); Link.Drop();
+        _targetPath = target.DevicePath;
+        ApexKeyboard.DiscoverAsync(CancellationToken.None).GetAwaiter().GetResult();
+    }
     public bool Scanning { get; private set; }
     public event EventHandler? ScanCompleted;
     public event EventHandler? VendorAppsChanged;
@@ -50,9 +63,11 @@ public sealed class AppHost : IDisposable
     public static readonly KnownDevice Apex = new(AnalogKeyboardDescriptor.ApexProTklGen3.DeviceId,
         "SteelSeries Apex Pro TKL Wireless Gen 3", "Keyboard", "USB / 2.4 GHz",
         [new ExpectedHardwareId("USB\\VID_1038&PID_1644", VerificationStatus.VerifiedOnHardware,
-            "Tested on firmware 3.24.1, schema 19, 1038:1644 MI_03 FFC0:0001", new UsbIdentity(0x1038,0x1644,3,0xFFC0,1))],
+            "Tested on firmware 3.24.1, schema 19, 1038:1644 MI_03 FFC0:0001", new UsbIdentity(0x1038,0x1644,3,0xFFC0,1)),
+         new ExpectedHardwareId("USB\\VID_1038&PID_1646",VerificationStatus.VerifiedOnHardware,
+            "Direct USB tested on firmware 3.24.1, schema 19, 1038:1646 MI_03 FFC0:0001",new UsbIdentity(0x1038,0x1646,3,0xFFC0,1))],
         ["SteelSeries GG"], ["Actuation", "Rapid Trigger", "Onboard profiles", "RGB", "OLED"],
-        "Advanced writes require the exact verified receiver, a loaded profile and exclusive ownership.", 1);
+        "Advanced writes require the exact verified receiver or USB cable, a loaded profile and exclusive ownership.", 1);
 
     public AppHost()
     {
@@ -62,8 +77,8 @@ public sealed class AppHost : IDisposable
         Controls = new ControlService(Arbiter, Journal);
         Profiles = new ProfileManager(Controls, ProfileLibrary);
         ProfileLibrary.Changed += (_, _) => Save("profiles.json", ProfileLibrary.All);
-        Link = new ApexHidLink(() => _interfaces);
-        ApexKeyboard = new ApexKeyboardIntegration(Arbiter, [Apex], () => _externalOwners.Count != 0, Link, () => _interfaces);
+        Link = new ApexHidLink(() => ControlInterfaces);
+        ApexKeyboard = new ApexKeyboardIntegration(Arbiter, [Apex], () => _externalOwners.Count != 0, Link, () => ControlInterfaces);
         Controls.Executed += (_, result) => CommandCompleted?.Invoke(this, result);
         Journal.Changed += (_, entry) =>
         {
@@ -100,9 +115,10 @@ public sealed class AppHost : IDisposable
             if (_externalOwners.Count != 0) { Link.Drop(); }
             _interfaces = await Task.Run(() => HidEnumerator.Enumerate("vid_1038")).ConfigureAwait(false);
             Keyboards = SteelSeriesKeyboards.Discover(_interfaces);
-            var verified = Keyboards.Where(k => k.HasVerifiedReceiver).ToList();
-            // ponytail: one verified receiver at a time; add receiver selection when multi-keyboard writes are validated.
-            if (verified.Count > 1) { _interfaces = [.. _interfaces.Where(i => i.Identity.ProductId != 0x1644)]; }
+            var verified = Keyboards.Where(k => k.HasVerifiedTransport).ToList();
+            // One cable and one receiver can be selected explicitly; repeated units remain unvalidated.
+            if (verified.GroupBy(k => k.ProductId).Any(g => g.Count() > 1)) { _interfaces = [.. _interfaces.Where(i => i.Identity.ProductId is not (0x1644 or 0x1646))]; }
+            if (_targetPath is not null && !_interfaces.Any(i => i.DevicePath == _targetPath)) { _targetPath = null; }
             var discovery = await ApexKeyboard.DiscoverAsync(CancellationToken.None).ConfigureAwait(false);
             var present = discovery.Adapters.Select(a => a.Key).ToHashSet();
             foreach (var status in Controls.Statuses().Where(s => ApexKeyboardIntegration.Claims(s.Key) && !present.Contains(s.Key))) { Controls.Disconnect(status.Key); }
@@ -148,7 +164,7 @@ public sealed class AppHost : IDisposable
     {
         public ControlKey Key => key;
         public ControlSpec Spec => spec;
-        public bool IsAvailable => host.Keyboards.Any(k => k.HasVerifiedReceiver);
+        public bool IsAvailable => ApexLighting.Find(host.ControlInterfaces) is not null;
         public bool WriteEnabled => true;
         public string? WriteDisabledReason => null;
         public Task<ControlValue?> ReadAsync(CancellationToken cancellationToken) => Task.FromResult<ControlValue?>(null);

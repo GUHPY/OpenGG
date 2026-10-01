@@ -15,22 +15,22 @@
         <Grid DockPanel.Dock="Top" Height="64" Margin="12,0">
           <Image x:Name="SidebarBrand" Width="150" Height="30" HorizontalAlignment="Left" Source="Assets/Brand/Typography.png" Stretch="Uniform" Margin="12,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="OpenGG" />
           <Button x:Name="SidebarToggle" Style="{StaticResource Btn.Icon}" HorizontalAlignment="Right" Width="40" Height="36" Click="OnToggleSidebar" WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.Name="Collapse or expand menu" ToolTip="Collapse or expand menu">
+            <Button.RenderTransform><TranslateTransform x:Name="SidebarToggleOffset" /></Button.RenderTransform>
             <ctl:Icon Glyph="{StaticResource Icon.PanelLeft}" Size="19" />
           </Button>
         </Grid>
         <TextBlock x:Name="SidebarVersion" DockPanel.Dock="Bottom" Width="150" HorizontalAlignment="Left" Text="OpenGG 0.1.0" Style="{StaticResource Text.Caption}" FontSize="11" Margin="24,10,16,14" />
         <Grid x:Name="NavTrack" Margin="10,22,0,0">
           <Grid x:Name="NavSelection" Height="48" VerticalAlignment="Top" IsHitTestVisible="False">
-            <Grid.Style><Style TargetType="Grid"><Style.Triggers><DataTrigger Binding="{Binding ElementName=Sidebar, Path=(ctl:Ui.Compact)}" Value="True"><Setter Property="Visibility" Value="Hidden" /></DataTrigger></Style.Triggers></Style></Grid.Style>
             <Grid.RenderTransform><TranslateTransform x:Name="NavSelectionOffset" /></Grid.RenderTransform>
             <Border CornerRadius="24,0,0,24" Background="{StaticResource Brush.Bg.Canvas}" />
             <Path Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-20,0,0" Fill="{StaticResource Brush.Bg.Canvas}" Data="M20,0 L20,20 L0,20 Q20,20 20,0 Z" />
             <Path Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-20" Fill="{StaticResource Brush.Bg.Canvas}" Data="M0,0 L20,0 L20,20 Q20,0 0,0 Z" />
           </Grid>
         <StackPanel KeyboardNavigation.DirectionalNavigation="Cycle">
-          <RadioButton x:Name="DevicesNav" Style="{StaticResource Nav.Item}" Content="Devices" ctl:Ui.Icon="{StaticResource Icon.Devices}" Checked="OnNavigationChanged"
+          <RadioButton x:Name="DevicesNav" Style="{StaticResource Nav.Item}" Content="Devices" ctl:Ui.Icon="{StaticResource Icon.Devices}" Checked="OnNavigationChanged" MouseEnter="OnNavigationHover" MouseLeave="OnNavigationHover"
                        IsChecked="{Binding Section, Converter={StaticResource Is}, ConverterParameter=devices}" AutomationProperties.Name="Devices" />
-          <RadioButton x:Name="DiagnosticsNav" Style="{StaticResource Nav.Item}" Content="Diagnostics" ctl:Ui.Icon="{StaticResource Icon.Stethoscope}" Checked="OnNavigationChanged"
+          <RadioButton x:Name="DiagnosticsNav" Style="{StaticResource Nav.Item}" Content="Diagnostics" ctl:Ui.Icon="{StaticResource Icon.Stethoscope}" Checked="OnNavigationChanged" MouseEnter="OnNavigationHover" MouseLeave="OnNavigationHover"
                        IsChecked="{Binding Section, Converter={StaticResource Is}, ConverterParameter=diagnostics}" AutomationProperties.Name="Diagnostics" />
         </StackPanel>
         </Grid>
@@ -97,14 +97,14 @@
     <ScrollViewer Grid.Row="2" Style="{StaticResource PageScroll}" Visibility="{Binding IsDiagnostics, Converter={StaticResource Visible}}">
       <StackPanel>
         <TextBlock Text="Identification and protocols" Style="{StaticResource Text.Title}" />
-        <TextBlock Text="HID queries, 0xBC connection, 0xD2 battery and 24-block 0x83 profile read with CRC. Only the verified receiver receives these commands. Other models get a read-only HID probe and interface report."
+        <TextBlock Text="Native HID queries, wireless connection, battery and full profile read with CRC. Verified receiver and USB cable use their own commands. Other models get a read-only HID probe and interface report."
                    Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,8,0,20" />
         <ComboBox ItemsSource="{Binding Cards}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" MaxWidth="520" HorizontalAlignment="Left" MinWidth="300" AutomationProperties.Name="Keyboard to diagnose" />
         <TextBlock Text="{Binding Selected.StatusLabel}" Style="{StaticResource Text.Caption}" Margin="0,6,0,0" />
         <Border Style="{StaticResource Card}" Margin="0,24,0,0">
           <StackPanel>
             <TextBlock Text="Diagnostics" Style="{StaticResource Text.Title}" />
-            <TextBlock Text="Test communication and record this model's response or error. Advanced commands were verified on the Apex Pro TKL Wireless Gen 3 receiver, 1038:1644."
+            <TextBlock Text="Test communication and record this model's response or error. Advanced commands were verified on the Apex Pro TKL Wireless Gen 3: receiver 1038:1644 and USB cable 1038:1646."
                        Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,8,0,14" />
             <StackPanel Orientation="Horizontal">
               <Button Content="Test communication" Style="{StaticResource Btn.Outline}" Command="{Binding DiagnoseCommand}" Margin="0,0,10,0" />

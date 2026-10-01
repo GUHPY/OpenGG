@@ -4,11 +4,11 @@
 
 Extract `OpenGG-0.1.0-win-x64.zip` into a folder you can write to. Open `OpenGG.exe` from that folder. The self-contained package includes the .NET runtime; no Python, GG installation, privileged service or installer is needed for the desktop.
 
-The English Devices page uses the owner's original OneRGB device-card theme. The sidebar has only Devices and Diagnostics, with the original black selection contour when expanded and hover feedback when compact. It slides between layouts without changing the icon size; white OpenGG typography and version text fade. Windows' animation preference is respected. Window controls are integrated into the app, and its rounded corners use a native window region.
+The English Devices page uses the owner's original OneRGB device-card theme. The sidebar has only Devices and Diagnostics, with the original white selected circle and black selection contour in both layouts. Compact hover enlarges the icon by 12% without a background pill; expanded hover retains its original highlight. It slides between layouts without changing the icon size; white OpenGG typography and version text fade. Windows' animation preference is respected. Window controls are integrated into the app, and its rounded corners use a native window region.
 
 **Scan** (also F5) refreshes discovery; its refresh icon spins and the button becomes gray while scanning. There is no text search field. Cards show name and connection state; All, Connected and Disconnected filter the list. A recognized keyboard stays listed as disconnected when its HID collections disappear. With an empty discovery/filter result the page says **No devices found**.
 
-The tested receiver's battery is queried every second through the shared HID channel and appears on its device card and editor status card. The bar animates while charging below full and stops at full charge. Read failures, unplugging or another active controller clear stale telemetry. The percentage is derived from quantized receiver values using OneRGB's existing mapping; it is not independently calibrated.
+The tested keyboard's battery is queried every second through the shared HID channel and appears on its device card and editor status card. The bar animates while charging below full and stops at full charge. Read failures, unplugging or another active controller clear stale telemetry. The percentage is derived from quantized native values using OneRGB's existing mapping; it is not independently calibrated.
 
 Only SteelSeries keyboard collections appear as device cards. Mice and unrelated vendors do not. A read-only inventory of all HID devices is available in Diagnostics for protocol research.
 
@@ -21,14 +21,14 @@ Only SteelSeries keyboard collections appear as device cards. Mice and unrelated
 
 ## Tested Apex model
 
-1. Connect the Apex Pro TKL Wireless Gen 3 through its **2.4 GHz receiver**, `1038:1644`.
+1. Connect the Apex Pro TKL Wireless Gen 3 through its **2.4 GHz receiver (`1038:1644`) or USB cable (`1038:1646`)**. This is the wireless model connected by cable; the wired-only `1642` model is not validated.
 2. Exit SteelSeries GG/Engine, Prism, OneRGB, OpenRGB and SignalRGB if running. Closing OneRGB's window can leave it in the tray; use its Exit command.
-3. Open the Apex card. The detailed keyboard editor and the owner's layered RGB artwork are included by default.
+3. Open the Apex card for the desired transport. USB is preferred by default when both are present. The detailed keyboard editor and the owner's layered RGB artwork are included by default.
 4. Choose onboard slot **1–5**. The default is slot 2; OpenGG does not infer the slot GG last activated.
 5. Click **Read and activate**. This reads 24 blocks, verifies the CRC, activates that slot and seeds the complete live state.
 6. Select a key, WASD or All and drag the vertical **down-arrow** slider beside the key map. The fill grows upward from the bottom. Changes apply after a 200 ms pause. All 60 visible analog keys are sent as one complete 68-entry report. Unselected keys retain their loaded values.
 7. Click the **orange lightning** button, then click keys to paint Rapid Trigger. Click a painted key again to remove that feature. Its vertical lightning slider changes sensitivity on selected RT keys. The **blue shield** button paints Protection independently; its slider edits the selected protected keys' native raw sensitivity. Click the active paint button again to return to ordinary selection. Live actuation/RT do not write flash; Protection changes need the explicit save below.
-8. Click **Save to keyboard** to persist. The app compares the stored profile with the baseline, backs it up, writes the keyboard and receiver copies, validates each and verifies exact receiver readback.
+8. Click **Save to keyboard** to persist. The app compares the stored profile with the baseline, backs it up, writes and verifies the direct keyboard copy over USB, or writes keyboard and receiver copies and verifies the receiver over wireless.
 
 If the desired file already matches the onboard profile, saving skips the flash transaction. If the profile changed through another program, OpenGG requests a fresh read. A communication failure stops that resource's remaining changes and requires a new Read and activate before editing again.
 
@@ -54,7 +54,7 @@ A successful Open File enables the direct OLED send. The checkbox sends the exac
 
 Any SteelSeries device with a standard keyboard HID collection (`usage page 1 / usage 6`) is eligible for discovery. Collections are grouped by Windows Container ID. Its generic page explains that advanced Gen 3 controls have not been validated on that model and offers Diagnostics. No Gen 3 actuation or flash command is guessed for it.
 
-The receiver's USB presence is what the general Connected label represents. The `0xBC` diagnostic additionally checks whether the wireless keyboard is connected to that receiver. Bluetooth paths, models without a standard keyboard collection and two simultaneous matching Apex receivers need further validation. Two verified receivers block advanced operations to avoid selecting the wrong unit.
+The general Connected label represents the selected transport's HID presence. The `0xBC` diagnostic additionally checks the wireless radio connection; USB uses direct `0x92` battery telemetry and its own profile bank. A receiver and cable can coexist, with the card choosing the exact channel. Two simultaneous matching units of the same PID block advanced operations. Bluetooth and models without a standard keyboard collection need further validation.
 
 ## Local files
 

@@ -69,7 +69,7 @@ public sealed class ApexKeyboardIntegration : IIntegration, IDisposable
     public string? TransportDisabledReason => !WritesAllowed
         ? "Read only: the keyboard is not verified_hw in the catalog (ADR-0005)."
         : _isGgRunning() ? "Close SteelSeries GG, OneRGB and other controllers before accessing profiles in OpenGG."
-        : _deviceInterface?.Identity.ProductId != 0x1644 ? "Use the 1038:1644 2.4 GHz receiver for advanced settings."
+        : _deviceInterface?.Identity.ProductId is not (0x1644 or 0x1646) ? "Connect the verified 2.4 GHz receiver or USB cable for advanced settings."
         : null;
 
     public string? WriteDisabledReason =>
@@ -94,7 +94,7 @@ public sealed class ApexKeyboardIntegration : IIntegration, IDisposable
                 ApexProtocol.ToggleFrame(0x76,current.RapidTriggers.ToDictionary(p => p.Key,p => current.Enabled && p.Value))];
             if (current.Enabled) { reports.Add(ApexProtocol.RapidTriggerFrame(current.Sensitivities,current.Sensitivities[ApexProtocol.AnalogKeys[0]])); }
             await _link.SendFeaturesAsync(reports,cancellationToken,() => CheckOwnership(leases)).ConfigureAwait(false);
-            return [.. reports.Select(r => (int)r[1])];
+            return [.. reports.Select(r => (int)ApexProtocol.CommandOpcode(_deviceInterface!.Identity.ProductId,r[1]))];
         }
         catch { _loadedSlot = null; throw; }
         finally { foreach (var lease in leases) { _arbiter.Release(lease); } _io.Release(); }
@@ -181,7 +181,7 @@ public sealed class ApexKeyboardIntegration : IIntegration, IDisposable
         var interfaces = _interfaces?.Invoke() ?? HidEnumerator.Enumerate();
         var previousPath = _deviceInterface?.DevicePath;
         _deviceInterface = ApexLighting.Find(interfaces);
-        if (previousPath != _deviceInterface?.DevicePath) { _loadedSlot = null; }
+        if (previousPath != _deviceInterface?.DevicePath) { _loadedSlot = null; _link.Drop(); }
 
         // No cabo o teclado responde direto e carrega; o receptor, se ainda estiver ligado, fica em segundo.
         _batteryInterface = interfaces.Where(i => ApexLighting.Find([i]) is not null && ApexProtocol.BatteryOpcode(i.Identity.ProductId) is not null)
@@ -280,9 +280,17 @@ public sealed class ApexKeyboardIntegration : IIntegration, IDisposable
         }
 
         if (_batteryInterface is null) { throw new InvalidOperationException("Apex Pro TKL Wireless Gen 3 not found."); }
-        var connection = await _link.ReadTelemetryAsync(ApexProtocol.OpcodeConnection, cancellationToken).ConfigureAwait(false);
-        var value = connection[2] != 1 ? null
-            : ApexProtocol.Battery((await _link.ReadTelemetryAsync(0xD2, cancellationToken).ConfigureAwait(false))[2]);
+        (int Percent, bool Charging)? value;
+        if (_deviceInterface?.Identity.ProductId == 0x1646)
+        {
+            value = ApexProtocol.Battery((await _link.ReadTelemetryAsync(0x92,cancellationToken).ConfigureAwait(false))[2]);
+        }
+        else
+        {
+            var connection = await _link.ReadTelemetryAsync(ApexProtocol.OpcodeConnection, cancellationToken).ConfigureAwait(false);
+            value = connection[2] != 1 ? null
+                : ApexProtocol.Battery((await _link.ReadTelemetryAsync(0xD2, cancellationToken).ConfigureAwait(false))[2]);
+        }
         _battery = (Environment.TickCount64, value);
         return value;
     }

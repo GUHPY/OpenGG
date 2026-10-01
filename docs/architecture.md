@@ -6,7 +6,7 @@ OpenGG reuses the working OneRGB keyboard path. It has one core assembly and one
 flowchart TD
     H[Windows HID attributes and capabilities] --> S[SteelSeriesKeyboards discovery]
     S --> C[Remembered device cards]
-    C -->|Exact verified receiver| E[Original keyboard editor and RGB card]
+    C -->|Exact verified receiver or USB cable| E[Original keyboard editor and RGB card]
     C -->|Other keyboard| D[Generic diagnostics]
     E --> P[ProfileManager and ControlService]
     P --> A[ControlArbiter lease and operation journal]
@@ -66,7 +66,7 @@ The editor's locally stored fields support pending profile edits, not fictional 
 
 Enumeration opens HID collections with desired access zero and reads attributes/capabilities. Keyboard cards require VID 1038 plus usage page 1/usage 6; grouping uses Windows Container ID, with a PID fallback whose identical-unit limitation is documented. Discovery is refreshed every three seconds without overlapping scans. An absent device retains its remembered card.
 
-The exact receiver gate also requires interface 3, vendor page FFC0/usage 1 and 642/65/65 report sizes. Multiple verified receivers block advanced writes. Other models use a vendor GetFeature read with a five-second UI deadline and at most one still-pending probe.
+The exact transport gate allows only `1038:1644` and `1038:1646`, interface 3, vendor page FFC0/usage 1 and 642/65/65 report sizes. Repeated matching units of the same PID block advanced writes. A receiver and cable may coexist; opening a card pins its exact interface path. Changing or losing that path drops the shared channel and invalidates the loaded live state. Native and CLI defaults prefer USB. Other models use a vendor GetFeature read with a five-second UI deadline and at most one still-pending probe.
 
 Owner inventory is cached at scan time and checked by writes; close other controllers before using the protocol. It is a process inventory guard, not an OS-exclusive ownership guarantee. External processes can still violate that convention; do not run two controllers against the interface.
 

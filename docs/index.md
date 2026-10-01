@@ -12,6 +12,7 @@
 | [Reproduce the investigation](reproduce.md) | Run the CLI, reconstruct captures and perform checks |
 | [Research log](research-log.md) | Follow every investigation stage, correction and implementation decision |
 | [Architecture](architecture.md) | Understand the imported code and the control/transport pipeline |
+| [OneRGB integration](onergb-integration.md) | Follow the Apex backport, reused canvas and original-project checks |
 | [Verification](verification.md) | Separate captured, acknowledged, stored and physically observed behavior |
 | [Troubleshooting](troubleshooting.md) | Resolve ownership, timeouts, profile and OLED issues |
 | [Sources](sources.md) | Find primary API and independent protocol references |

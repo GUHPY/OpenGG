@@ -62,13 +62,17 @@ public sealed class ApexLighting : IFrameSink, IDisposable
     public string? WriteDisabledReason => WriteEnabled ? null : _lockedReason;
 
     /// <summary>A interface de controle (página 0xFFC0) na interface do modelo; nula sem teclado.</summary>
-    public static HidInterfaceInfo? Find(IEnumerable<HidInterfaceInfo> interfaces) =>
-        interfaces.FirstOrDefault(i => i.Error is null
+    public static HidInterfaceInfo? Find(IEnumerable<HidInterfaceInfo> interfaces)
+    {
+        var candidates = interfaces.Where(i => i.Error is null
             && i.Identity.VendorId == ApexProtocol.VendorId
-            && i.Identity.ProductId == 0x1644
+            && i.Identity.ProductId is 0x1644 or 0x1646
             && i.Identity.UsagePage == ApexProtocol.UsagePage
             && i.Identity.Usage == 1 && i.Identity.InterfaceNumber == 3
-            && i.FeatureReportLength == 642 && i.InputReportLength == 65 && i.OutputReportLength == 65);
+            && i.FeatureReportLength == 642 && i.InputReportLength == 65 && i.OutputReportLength == 65)
+            .OrderBy(i => i.Identity.ProductId == 0x1646 ? 0 : 1).ToArray();
+        return candidates.GroupBy(i => i.Identity.ProductId).Any(g => g.Count() > 1) ? null : candidates.FirstOrDefault();
+    }
 
     public void Submit(Lease lease, ReadOnlySpan<Rgb> frame)
     {

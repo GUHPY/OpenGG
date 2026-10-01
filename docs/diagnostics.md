@@ -13,20 +13,20 @@ The sidebar Diagnostics section is specific to keyboard protocol research. Selec
 
 ## Tests by support level
 
-| Test | Verified Apex receiver | Other keyboard model |
+| Test | Verified Apex receiver / USB | Other keyboard model |
 |---|---|---|
 | Windows attributes/capabilities | VID/PID, version field, usage, report sizes and Container ID | Same read-only inventory |
-| `BC` | Matching radio-connection response; value 1 required | Skipped |
-| `D2` | Matching raw battery telemetry; percentage calibration not assumed | Skipped |
+| `BC` | Wireless only: matching radio-connection response; value 1 required. Not sent to USB | Skipped |
+| `D2` / `92` | Matching raw battery telemetry for wireless / USB; percentage calibration not assumed | Skipped |
 | `83` | Slot 2, 24 blocks, matching ACKs, 12,288-byte schema-19 CRC and SHA256 | Skipped |
-| Live settings, opt-in | Re-send the currently loaded `6F`/`76` map, plus `77` if RT is active; require ACK zero | Skipped |
+| Live settings, opt-in | Re-send current maps: wireless `6F`/`76`/`77` or USB `2F`/`36`/`37`; sensitivity only if RT is active; require ACK zero | Skipped |
 | Generic GetFeature | The dedicated known protocol is used instead | Report ID 0 on an available vendor feature collection; 5 s UI deadline |
 
 The ordinary diagnostic does not activate a slot or erase/write profile flash. The opt-in live test requires the editor's Read and activate step and re-sends its **current** live values. It verifies transport acceptance without intentionally selecting a new threshold. If it fails, the loaded-state gate is cleared and the next edit requires another read.
 
 An unknown model's GetFeature result is a transport read, **not a verified command ACK** and not configuration support. A report-ID-zero read can be unsupported; the resulting Windows error is useful evidence, not a reason to send random opcodes. If a synchronous driver request outlives the 5 s UI deadline, OpenGG retains that pending task and prevents repeated probes from creating more blocked requests.
 
-Multiple matching verified receivers block advanced probes. A physical receiver can be present while its keyboard is off: the card describes HID presence, while `BC` checks the radio connection. Report the difference rather than treating receiver detection alone as wireless connectivity proof.
+Multiple matching units of the same verified PID block advanced probes. A receiver and a USB keyboard of different PIDs can coexist; the selected card chooses the exact path. A physical receiver can be present while its keyboard is off: the card describes HID presence, while `BC` checks the radio connection. Report the difference rather than treating receiver detection alone as wireless connectivity proof.
 
 The `VersionNumber` field from HID attributes is a device revision field; it must not be relabeled as a parsed keyboard firmware version. “Tested firmware 3.24.1” in the report describes this project's hardware baseline. The app does not infer current firmware from that field or send a speculative `90` firmware opcode to every model.
 
@@ -59,4 +59,4 @@ Before execution/extraction, the helper checks the selected payloads against `to
 
 ## Evidence to share
 
-Share the model, connection type, identity/caps, firmware as actually reported by vendor software, attempted query, reply or exact error and a controlled before/after comparison. A zero ACK proves acceptance; receiver readback proves receiver storage; neither measures physical switch depth. Remove raw profile contents, macros, unrelated process writes and serial identifiers from public issues. Raw inputs from this investigation stay in the local archive.
+Share the model, connection type, identity/caps, firmware as actually reported by vendor software, attempted query, reply or exact error and a controlled before/after comparison. A zero ACK proves acceptance; wireless readback proves receiver storage and USB readback proves the direct keyboard bank; neither measures physical switch depth. Remove raw profile contents, macros, unrelated process writes and serial identifiers from public issues. Raw inputs from this investigation stay in the local archive.

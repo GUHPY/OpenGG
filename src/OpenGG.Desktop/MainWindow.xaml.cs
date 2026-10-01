@@ -1,4 +1,5 @@
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
@@ -36,12 +37,28 @@ public partial class MainWindow : Window
             SidebarBrand.Visibility = SidebarVersion.Visibility = Visibility.Visible;
         }
         Motion.To(Sidebar,FrameworkElement.WidthProperty,_collapsed ? 76 : 224,Motion.Slow,CubicBezierEase.Emphasized);
+        Motion.To(SidebarToggleOffset,TranslateTransform.XProperty,_collapsed ? -8 : 0,Motion.Slow,CubicBezierEase.Emphasized);
+        if (!_collapsed)
+        {
+            foreach (var item in new[] { DevicesNav,DiagnosticsNav })
+            {
+                if (item.Template.FindName("IconScale",item) is ScaleTransform scale) { Motion.To(scale,ScaleTransform.ScaleXProperty,1,Motion.Fast); Motion.To(scale,ScaleTransform.ScaleYProperty,1,Motion.Fast); }
+            }
+        }
         foreach (var label in new FrameworkElement[] { SidebarBrand,SidebarVersion }) { Motion.To(label,OpacityProperty,_collapsed ? 0 : 1,Motion.Standard); }
         SidebarToggle.ToolTip = _collapsed ? "Expand menu" : "Collapse menu";
         if (Motion.Enabled) { await Task.Delay(Motion.Slow); }
         if (transition != _sidebarTransition) { return; }
         Ui.SetCompact(Sidebar,_collapsed);
         SidebarBrand.Visibility = SidebarVersion.Visibility = _collapsed ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void OnNavigationHover(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.RadioButton item || item.Template.FindName("IconScale",item) is not ScaleTransform scale) { return; }
+        var size = Ui.GetCompact(Sidebar) && e.RoutedEvent == MouseEnterEvent ? 1.12 : 1;
+        Motion.To(scale,ScaleTransform.ScaleXProperty,size,Motion.Fast);
+        Motion.To(scale,ScaleTransform.ScaleYProperty,size,Motion.Fast);
     }
 
     private void OnNavigationChanged(object sender, RoutedEventArgs e)
@@ -121,10 +138,12 @@ public partial class MainWindow : Window
         DataContext = _main;
         _main.DeviceRequested += (_, card) =>
         {
+            try { if (card is not null) _host.SelectKeyboard(card.Device); }
+            catch (IOException ex) { _main.Error = ex.Message; }
             _lighting.Device = card;
-            _lighting.IsActive = card?.Device.HasVerifiedReceiver == true;
+            _lighting.IsActive = card?.Device.HasVerifiedTransport == true;
             if (card is null) { DeviceContent.Content = null; return; }
-            if (card.Device.HasVerifiedReceiver) { DeviceContent.Content = _apex; }
+            if (card.Device.HasVerifiedTransport) { DeviceContent.Content = _apex; }
             else
             {
                 var panel = new StackPanel { Margin = new Thickness(8, 20, 8, 20) };

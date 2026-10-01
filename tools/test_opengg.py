@@ -10,6 +10,24 @@ from analyze_capture import banks
 
 
 class ProfileCheck(unittest.TestCase):
+    def test_cable_routes_live_commands_and_reads_the_keyboard_bank(self):
+        receiver = Receiver.__new__(Receiver)
+        receiver.product_id, receiver.log, receiver.delay, receiver.rgb_released = 0x1646, None, 0, False
+        device = receiver.device = Mock()
+        device.write.return_value, device.send_feature_report.return_value = 65, 642
+        device.read.side_effect = [[], [0x2f, 0]]
+        receiver.request(bytes([0,0x6f]), feature=True)
+        self.assertEqual(device.mock_calls[0].args[0],bytes([0,0x22])+bytes(63))
+        self.assertEqual(device.mock_calls[2].args[0],bytes([0,0x2f])+bytes(640))
+        raw = bytearray(12288)
+        struct.pack_into('<I',raw,4,19); raw[12280:] = b'\xff'*8
+        struct.pack_into('<I',raw,0,zlib.crc32(raw[8:12280]))
+        receiver.request = Mock()
+        device.get_feature_report.side_effect = [b'\x00\x83\x00'+raw[offset:offset+512]+bytes(127) for offset in range(0,12288,512)]
+        self.assertEqual(receiver.read(2),bytes(raw))
+        self.assertEqual(len(receiver.request.mock_calls),24)
+        self.assertTrue(all(call.args[0][:4] == bytes([0,0x83,3,2]) for call in receiver.request.mock_calls))
+
     def test_bulk_live_preserves_other_keys_and_rejects_invalid_edits(self):
         raw = bytearray(12288)
         struct.pack_into('<I',raw,4,19)

@@ -12,7 +12,7 @@ dotnet run --project tests/OpenGG.Checks/OpenGG.Checks.csproj -c Release
 python tools/test_opengg.py
 ```
 
-The C# checks cover identification, duplicate containers, mouse exclusion, strict receiver sizes, consolidated actuation/RT, staging preservation and CRC/global mode. The Python checks cover reconstruction, exact changed bytes, untouched-byte preservation, RGB release ordering, strict live validation and stopping after an injected erase failure. No hardware is opened by either default check.
+The C# checks cover identification, duplicate containers, mouse exclusion, strict receiver/cable sizes, consolidated actuation/RT, staging preservation and CRC/global mode. The Python checks cover reconstruction, exact changed bytes, untouched-byte preservation, RGB release ordering, strict live validation and stopping after an injected erase failure. No hardware is opened by either default check.
 
 ## 2. Export a native inventory
 
@@ -34,7 +34,7 @@ python -m venv .venv
 New-Item -ItemType Directory -Force -Path local-research | Out-Null
 ```
 
-The CLI checks for conflicting controllers and exactly one `1038:1644 / MI_03 / FFC0:0001` collection. Fully exit GG/Engine, Prism, OneRGB, OpenGG, OpenRGB and SignalRGB before opening that external CLI. OneRGB can remain in the tray after its window closes.
+The CLI checks for conflicting controllers and exactly one selected `1038:1644` (receiver) or `1038:1646` (USB) `MI_03 / FFC0:0001` collection. It prefers USB when both are present. Use `--pid 0x1644` or `--pid 0x1646` on read/load/live/write to choose explicitly. Fully exit GG/Engine, Prism, OneRGB, OpenGG, OpenRGB and SignalRGB before opening that external CLI. OneRGB can remain in the tray after its window closes.
 
 ## 4. Read, patch and compare offline
 
@@ -61,7 +61,7 @@ Supported JSON fields are `actuation`, `rt`, `protection`, `protection_duration_
 .\.venv\Scripts\python.exe tools/opengg.py load --slot 2
 ```
 
-`--expected` rejects a stored profile that changed after your read, before any erase. The CLI always creates a current-profile backup before erase. It stops on the first error and reports a possible partial transaction; it never automatically retries flash. The readback comparison is the receiver copy. Activation is explicit.
+`--expected` rejects a stored profile that changed after your read, before any erase. The CLI always creates a current-profile backup before erase. It stops on the first error and reports a possible partial transaction; it never automatically retries flash. Readback compares the receiver copy wirelessly and the physical keyboard copy over USB. USB does not rewrite the receiver's cached copy. Activation is explicit.
 
 To restore an intentionally chosen backup, first read the current destination into a new baseline, then use the same write transaction with that current baseline as `--expected` and the backup as `--profile`. This makes the intended replacement explicit and catches outside changes. Do not automatically replace today's settings with the original research backup.
 
@@ -74,7 +74,7 @@ To restore an intentionally chosen backup, first read the current destination in
 
 `live` accepts only `actuation` and `rt`. It reads the chosen slot, validates/builds every final report, explicitly activates that slot, then sends at most one report per family. This starts from stored slot values, not arbitrary unsaved settings left by another controller. W in the example is usage 26. To undo temporary changes, load the chosen stored slot again.
 
-RGB release `62` precedes advanced feature commands. `--delay-ms` defaults to 31 and is available for controlled timing experiments; raising it can help a slow receiver. Reducing it below the tested default is not a validated improvement.
+RGB release `62` wirelessly or `22` over USB precedes advanced feature commands. `--delay-ms` defaults to 31 and is available for controlled timing experiments; raising it can help a slow receiver. Reducing it below the tested default is not a validated improvement.
 
 ## 7. Reconstruct the supplied capture
 

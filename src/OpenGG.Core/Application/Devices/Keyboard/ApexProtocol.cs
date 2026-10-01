@@ -20,6 +20,13 @@ public static class ApexProtocol
     public const ushort UsagePage = 0xFFC0;
     public const byte ClearLighting = 0x62;
     public const byte OpcodeActuation = 0x6F;
+    /// <summary>Receiver command names routed directly to the same wireless keyboard over USB.</summary>
+    public static byte CommandOpcode(ushort productId, byte opcode) => productId switch
+    {
+        0x1644 => opcode,
+        0x1646 => opcode is 0x53 or 0x68 or 0x6F or 0x76 or 0x77 or 0x4A or 0x4B or 0xE6 ? (byte)(opcode & ~0x40) : opcode,
+        _ => throw new NotSupportedException("Advanced commands require the verified wireless Gen 3 receiver or USB cable."),
+    };
     public const byte OpcodeRapidTriggerEnable = 0x76;
     public const byte OpcodeRapidTapEnable = 0x57;
     public const byte OpcodeProtection = 0x54;

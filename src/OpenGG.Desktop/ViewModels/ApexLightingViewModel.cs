@@ -42,9 +42,9 @@ public sealed class ApexLightingViewModel : ObservableObject, IDisposable
         _hex = $"#{_color.R:X2}{_color.G:X2}{_color.B:X2}";
         _brightness = scene.Brightness * 100; _speed = scene.Speed * 100;
         _controlled = host.Settings.RgbControlled; _glow = host.Settings.RgbGlow;
-        _sink = new ApexLighting(host.Arbiter, () => host.Interfaces,
-            () => host.ExternalOwnersOf([]).Count == 0 && host.Keyboards.Count(k => k.HasVerifiedReceiver) == 1,
-            "Use the verified receiver and close other keyboard controllers.", host.Link);
+        _sink = new ApexLighting(host.Arbiter, () => host.ControlInterfaces,
+            () => host.ExternalOwnersOf([]).Count == 0 && ApexLighting.Find(host.ControlInterfaces) is not null,
+            "Use the verified receiver or USB cable and close other keyboard controllers.", host.Link);
         _capture = new LoopbackCapture(_audio);
         SetModeCommand = new RelayCommand(p => { if (p is LightingMode mode) { Mode = mode; } });
         PickPresetCommand = new RelayCommand(p => { if (p is string hex) { Hex = hex; } });

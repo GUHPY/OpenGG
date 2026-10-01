@@ -16,6 +16,6 @@ For a new keyboard, attach an OpenGG diagnostic export, VID/PID, usage page/usag
 
 Identification support does not authorize advanced writes. Keep unknown models on the diagnostic page until their protocol has been independently captured and tested. Add an explicit model/schema identity, validate input before I/O, preserve untouched bytes, match replies to requests and stop after failure. Never scan arbitrary opcodes. Profile flashing must have a backup, acknowledgement for every block and a truthful account of the readback boundary.
 
-Use the existing channel and control pipeline. A second reader or RGB writer on the same interface can consume replies or reactivate temporary RGB between release and an advanced command. Keep keyboard flash and receiver flash as two explicit destinations; do not call the transaction atomic.
+Use the existing channel and control pipeline. A second reader or RGB writer on the same interface can consume replies or reactivate temporary RGB between release and an advanced command. Wireless keyboard flash and receiver flash are two explicit destinations; do not call that transaction atomic. USB writes the physical keyboard copy only and verifies it directly. Do not assume this updates an absent receiver.
 
 Every protocol change needs one meaningful offline regression check and a dated hardware record when hardware is available. Report untested variants plainly. See [the research log](docs/research-log.md), [protocol](docs/protocol.md), [architecture](docs/architecture.md) and [verification](docs/verification.md).
