@@ -27,7 +27,7 @@ The project documents original reverse engineering of **Apex Pro TKL Wireless Ge
 
 > Advanced configuration was developed and tested on **Apex Pro TKL Wireless Gen 3 over its 2.4 GHz receiver, `1038:1644`, firmware 3.24.1, profile schema 19**. Discovery of another SteelSeries keyboard does not establish that its advanced protocol is supported.
 
-![OpenGG Devices with the owner's keyboard artwork and live battery indicator](docs/assets/devices.png)
+![OpenGG Devices with the owner's keyboard artwork and live battery indicator](OpenGG.gif)
 
 ## What you can control
 
