@@ -1,21 +1,18 @@
-MIT License
+OpenGG Source-Available License
 
-Copyright (c) 2026 OpenGG contributors
+Copyright (c) 2026 GUHPY / OpenGG contributors
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Grant of License
+Subject to the terms and restrictions of this License, permission is hereby granted to any person obtaining a copy of this software and associated documentation files (the "Software") to view, download, compile, and run the Software solely for personal, private, non-commercial, and educational purposes.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. Prohibition on Redistribution
+You may NOT redistribute, publish, mirror, host, share, sublicense, transfer, or otherwise make the Software—in whole or in part, in source code, binary, or any other form—available to any third party, whether publicly or privately, over a network, through physical media, or by any other means, without prior written permission from the copyright holder.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. Prohibition on Resale and Commercial Use
+You may NOT sell, resell, lease, rent, monetize, license, sublicense, or charge any fee or consideration (direct or indirect) for the Software, its source code, compiled binaries, modified versions, or derivative works. You may not incorporate or bundle the Software into any commercial product, service, subscription, or offering.
+
+4. Modifications
+You may modify the Software solely for your own private, personal use. Any derivative works, adaptations, or modifications remain subject to all conditions, restrictions, and prohibitions of this License, and may not be redistributed, published, or resold.
+
+5. Disclaimer of Warranty and Limitation of Liability
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

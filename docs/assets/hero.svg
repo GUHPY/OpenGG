@@ -3,13 +3,13 @@
 <rect width="1280" height="500" rx="24" fill="#09090b"/>
 <circle cx="1040" cy="210" r="330" fill="url(#halo)"/>
 <rect x="1" y="1" width="1278" height="498" rx="23" fill="none" stroke="#27272c"/>
-<g font-family="Segoe UI,Arial,sans-serif"><text x="64" y="76" fill="#a1a1aa" font-size="13" letter-spacing="4">OPEN SOURCE · STEELSERIES KEYBOARDS</text>
+<g font-family="Segoe UI,Arial,sans-serif"><text x="64" y="76" fill="#a1a1aa" font-size="13" letter-spacing="4">DIRECT CONTROL · STEELSERIES KEYBOARDS</text>
 <text x="60" y="175" fill="#fafafa" font-size="88" font-weight="700" letter-spacing="-4">Open<tspan fill="url(#accent)">GG</tspan></text>
 <text x="64" y="232" fill="#f4f4f5" font-size="26" font-weight="500">Direct keyboard control.</text>
 <text x="64" y="271" fill="#a1a1aa" font-size="26">The protocol in the open.</text>
 <rect x="64" y="317" width="121" height="31" rx="15" fill="#202024" stroke="#303037"/><text x="124" y="338" fill="#d4d4d8" text-anchor="middle" font-size="12">NATIVE HID</text>
 <rect x="197" y="317" width="130" height="31" rx="15" fill="#202024" stroke="#303037"/><text x="262" y="338" fill="#d4d4d8" text-anchor="middle" font-size="12">NO GG REQUIRED</text>
-<rect x="339" y="317" width="119" height="31" rx="15" fill="#202024" stroke="#303037"/><text x="398" y="338" fill="#d4d4d8" text-anchor="middle" font-size="12">MIT LICENSE</text>
+<rect x="339" y="317" width="135" height="31" rx="15" fill="#202024" stroke="#303037"/><text x="406" y="338" fill="#d4d4d8" text-anchor="middle" font-size="12">CUSTOM LICENSE</text>
 <text x="64" y="430" fill="#a1a1aa" font-size="14">Actuation · Rapid Trigger · RGB · OLED · Onboard profiles</text>
 </g>
 <g transform="translate(580,135)"><rect x="0" y="0" width="630" height="253" rx="18" fill="#0b0d10" stroke="#3c424b" stroke-width="2"/><rect x="12" y="12" width="606" height="227" rx="10" fill="#14171d" stroke="url(#accent)" stroke-opacity=".65"/>

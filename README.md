@@ -8,7 +8,7 @@
 **Your keyboard. Your software. An open protocol.**
 
 [![Windows x64](https://img.shields.io/badge/Windows-x64-171719?style=flat-square)](docs/getting-started.md)
-[![MIT license](https://img.shields.io/badge/License-MIT-171719?style=flat-square)](LICENSE)
+[![License: No Redistribution](https://img.shields.io/badge/License-No%20Redistribution%20%2F%20No%20Resale-171719?style=flat-square)](LICENSE)
 [![Native HID](https://img.shields.io/badge/Transport-native%20USB%20HID-06b6d4?style=flat-square)](docs/protocol.md)
 [![Hardware tested](https://img.shields.io/badge/Tested-Apex%20Pro%20TKL%20Wireless%20Gen%203-30d158?style=flat-square)](docs/verification.md)
 [![English interface](https://img.shields.io/badge/Interface-English-171719?style=flat-square)](docs/interface.md)
@@ -19,7 +19,7 @@
 
 ## From OneRGB to OpenGG
 
-**OneRGB is the owner's complete, closed-source personal hardware-control application. OpenGG is the SteelSeries keyboard section of that application, extracted into a standalone open source project.** The owner chose to publish this section because the advanced Apex Gen 3 protocol findings are useful to anyone building their own keyboard software. OneRGB's interface design, keyboard artwork and OpenGG branding were created by the owner.
+**OneRGB is the owner's complete, closed-source personal hardware-control application. OpenGG is the SteelSeries keyboard section of that application, extracted into a standalone project.** The owner chose to publish this section because the advanced Apex Gen 3 protocol findings are useful to anyone building their own keyboard software. OneRGB's interface design, keyboard artwork and OpenGG branding were created by the owner.
 
 OpenGG is a Windows **SteelSeries GG alternative for keyboard control and protocol research**. It communicates directly through native USB HID, with no GG installation, privileged background service or Python dependency for the desktop. It includes a focused device interface, an Apex keyboard editor, keyboard-specific diagnostics and an independent Python CLI.
 
@@ -210,7 +210,7 @@ Useful contributions include real captures for other SteelSeries keyboards, cabl
 
 **Why does the battery change in steps?** The imported query decodes the receiver's quantized raw telemetry. Charging animation reflects its charge bit. Percentage mapping is an estimate inherited from OneRGB, not an independently calibrated fuel-gauge measurement.
 
-**Is this an official SteelSeries application?** No. OpenGG is an independent MIT-licensed project; SteelSeries product names identify compatible hardware.
+**Is this an official SteelSeries application?** No. OpenGG is an independent project; SteelSeries product names identify compatible hardware.
 
 ---
 
@@ -222,5 +222,5 @@ Useful contributions include real captures for other SteelSeries keyboards, cabl
 
 **Built from the owner's OneRGB design and original keyboard artwork.**
 
-[MIT license](LICENSE) · [Source and artwork notices](THIRD_PARTY_NOTICES.md)
+[License](LICENSE) · [Source and artwork notices](THIRD_PARTY_NOTICES.md)
 </div>
