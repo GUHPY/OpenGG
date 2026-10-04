@@ -8,7 +8,7 @@
 **Your keyboard. Your software. An open protocol.**
 
 [![Windows x64](https://img.shields.io/badge/Windows-x64-171719?style=flat-square)](docs/getting-started.md)
-[![License: No Redistribution](https://img.shields.io/badge/License-No%20Redistribution%20%2F%20No%20Resale-171719?style=flat-square)](LICENSE)
+[![License: Open Source (Non-Commercial)](https://img.shields.io/badge/License-Open%20Source%20%2F%20Non--Commercial-171719?style=flat-square)](LICENSE)
 [![Native HID](https://img.shields.io/badge/Transport-native%20USB%20HID-06b6d4?style=flat-square)](docs/protocol.md)
 [![Hardware tested](https://img.shields.io/badge/Tested-Apex%20Pro%20TKL%20Wireless%20Gen%203-30d158?style=flat-square)](docs/verification.md)
 [![English interface](https://img.shields.io/badge/Interface-English-171719?style=flat-square)](docs/interface.md)
