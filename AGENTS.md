@@ -117,3 +117,11 @@ Toda tarefa que não seja trivial (mais de um arquivo ou mais de um passo) segue
 ### Credencial: somente a do dono
 - Todo commit é feito **somente** com a identidade `GUHPY <gugadiamon@gmail.com>` (seção 4).
 - **Nunca** use a identidade de agente/IA (Claude, Codex, Cursor, Copilot etc.): sem `Co-Authored-By`, sem trailer "Generated with" e sem autor ou committer de bot, em commits e PRs.
+
+---
+
+## 9. Todo Commit: Push + Merge na `main`
+- Todo commit é seguido de `git push origin <branch>` na hora, sem acumular commits locais.
+- Se o trabalho está numa branch que não é a `main`, faça o merge na `main` logo depois (`git checkout main && git merge --no-ff <branch> && git push origin main`) e volte para a branch. A `main` nunca fica para trás.
+- O espelho no DevLogs (seção 8) segue a mesma regra: commit, push e `main` atualizada.
+- Conflito no merge: resolva sem descartar o trabalho de ninguém. Se não der para resolver com segurança, pare e avise o dono antes de forçar qualquer coisa.
