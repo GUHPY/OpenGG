@@ -102,3 +102,18 @@ Toda tarefa que não seja trivial (mais de um arquivo ou mais de um passo) segue
 - Prefira **sempre mais commits**: um por arquivo ou por par de arquivos acoplados, separados por camada (contracts → backend → frontend → testes → docs).
 - Testes, docs, checklists e DevLogs vão em commits próprios, nunca misturados com código.
 - Commite ao fim de cada fase (não acumule fases), faça o push e deixe o `git status` limpo.
+
+---
+
+## 8. Commit Duplo SEMPRE + Credencial Única
+
+### Todo commit tem espelho no DevLogs
+- **Não é só para arquitetura**: TODO commit feito neste projeto tem um commit correspondente no repositório `X:\gugac\Desktop\Projects\DevLogs`.
+- Fragmente o trabalho na maior quantidade de commits possível. **Cada fragmento** leva no DevLogs:
+  - a sua própria entrada de documentação em `logs/<projeto>/<submodulo>.md` (o que mudou, por quê, os arquivos e o hash do commit de origem);
+  - o seu próprio checklist (`- [ ]` passo + resultado esperado, e `Fora:`/`Nota:` com o motivo).
+- Ordem: commit no projeto → entrada + checklist no DevLogs → commit no DevLogs (`docs(<projeto>): <mesmo assunto do commit de origem>`) → push dos dois.
+
+### Credencial: somente a do dono
+- Todo commit é feito **somente** com a identidade `GUHPY <gugadiamon@gmail.com>` (seção 4).
+- **Nunca** use a identidade de agente/IA (Claude, Codex, Cursor, Copilot etc.): sem `Co-Authored-By`, sem trailer "Generated with" e sem autor ou committer de bot, em commits e PRs.
