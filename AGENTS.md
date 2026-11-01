@@ -4,22 +4,17 @@
 **Descrição:** Ferramenta open-source de overlay e telemetria para jogos.
 
 > **DIRETIVA CRÍTICA PARA TODOS OS AGENTES DE IA (Antigravity, Cursor, Claude Code, Codex, Windsurf, OpenHands, etc.):**
-> Este repositório adota um fluxo de trabalho estrito de **micro-commits atômicos e hipergranulares**.
-> **NUNCA** acumule alterações de múltiplos arquivos, camadas ou módulos em um único commit geral.
-> Cada pequena mudança deve se tornar seu próprio commit independente e semântico.
+> Commits são feitos **no fim da tarefa**, não em tempo real. Uma tarefa (ex.: plano F1…F10) gera
+> **poucos commits semânticos** (em geral 1 por fase ou por camada), e o push é feito **uma vez, no final**.
+> Meta: uma tarefa inteira cabe em ~3 a 10 commits. Nunca um commit por arquivo.
 
 ---
 
-## 1. Princípio Fundamental: Micro-Commits Atômicos
-Toda e qualquer alteração de código DEVE ser fatiada na menor unidade lógica:
-- **Tamanho Máximo por Commit**: 1 a 3 arquivos estritamente relacionados à mesma função/componente.
-- **Separação por Camadas**: Se uma tarefa envolve UI, contratos/tipos, backend e testes, faça no mínimo 4 commits separados:
-  1. `feat(contracts): update schemas and data contracts`
-  2. `feat(backend): implement handler and business logic`
-  3. `feat(ui): add visual components and user interactions`
-  4. `test(integration): add unit and integration test assertions`
-- **Refatorações Isoladas**: Separe refatorações de código, formatação e novas funcionalidades em commits distintos.
-
+## 1. Princípio Fundamental: Commits por Tarefa, no Final
+- **Quando commitar**: só ao terminar a tarefa inteira (todas as fases F1…Fn). Durante o trabalho, nada de commit/push a cada arquivo.
+- **Tamanho**: um commit agrupa uma unidade lógica completa (uma fase, uma feature, uma camada). Pode ter quantos arquivos ela precisar.
+- **Separação**: separe só o que tem sentido separado: código, testes e docs/checklists podem ir juntos se pertencem à mesma fase. Refatoração grande e feature nova ficam em commits distintos.
+- **Teto**: uma tarefa típica = 3 a 10 commits. Mais que isso, junte.
 ---
 
 ## 2. Formato Padronizado de Mensagens (Conventional Commits)
@@ -44,7 +39,7 @@ Siga o padrão:
 
 ## 3. Regra do Commit Duplo (Sincronização com DevLogs)
 Sempre que você implementar uma arquitetura nova, refatoração estrutural ou otimização importante:
-1. Comite as alterações granulares no repositório local deste projeto.
+1. Ao fim da tarefa, comite as alterações no repositório local deste projeto.
 2. Registre uma entrada técnica correspondente no repositório de histórico técnico:
    `X:\gugac\Desktop\Projects\DevLogs\logs\<projeto>\<submodulo>.md`
 3. Comite no `DevLogs` detalhando: decisões técnicas tomadas, benchmarks e validações.
@@ -69,13 +64,10 @@ Todos os commits devem pertencer à conta oficial para contabilização no perfi
 ---
 
 ## 6. Checklist de Execução para Agentes
-- [ ] Alteração feita em escopo reduzido (1 a 3 arquivos).
-- [ ] `git status` checado para garantir que apenas os arquivos daquele escopo estão sendo adicionados.
-- [ ] `git add <arquivos>` feito seletivamente.
-- [ ] `git commit -m "<tipo>(<escopo>): <mensagem>"` executado com mensagem descritiva.
-- [ ] Repetir o processo para os próximos arquivos alterados.
-- [ ] `git push origin <branch>` executado com sucesso.
-
+- [ ] Tarefa inteira concluída e verificada (typecheck/testes) antes de commitar.
+- [ ] `git status` checado; arquivos agrupados em poucos commits lógicos (fase/feature).
+- [ ] `git commit -m "<tipo>(<escopo>): <mensagem>"` com mensagem descritiva.
+- [ ] Um único `git push origin <branch>` no fim da tarefa.
 ---
 
 ## 7. Fluxo Obrigatório de Documentação por Etapa
@@ -98,30 +90,26 @@ Toda tarefa que não seja trivial (mais de um arquivo ou mais de um passo) segue
 6. **Fechamento**: no fim do plano, marque cada item do documento de origem (comparativo, issue, spec) como **feito (Fn)**, **Fora (motivo)** ou **aguardando o usuário**. Rode de novo todas as checagens de aceite.
 7. **DevLogs**: registre em `X:\gugac\Desktop\Projects\DevLogs\logs\<projeto>\<submodulo>.md` as decisões, o que ficou fora e a validação (seção 3).
 
-### Commits: o máximo possível de fragmentos
-- Prefira **sempre mais commits**: um por arquivo ou por par de arquivos acoplados, separados por camada (contracts → backend → frontend → testes → docs).
-- Testes, docs, checklists e DevLogs vão em commits próprios, nunca misturados com código.
-- Commite ao fim de cada fase (não acumule fases), faça o push e deixe o `git status` limpo.
-
+### Commits: poucos e no final
+- Commite **ao fim da tarefa**, agrupando por fase ou por feature (não por arquivo).
+- Testes, docs e checklists podem ir no commit da fase a que pertencem.
+- Push único no final; `git status` limpo ao encerrar.
 ---
 
-## 8. Commit Duplo SEMPRE + Credencial Única
+## 8. Commit Duplo + Credencial Única
 
-### Todo commit tem espelho no DevLogs
-- **Não é só para arquitetura**: TODO commit feito neste projeto tem um commit correspondente no repositório `X:\gugac\Desktop\Projects\DevLogs`.
-- Fragmente o trabalho na maior quantidade de commits possível. **Cada fragmento** leva no DevLogs:
-  - a sua própria entrada de documentação em `logs/<projeto>/<submodulo>.md` (o que mudou, por quê, os arquivos e o hash do commit de origem);
-  - o seu próprio checklist (`- [ ]` passo + resultado esperado, e `Fora:`/`Nota:` com o motivo).
-- Ordem: commit no projeto → entrada + checklist no DevLogs → commit no DevLogs (`docs(<projeto>): <mesmo assunto do commit de origem>`) → push dos dois.
+### Espelho no DevLogs: um por tarefa
+- Ao **terminar a tarefa**, registre **uma** entrada em `X:\gugac\Desktop\Projects\DevLogs\logs\<projeto>\<submodulo>.md` cobrindo a tarefa toda (o que mudou, por quê, hashes dos commits, checklist `- [ ]` e `Fora:`/`Nota:`).
+- **Um** commit no DevLogs por tarefa (`docs(<projeto>): <resumo da tarefa>`), não um por commit do projeto.
+- Ordem: commits do projeto → entrada no DevLogs → commit no DevLogs → push dos dois, uma vez.
 
 ### Credencial: somente a do dono
 - Todo commit é feito **somente** com a identidade `GUHPY <gugadiamon@gmail.com>` (seção 4).
 - **Nunca** use a identidade de agente/IA (Claude, Codex, Cursor, Copilot etc.): sem `Co-Authored-By`, sem trailer "Generated with" e sem autor ou committer de bot, em commits e PRs.
-
 ---
 
-## 9. Todo Commit: Push + Merge na `main`
-- Todo commit é seguido de `git push origin <branch>` na hora, sem acumular commits locais.
-- Se o trabalho está numa branch que não é a `main`, faça o merge na `main` logo depois (`git checkout main && git merge --no-ff <branch> && git push origin main`) e volte para a branch. A `main` nunca fica para trás.
-- O espelho no DevLogs (seção 8) segue a mesma regra: commit, push e `main` atualizada.
+## 9. Push + Merge na `main` no Fim da Tarefa
+- Ao terminar a tarefa, um único `git push origin <branch>`.
+- Se o trabalho está numa branch que não é a `main`, faça o merge na `main` em seguida (`git checkout main && git merge --no-ff <branch> && git push origin main`) e volte para a branch.
+- O espelho no DevLogs segue a mesma regra: um commit e um push por tarefa.
 - Conflito no merge: resolva sem descartar o trabalho de ninguém. Se não der para resolver com segurança, pare e avise o dono antes de forçar qualquer coisa.
